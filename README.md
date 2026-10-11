@@ -35,7 +35,7 @@ Under construction for neatHack. The table below is updated only from saved runs
 | GitHub branch, file and pull request steps | code written, not run against the real API |
 | Reconciler and three verdicts | verdict logic and GitHub checks written; verdict logic unit-tested, GitHub checks not run |
 | Crash test (three crash points) | crash hook written (`IDENTA_CRASH_AFTER`), not run |
-| Naive control and duplicate count | not built |
+| Naive control and duplicate count | code written (`run --control`, `measure`), not run |
 | neatlogs traces | SDK Doctor probe passed (synthetic trace, not an Identa run); no Identa trace sent yet |
 | Entire checkpoint | not built |
 | cfo.ai plan | not built |
@@ -50,6 +50,16 @@ python -m identa run --config identa.toml --domains domains.csv
 ```
 
 It needs `CRUSTDATA_API_KEY`, `GITHUB_TOKEN` and `NEATLOGS_API_KEY` in the environment, a `domains.csv` with one real company domain per row, and a TOML config with all of these keys (there are no defaults): `confidence_threshold`, `repo_owner`, `repo_name`, `base_branch`, `store_path`, `evidence_dir`.
+
+Other commands:
+
+```
+python -m identa run --control --max-attempts N --config identa.toml --domains domains.csv
+python -m identa measure [--control] --config identa.toml
+python -m identa queue list|accept|reject [id] --config identa.toml
+```
+
+The control has no memory and no stable key, so each attempt names its branch freshly under `control/`. `measure` counts branches and pull requests per company on GitHub and saves the count under `evidence/`.
 
 To inject a crash, set `IDENTA_CRASH_AFTER` to `create_branch`, `commit_file` or `open_pr`. The next run reconciles before doing new work.
 

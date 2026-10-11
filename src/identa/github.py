@@ -107,3 +107,41 @@ class GitHub:
             "/pulls",
             params={"head": f"{self.owner}:{branch}", "state": "all", "per_page": 100},
         )
+
+    @tool("github.matching_refs")
+    def matching_refs(self, prefix: str) -> Reply:
+        """Branches whose name starts with prefix. Paginated: returns every page, merged."""
+        refs: list[Any] = []
+        page = 1
+        while True:
+            reply = self._call(
+                "matching_refs",
+                "GET",
+                f"/git/matching-refs/heads/{prefix}",
+                params={"per_page": 100, "page": page},
+            )
+            if reply.status != 200 or not isinstance(reply.body, list):
+                return reply
+            refs.extend(reply.body)
+            if len(reply.body) < 100:
+                return Reply(200, refs)
+            page += 1
+
+    @tool("github.list_all_prs")
+    def list_all_prs(self) -> Reply:
+        """Every pull request in the repository, any state, merged across pages."""
+        prs: list[Any] = []
+        page = 1
+        while True:
+            reply = self._call(
+                "list_all_prs",
+                "GET",
+                "/pulls",
+                params={"state": "all", "per_page": 100, "page": page},
+            )
+            if reply.status != 200 or not isinstance(reply.body, list):
+                return reply
+            prs.extend(reply.body)
+            if len(reply.body) < 100:
+                return Reply(200, prs)
+            page += 1

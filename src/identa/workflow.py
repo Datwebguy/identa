@@ -77,6 +77,44 @@ def recover(store: Store, gh: GitHub, cfg: Config, intent: Intent, hook: CrashHo
     return True
 
 
+def onboard(
+    found: Identified,
+    cfg: Config,
+    store: Store,
+    crust: Crustdata,
+    gh: GitHub,
+    hook: CrashHook | None,
+) -> str:
+    """One accepted company. Returns onboarded, recovered, failed, skipped or queued."""
+    assert found.company_id is not None
+    if store.find_by_company(str(found.company_id), ACTION_ONBOARD):
+        return "skipped"  # already intended or done: nothing to do
+    data = crust.enrich(found.company_id)
+    info = data.get("basic_info") or {}
+    name, domain = info.get("name"), info.get("primary_domain")
+    if not name or not domain:
+        store.enqueue_human(None, found.domain, "enrich lacks name or domain", _detail(found))
+        return "queued"
+    args = {"name": name, "domain": domain}
+    key = idempotency_key(found.company_id, ACTION_ONBOARD, args)
+    memory = {"headcount": data.get("headcount"), "name": name, "domain": domain}
+    store.write_intent(  # the intent is on disk before the first GitHub call
+        key,
+        str(found.company_id),
+        ACTION_ONBOARD,
+        json.dumps(args, sort_keys=True),
+        json.dumps(memory, sort_keys=True),
+        branch_name(found.company_id, key),
+    )
+    intent = store.get_intent(key)
+    assert intent is not None
+    try:
+        execute(store, gh, intent, cfg.base_branch, Step.CREATE_BRANCH, hook)
+        return "onboarded"
+    except (StepError, httpx.HTTPError):
+        return "recovered" if recover(store, gh, cfg, intent, hook) else "failed"
+
+
 @tracing.span("WORKFLOW", "identa.run")
 def run(
     domains: list[str],
@@ -98,35 +136,14 @@ def run(
             store.enqueue_human(None, found.domain, reason or "no match", _detail(found))
             report.queued_for_human += 1
             continue
-        if store.find_by_company(str(found.company_id), ACTION_ONBOARD):
-            report.skipped_existing += 1  # already intended or done: nothing to do
-            continue
-        data = crust.enrich(found.company_id)
-        info = data.get("basic_info") or {}
-        name, domain = info.get("name"), info.get("primary_domain")
-        if not name or not domain:
-            store.enqueue_human(None, found.domain, "enrich lacks name or domain", _detail(found))
+        outcome = onboard(found, cfg, store, crust, gh, hook)
+        if outcome == "queued":
             report.queued_for_human += 1
-            continue
-        args = {"name": name, "domain": domain}
-        key = idempotency_key(found.company_id, ACTION_ONBOARD, args)
-        memory = {"headcount": data.get("headcount"), "name": name, "domain": domain}
-        store.write_intent(  # the intent is on disk before the first GitHub call
-            key,
-            str(found.company_id),
-            ACTION_ONBOARD,
-            json.dumps(args, sort_keys=True),
-            json.dumps(memory, sort_keys=True),
-            branch_name(found.company_id, key),
-        )
-        intent = store.get_intent(key)
-        assert intent is not None
-        try:
-            execute(store, gh, intent, cfg.base_branch, Step.CREATE_BRANCH, hook)
-            report.onboarded += 1
-        except (StepError, httpx.HTTPError):
-            if recover(store, gh, cfg, intent, hook):
-                report.recovered += 1
+        elif outcome == "skipped":
+            report.skipped_existing += 1
+        else:
+            report.onboarded += outcome == "onboarded"
+            report.recovered += outcome == "recovered"
     return report
 
 
