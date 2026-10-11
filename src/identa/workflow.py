@@ -6,6 +6,7 @@ import json
 import os
 import sys
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any
 
 import httpx
@@ -20,16 +21,27 @@ from identa.reconciler import reconcile
 from identa.store import NEEDS_HUMAN, Intent, Store
 from identa.verdict import Step, Verdict
 
+
+def crash_marker(cfg: Config, control: bool = False) -> Path:
+    return cfg.store_path.with_suffix(".control-crashed" if control else ".crashed")
+
+
 CRASH_ENV = "IDENTA_CRASH_AFTER"  # one of: create_branch, commit_file, open_pr
 
 
-def crash_hook_from_env() -> CrashHook | None:
+def crash_hook_from_env(marker: Path) -> CrashHook | None:
+    """Crash once at the step named in IDENTA_CRASH_AFTER.
+
+    The marker file records that the crash happened, so a supervisor that restarts the
+    process (for example a container platform) does not crash it again at the same point.
+    """
     point = os.environ.get(CRASH_ENV)
     if not point:
         return None
 
     def hook(step: str) -> None:
-        if step == point:
+        if step == point and not marker.exists():
+            marker.write_text(step, encoding="utf-8")
             tracing.flush()  # required before every injected crash
             os._exit(137)
 
@@ -124,7 +136,7 @@ def run(
     gh: GitHub,
 ) -> Report:
     report = Report()
-    hook = crash_hook_from_env()
+    hook = crash_hook_from_env(crash_marker(cfg))
 
     for pending in store.unfinished():  # reconcile anything left over before new work
         if recover(store, gh, cfg, pending, hook):

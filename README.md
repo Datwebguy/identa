@@ -64,6 +64,15 @@ The control has no memory and no stable key, so each attempt names its branch fr
 
 To inject a crash, set `IDENTA_CRASH_AFTER` to `create_branch`, `commit_file` or `open_pr`. The next run reconciles before doing new work.
 
+## Railway
+
+The agent is meant to run on Railway as a long-lived container (`Dockerfile`, `railway.json`). Nothing is deployed yet. Before deploying:
+
+- Add `identa.toml` and `domains.csv` to the repo (both are copied into the image). Point `store_path` and `evidence_dir` at a Railway volume, for example under `/data`, so the store survives restarts.
+- Set `CRUSTDATA_API_KEY`, `GITHUB_TOKEN` and `NEATLOGS_API_KEY` as Railway variables. Never put them in the repo.
+- An injected crash exits with code 137 and writes a marker file beside the store, so the crash happens once. Railway's restart policy then restarts the process, which reconciles before doing new work.
+- Evidence written on the volume has to be copied back into the repo's `evidence/` folder before the results page is rebuilt.
+
 ## Licence
 
 MIT. See [LICENSE](LICENSE).

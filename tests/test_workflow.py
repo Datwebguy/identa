@@ -12,3 +12,13 @@ def test_below_threshold_goes_to_human() -> None:
 
 def test_at_or_above_threshold_is_accepted() -> None:
     assert decide_identity(Identified("d", 1, 0.5, "n", "d"), 0.5) is None
+
+
+def test_crash_marker_sits_beside_the_store() -> None:
+    from pathlib import Path
+
+    from identa.config import Config
+    from identa.workflow import crash_marker
+
+    cfg = Config(0.0, "o", "r", "main", Path("/d/s.sqlite"), Path("e"))
+    assert crash_marker(cfg) == Path("/d/s.crashed")
