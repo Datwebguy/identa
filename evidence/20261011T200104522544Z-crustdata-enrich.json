@@ -1,0 +1,53 @@
+{
+  "saved_at": "2026-10-11T20:01:04.522544+00:00",
+  "source": "crustdata",
+  "status": 200,
+  "body": [
+    {
+      "matched_on": "96478261",
+      "match_type": "crustdata_company_id",
+      "matches": [
+        {
+          "confidence_score": 1.0,
+          "company_data": {
+            "crustdata_company_id": 96478261,
+            "headcount": {
+              "largest_headcount_country": null,
+              "total": 1,
+              "growth_percent": null,
+              "growth_absolute": null,
+              "by_role_absolute": null,
+              "by_role_percent": null,
+              "by_role_growth_6m_pct": null,
+              "by_role_growth_yoy_pct": null,
+              "by_region_absolute": null,
+              "by_region_percent": null,
+              "by_skill_absolute": null,
+              "by_skill_percent": null,
+              "timeseries": []
+            },
+            "basic_info": {
+              "status": "active",
+              "name": "cfo.ai",
+              "primary_domain": "cfo.ai",
+              "all_domains": [
+                "cfo.ai"
+              ],
+              "website": "https://cfo.ai",
+              "logo_permalink": null,
+              "description": "Go founder mode on your finances ... even if you're not a founder.",
+              "company_type": "Privately Held",
+              "year_founded": null,
+              "employee_count_range": "11-50",
+              "markets": [],
+              "crustdata_company_id": 96478261,
+              "professional_network_id": "143614301",
+              "professional_network_url": "https://www.linkedin.com/company/cfodotai",
+              "profile_name": "cfo.ai"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

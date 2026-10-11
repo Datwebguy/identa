@@ -1,0 +1,9 @@
+{
+  "saved_at": "2026-10-11T20:01:41.326013+00:00",
+  "source": "github",
+  "status": 400,
+  "body": {
+    "message": "Request path could not be canonicalized.",
+    "documentation_url": "https://docs.anthropic.com/en/docs/claude-code/github-actions"
+  }
+}

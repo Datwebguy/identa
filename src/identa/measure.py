@@ -52,7 +52,7 @@ def summarize(branch_names: list[str], pr_heads: list[str], prefix: str) -> Summ
 
 
 def measure(gh: GitHub, cfg: Config, prefix: str) -> Summary:
-    refs = gh.matching_refs(f"{prefix}/")
+    refs = gh.matching_refs(prefix)
     prs = gh.list_all_prs()
     if refs.status != 200 or prs.status != 200:
         raise RuntimeError(f"GitHub returned {refs.status} for refs and {prs.status} for pulls")

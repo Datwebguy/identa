@@ -32,6 +32,11 @@ Planned: Python 3.11, Crustdata (identify, enrich), GitHub REST API, SQLite, nea
 - Decision: `confidence_threshold = 0.9`, chosen by the owner. Domains below it go to the human queue.
 - Done: an enrich response saved in `evidence/` is reused, so the same company is never enriched twice.
 - Run (first real attempt, `github.com` only): Crustdata identify matched with confidence 1.0 and enrich succeeded (both saved in `evidence/`). The GitHub branch creation was refused with 403 "Write access to this GitHub API path is not permitted through this proxy", twice (the first attempt, then the workflow layer's one retry after the reconciler returned NotApplied). No branch or pull request was created. The intent stays pending in the local store. The Claude Code cloud session's proxy blocks GitHub REST writes, so GitHub steps cannot run from there.
+- Run (Railway, 11 Oct 2026, fresh store, all 9 domains): 9 onboarded, 0 queued for human review, 0 failed. `identa measure` read from GitHub afterwards: 9 companies, 9 branches, 9 pull requests, 0 duplicate branches, 0 duplicate pull requests (saved in `evidence/`). All 9 top matches had confidence 1.0, so none went to the human queue.
+- Observation: for `cfo.ai` and `amazon.com` Crustdata returned two matches each, both at confidence 1.0 (the other matches were Runway and Amazon Web Services). The agent took the top-ranked match. The current rule only compares the top match to the threshold, so a tie at the top is not treated as ambiguous. To be decided.
+- Crustdata credits: balance 5200 before, 5182 after, so 18 credits for 9 enrichments (2 each), each company enriched once.
+- Same key check: the first local attempt for `github.com` (blocked at branch creation) and the Railway run produced the same branch name `vendor/632750-be14eff4`.
+- Not done yet: crash tests, control, Railway crash test, neatlogs trace links, Entire, cfo.ai.
 - Tests run: `pytest` on `tests/`, 36 passed (pure functions only: keys, verdicts, store, parsers, identity decision). No real API call has been made. Nothing else has run.
 
 ## Demo

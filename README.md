@@ -30,16 +30,16 @@ Under construction for neatHack. The table below is updated only from saved runs
 
 | Part | Status |
 |---|---|
-| Idempotency key and branch naming | built, unit tests pass (`tests/test_keys.py`) |
-| Crustdata identify and enrich | code written, not run against the real API |
-| GitHub branch, file and pull request steps | code written, not run against the real API |
-| Reconciler and three verdicts | verdict logic and GitHub checks written; verdict logic unit-tested, GitHub checks not run |
+| Idempotency key and branch naming | works: unit tests pass; the same key was reproduced across two separate runs for `github.com` |
+| Crustdata identify and enrich | works: 9 of 9 domains identified and enriched (run on Railway, 11 Oct 2026) |
+| GitHub branch, file and pull request steps | works: 9 branches and 9 pull requests created in `Datwebguy/identavendors` |
+| Reconciler and three verdicts | NotApplied observed once for real (blocked branch creation, first local run); Applied and Unknown not yet observed |
 | Crash test (three crash points) | crash hook written (`IDENTA_CRASH_AFTER`), not run |
 | Naive control and duplicate count | code written (`run --control`, `measure`), not run |
-| neatlogs traces | SDK Doctor probe passed (synthetic trace, not an Identa run); no Identa trace sent yet |
+| neatlogs traces | Doctor probe passed; the Railway run sent traces (trace links not yet collected) |
 | Entire checkpoint | not built |
 | cfo.ai plan | not built |
-| Results page (`web/`, for Vercel) | page and build script written, built from saved evidence; not deployed |
+| Results page (`web/`, for Vercel) | built from saved evidence; not deployed |
 | Demo video | not built |
 
 ## Running it
