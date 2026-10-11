@@ -22,7 +22,8 @@ Planned: Python 3.11, Crustdata (identify, enrich), GitHub REST API, SQLite, nea
 - Done: project skeleton (pyproject, ruff, mypy, pytest) and the idempotency key, branch and file naming (`src/identa/keys.py`).
 - Done: verdict logic (`src/identa/verdict.py`) as a pure function of GitHub's answers.
 - Done: SQLite intent store (`src/identa/store.py`): intents, steps, outcomes, human queue; outcome commit in one transaction.
-- Tests run: `pytest` on `tests/`, 23 passed (keys, verdicts, store). Nothing else has run.
+- Done (written, not yet run against the real APIs): Crustdata client, GitHub client, reconciler, neatlogs span wrappers.
+- Tests run: `pytest` on `tests/`, 30 passed (pure functions only: keys, verdicts, store, parsers). No real API call has been made. Nothing else has run.
 
 ## Demo
 
