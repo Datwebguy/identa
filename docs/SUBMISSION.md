@@ -39,10 +39,10 @@ Entire checkpoint link format: `https://entire.io/gh/OWNER/REPO/commit/FULL_COMM
 
 | Measure | Protocol | Control |
 |---|---|---|
-| Duplicate pull requests across all crash points | [ ] | [ ] |
-| Time from crash to completed reconciliation | [ ] | n/a |
-| Crustdata credits per onboarded company | [ ] | [ ] |
-| Tokens and cost per run | [ ] | [ ] |
+| Duplicate pull requests across all crash points | 0 | 1 |
+| Time from crash to completed reconciliation | 2.17 s, 2.42 s, 2.59 s (points A, B, C) | n/a |
+| Crustdata credits per onboarded company | 2 (18 credits for 9 companies, each enriched once) | 0 additional (saved enrich responses reused) |
+| Tokens and cost per run | not applicable: no model was called | not applicable |
 
 ## 4. Project description (draft)
 
@@ -52,7 +52,7 @@ Entire checkpoint link format: `https://entire.io/gh/OWNER/REPO/commit/FULL_COMM
 
 **What it does:** identifies each company with Crustdata, writes the intent first, opens one pull request per vendor, and reconciles by exact branch name after any interruption. Ambiguous cases go to a human.
 
-**Result:** [protocol duplicates] versus [control duplicates] across [n] crash runs. Traces: [links].
+**Result:** 0 duplicate pull requests for the protocol versus 1 for the control, across 3 crash runs of 9 companies each (the control also left 3 extra branches). Source: saved `identa measure` records in `evidence/`. Traces: not collected yet.
 
 **Idea credit:** the intent-log and reconciler protocol is adapted from Anchor (Viraj Chogle). This is a new implementation written during the neatHack window. No code from that project is used.
 

@@ -1,0 +1,10 @@
+{
+  "saved_at": "2026-10-11T20:03:39.009881+00:00",
+  "source": "github",
+  "status": 422,
+  "body": {
+    "message": "Reference already exists",
+    "documentation_url": "https://docs.github.com/rest/git/refs#create-a-reference",
+    "status": "422"
+  }
+}

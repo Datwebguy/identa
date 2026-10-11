@@ -33,9 +33,9 @@ Under construction for neatHack. The table below is updated only from saved runs
 | Idempotency key and branch naming | works: unit tests pass; the same key was reproduced across two separate runs for `github.com` |
 | Crustdata identify and enrich | works: 9 of 9 domains identified and enriched (run on Railway, 11 Oct 2026) |
 | GitHub branch, file and pull request steps | works: 9 branches and 9 pull requests created in `Datwebguy/identavendors` |
-| Reconciler and three verdicts | NotApplied observed once for real (blocked branch creation, first local run); Applied and Unknown not yet observed |
-| Crash test (three crash points) | crash hook written (`IDENTA_CRASH_AFTER`), not run |
-| Naive control and duplicate count | code written (`run --control`, `measure`), not run |
+| Reconciler and three verdicts | NotApplied, Resume and Applied observed in real runs; Unknown not yet observed |
+| Crash test (three crash points) | works: run on Railway at all three points; 9 companies, 9 branches, 9 pull requests, 0 duplicates each |
+| Naive control and duplicate count | works: run at the same three points; 1 duplicate pull request and 3 duplicate branches in total |
 | neatlogs traces | Doctor probe passed; the Railway run sent traces (trace links not yet collected) |
 | Entire checkpoint | not built |
 | cfo.ai plan | not built |

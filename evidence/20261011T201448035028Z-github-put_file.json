@@ -1,0 +1,58 @@
+{
+  "saved_at": "2026-10-11T20:14:48.035028+00:00",
+  "source": "github",
+  "status": 201,
+  "body": {
+    "content": {
+      "name": "6034577.yaml",
+      "path": "vendors/6034577.yaml",
+      "sha": "157350ca784c8d53591b77c08234d6ac0121fe43",
+      "size": 62,
+      "url": "https://api.github.com/repos/Datwebguy/identavendors/contents/vendors/6034577.yaml?ref=control-c/6034577-d1490e8a",
+      "html_url": "https://github.com/Datwebguy/identavendors/blob/control-c/6034577-d1490e8a/vendors/6034577.yaml",
+      "git_url": "https://api.github.com/repos/Datwebguy/identavendors/git/blobs/157350ca784c8d53591b77c08234d6ac0121fe43",
+      "download_url": "https://raw.githubusercontent.com/Datwebguy/identavendors/control-c/6034577-d1490e8a/vendors/6034577.yaml",
+      "type": "file",
+      "_links": {
+        "self": "https://api.github.com/repos/Datwebguy/identavendors/contents/vendors/6034577.yaml?ref=control-c/6034577-d1490e8a",
+        "git": "https://api.github.com/repos/Datwebguy/identavendors/git/blobs/157350ca784c8d53591b77c08234d6ac0121fe43",
+        "html": "https://github.com/Datwebguy/identavendors/blob/control-c/6034577-d1490e8a/vendors/6034577.yaml"
+      }
+    },
+    "commit": {
+      "sha": "92ff53bdc1de27bd494f515748b8125f50593817",
+      "node_id": "C_kwDOVFJQAdoAKDkyZmY1M2JkYzFkZTI3YmQ0OTRmNTE1NzQ4YjgxMjVmNTA1OTM4MTc",
+      "url": "https://api.github.com/repos/Datwebguy/identavendors/git/commits/92ff53bdc1de27bd494f515748b8125f50593817",
+      "html_url": "https://github.com/Datwebguy/identavendors/commit/92ff53bdc1de27bd494f515748b8125f50593817",
+      "author": {
+        "name": "Datwebguy",
+        "email": "princeabel2000@gmail.com",
+        "date": "2026-10-11T20:14:47Z"
+      },
+      "committer": {
+        "name": "Datwebguy",
+        "email": "princeabel2000@gmail.com",
+        "date": "2026-10-11T20:14:47Z"
+      },
+      "tree": {
+        "sha": "fafe4a76c9268a77d421c2e3bc89328bd5df1140",
+        "url": "https://api.github.com/repos/Datwebguy/identavendors/git/trees/fafe4a76c9268a77d421c2e3bc89328bd5df1140"
+      },
+      "message": "Add vendor file for amazon.com",
+      "parents": [
+        {
+          "sha": "a2bf9c31c8087040cd60cd7998880cd204da57b3",
+          "url": "https://api.github.com/repos/Datwebguy/identavendors/git/commits/a2bf9c31c8087040cd60cd7998880cd204da57b3",
+          "html_url": "https://github.com/Datwebguy/identavendors/commit/a2bf9c31c8087040cd60cd7998880cd204da57b3"
+        }
+      ],
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    }
+  }
+}

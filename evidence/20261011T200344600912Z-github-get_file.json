@@ -1,0 +1,23 @@
+{
+  "saved_at": "2026-10-11T20:03:44.600912+00:00",
+  "source": "github",
+  "status": 200,
+  "body": {
+    "name": "23099808.yaml",
+    "path": "vendors/23099808.yaml",
+    "sha": "e38124b6e8de2b39b59df97c6d163fcc0bdeab7d",
+    "size": 62,
+    "url": "https://api.github.com/repos/Datwebguy/identavendors/contents/vendors/23099808.yaml?ref=vendor/23099808-b7320383",
+    "html_url": "https://github.com/Datwebguy/identavendors/blob/vendor/23099808-b7320383/vendors/23099808.yaml",
+    "git_url": "https://api.github.com/repos/Datwebguy/identavendors/git/blobs/e38124b6e8de2b39b59df97c6d163fcc0bdeab7d",
+    "download_url": "https://raw.githubusercontent.com/Datwebguy/identavendors/vendor/23099808-b7320383/vendors/23099808.yaml",
+    "type": "file",
+    "content": "Y3J1c3RkYXRhX2NvbXBhbnlfaWQ6IDIzMDk5ODA4CmRvbWFpbjogZW50aXJl\nLmlvCm5hbWU6IEVudGlyZQo=\n",
+    "encoding": "base64",
+    "_links": {
+      "self": "https://api.github.com/repos/Datwebguy/identavendors/contents/vendors/23099808.yaml?ref=vendor/23099808-b7320383",
+      "git": "https://api.github.com/repos/Datwebguy/identavendors/git/blobs/e38124b6e8de2b39b59df97c6d163fcc0bdeab7d",
+      "html": "https://github.com/Datwebguy/identavendors/blob/vendor/23099808-b7320383/vendors/23099808.yaml"
+    }
+  }
+}

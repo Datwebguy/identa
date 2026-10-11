@@ -1,0 +1,427 @@
+{
+  "saved_at": "2026-10-11T20:08:07.626702+00:00",
+  "source": "crustdata",
+  "status": 200,
+  "body": [
+    {
+      "matched_on": "github.com",
+      "match_type": "domain",
+      "matches": [
+        {
+          "confidence_score": 1.0,
+          "company_data": {
+            "crustdata_company_id": 632750,
+            "basic_info": {
+              "name": "GitHub",
+              "crustdata_company_id": 632750,
+              "primary_domain": "github.com",
+              "all_domains": [
+                "microsoft.com",
+                "github.com"
+              ],
+              "website": "https://github.com",
+              "professional_network_url": "https://www.linkedin.com/company/github",
+              "professional_network_id": "1418841",
+              "profile_name": "GitHub",
+              "logo_permalink": "https://crustdata-media.s3.us-east-2.amazonaws.com/company/d9a48e77a665e45df3912d6d26b8caa7b14622876a3da5378b316a159eea8dc1.jpg",
+              "description": "As the global home for all developers, GitHub is the complete AI-powered developer platform to build, scale, and deliver secure software. Over 100 million people, including developers from 90 of the Fortune 100 companies, use GitHub to build amazing things together across 330+ million repositories. With all the collaborative features of GitHub, it has never been easier for individuals and teams to write faster, better code.",
+              "company_type": "Privately Held",
+              "year_founded": 2008,
+              "employee_count_range": "501-1000",
+              "markets": [
+                "PRIVATE"
+              ],
+              "industries": [
+                "Software Development",
+                "Technology, Information and Internet",
+                "Technology, Information and Media"
+              ]
+            },
+            "social_profiles": null
+          }
+        }
+      ]
+    },
+    {
+      "matched_on": "vercel.com",
+      "match_type": "domain",
+      "matches": [
+        {
+          "confidence_score": 1.0,
+          "company_data": {
+            "crustdata_company_id": 631347,
+            "basic_info": {
+              "name": "Vercel",
+              "crustdata_company_id": 631347,
+              "primary_domain": "vercel.com",
+              "all_domains": [
+                "nextjs.org",
+                "vercel.ai",
+                "v0.build",
+                "ai-sdk.dev",
+                "vercel.com",
+                "turborepo.dev",
+                "v0.app"
+              ],
+              "website": "https://vercel.com",
+              "professional_network_url": "https://www.linkedin.com/company/vercel",
+              "professional_network_id": "16181286",
+              "profile_name": "Vercel",
+              "logo_permalink": "https://crustdata-media.s3.us-east-2.amazonaws.com/company/5c12cb2a09d14b6290a97b69141cd7944011777c5e18481f27b6271394829fc6.jpg",
+              "description": "Vercel is the platform where humans and AI agents build, ship, and scale software together. Trusted by OpenAI, Meta, Ramp, and Supreme, we free the world to ship what's next.",
+              "company_type": "Privately Held",
+              "year_founded": 2015,
+              "employee_count_range": "501-1000",
+              "markets": [
+                "PRIVATE"
+              ],
+              "industries": [
+                "Software Development",
+                "Technology, Information and Internet",
+                "Technology, Information and Media"
+              ]
+            },
+            "social_profiles": null
+          }
+        }
+      ]
+    },
+    {
+      "matched_on": "railway.com",
+      "match_type": "domain",
+      "matches": [
+        {
+          "confidence_score": 1.0,
+          "company_data": {
+            "crustdata_company_id": 4095792,
+            "basic_info": {
+              "name": "Railway",
+              "crustdata_company_id": 4095792,
+              "primary_domain": "railway.com",
+              "all_domains": [
+                "railway.com"
+              ],
+              "website": "https://railway.com",
+              "professional_network_url": "https://www.linkedin.com/company/railwayapp",
+              "professional_network_id": "65574467",
+              "profile_name": "Railway",
+              "logo_permalink": "https://crustdata-media.s3.us-east-2.amazonaws.com/company/c0c977cab0eb3f159f5481a448b4ae68eaa524638f80a5ad29d8a99cbb42fc33.jpg",
+              "description": "Railway’s mission is to build the cloud computing stack that unburdens you, so you can focus more on what matters to you.",
+              "company_type": "Privately Held",
+              "year_founded": 2020,
+              "employee_count_range": "11-50",
+              "markets": [
+                "PRIVATE"
+              ],
+              "industries": [
+                "Software Development",
+                "Technology, Information and Internet",
+                "Technology, Information and Media"
+              ]
+            },
+            "social_profiles": null
+          }
+        }
+      ]
+    },
+    {
+      "matched_on": "crustdata.com",
+      "match_type": "domain",
+      "matches": [
+        {
+          "confidence_score": 1.0,
+          "company_data": {
+            "crustdata_company_id": 6036032,
+            "basic_info": {
+              "name": "Crustdata (YC F24)",
+              "crustdata_company_id": 6036032,
+              "primary_domain": "crustdata.com",
+              "all_domains": [
+                "crustdata.com"
+              ],
+              "website": "https://crustdata.com?utm_source=linkedin_bio",
+              "professional_network_url": "https://www.linkedin.com/company/crustdata",
+              "professional_network_id": "73854007",
+              "profile_name": "Crustdata (YC F24)",
+              "logo_permalink": "https://crustdata-media.s3.us-east-2.amazonaws.com/company/0509e545084ed52d3e2c43a74123d98a745293f7d57967c471357110ad9df896.jpg",
+              "description": "Power any AI agent in sales, recruitment and investment with the freshest, and grounded web intelligence on people and companies.Crustdata offers the most accurate and token efficient people and company search for your AI agents. It is the only platform providing truly real-time web intelligence to make your AI agents autonomous.Customers use us to build their AI employees on top of us. They build-AI recruiters-AI SDRs-AI marketers-AI investment analyst-AI sales platforms-AI recruiting platforms-AI investment/due diligence platforms-Internal sales or marketing platforms",
+              "company_type": "Privately Held",
+              "year_founded": 2024,
+              "employee_count_range": "11-50",
+              "markets": [
+                "PRIVATE"
+              ],
+              "industries": [
+                "Software Development",
+                "Technology, Information and Internet",
+                "Technology, Information and Media"
+              ]
+            },
+            "social_profiles": null
+          }
+        }
+      ]
+    },
+    {
+      "matched_on": "neatlogs.com",
+      "match_type": "domain",
+      "matches": [
+        {
+          "confidence_score": 1.0,
+          "company_data": {
+            "crustdata_company_id": 12467174,
+            "basic_info": {
+              "name": "neatlogs",
+              "crustdata_company_id": 12467174,
+              "primary_domain": "neatlogs.com",
+              "all_domains": [
+                "neatlogs.com"
+              ],
+              "website": "http://www.neatlogs.com",
+              "professional_network_url": "https://www.linkedin.com/company/neatlogs",
+              "professional_network_id": "105668039",
+              "profile_name": "neatlogs",
+              "logo_permalink": "https://crustdata-media.s3.us-east-2.amazonaws.com/company/18325d13fe20f2ea69149ff18cc61fde10ba87cf37268cf2b1ae310e46c2aa30.jpg",
+              "description": "Neatlogs helps debug AI agents faster!How?By closing the gap between developers and domain experts. Instead of vague feedback in spreadsheets, teams collaborate directly on agent traces—which turns evaluations into actionable fixes. By centralizing context, NeatLogs helps teams take agents to production twice as fast, getting them to revenue sooner.",
+              "company_type": "Privately Held",
+              "year_founded": 2025,
+              "employee_count_range": "2-10",
+              "markets": [
+                "PRIVATE"
+              ],
+              "industries": [
+                "Technology, Information and Internet",
+                "Technology, Information and Media"
+              ]
+            },
+            "social_profiles": null
+          }
+        }
+      ]
+    },
+    {
+      "matched_on": "entire.io",
+      "match_type": "domain",
+      "matches": [
+        {
+          "confidence_score": 1.0,
+          "company_data": {
+            "crustdata_company_id": 23099808,
+            "basic_info": {
+              "name": "Entire",
+              "crustdata_company_id": 23099808,
+              "primary_domain": "entire.io",
+              "all_domains": [
+                "entire.com",
+                "entire.io"
+              ],
+              "website": "https://entire.com",
+              "professional_network_url": "https://www.linkedin.com/company/entireio",
+              "professional_network_id": "111845019",
+              "profile_name": "Entire",
+              "logo_permalink": "https://crustdata-media.s3.us-east-2.amazonaws.com/company/c6a97a9af6b7cf9a6ccbc06bc4dec50588625c438aed4ebed2be585f46924f82.jpg",
+              "description": "We are building the world's next developer platform where agents and humans can collaborate, learn, and ship together. A platform that will be open, scalable, and independent for every developer, no matter which agent or model you use.",
+              "company_type": "Privately Held",
+              "year_founded": 2025,
+              "employee_count_range": "11-50",
+              "markets": [
+                "PRIVATE"
+              ],
+              "industries": [
+                "Software Development",
+                "Technology, Information and Internet",
+                "Technology, Information and Media"
+              ]
+            },
+            "social_profiles": null
+          }
+        }
+      ]
+    },
+    {
+      "matched_on": "cfo.ai",
+      "match_type": "domain",
+      "matches": [
+        {
+          "confidence_score": 1.0,
+          "company_data": {
+            "crustdata_company_id": 96478261,
+            "basic_info": {
+              "name": "cfo.ai",
+              "crustdata_company_id": 96478261,
+              "primary_domain": "cfo.ai",
+              "all_domains": [
+                "cfo.ai"
+              ],
+              "website": "https://cfo.ai",
+              "professional_network_url": "https://www.linkedin.com/company/cfodotai",
+              "professional_network_id": "143614301",
+              "profile_name": "cfo.ai",
+              "logo_permalink": null,
+              "description": "Go founder mode on your finances ... even if you're not a founder.",
+              "company_type": "Privately Held",
+              "year_founded": null,
+              "employee_count_range": "11-50",
+              "markets": [],
+              "industries": [
+                "Financial Services"
+              ]
+            },
+            "social_profiles": null
+          }
+        },
+        {
+          "confidence_score": 1.0,
+          "company_data": {
+            "crustdata_company_id": 636422,
+            "basic_info": {
+              "name": "Runway",
+              "crustdata_company_id": 636422,
+              "primary_domain": "cfo.ai",
+              "all_domains": [
+                "cfo.ai"
+              ],
+              "website": "https://runway.cfo.ai",
+              "professional_network_url": "https://www.linkedin.com/company/runway",
+              "professional_network_id": "65720705",
+              "profile_name": "Runway",
+              "logo_permalink": "https://crustdata-media.s3.us-east-2.amazonaws.com/company/074ca5cb91a285e121eb09c369107817569f95fad4108cff1f94aa572ec3de0a.jpg",
+              "description": "Runway helps finance teams become 10X more efficient by delivering accurate, real-time forecasts with zero manual work. Connecting with tools like QuickBooks, Netsuite, Snowflake, and more, Runway empowers you to create plans that truly reflect how your business operates. The result? Finance made understandable and accessible for every stakeholder.Trusted by teams at Superhuman, AngelList, RevenueCat, MyFitnessPal, 818 Tequila, Kit, Twelve Labs, Lambda, and many others.",
+              "company_type": "Privately Held",
+              "year_founded": 2020,
+              "employee_count_range": "11-50",
+              "markets": [
+                "PRIVATE"
+              ],
+              "industries": [
+                "Software Development",
+                "Technology, Information and Internet",
+                "Technology, Information and Media"
+              ]
+            },
+            "social_profiles": null
+          }
+        }
+      ]
+    },
+    {
+      "matched_on": "litellm.ai",
+      "match_type": "domain",
+      "matches": [
+        {
+          "confidence_score": 1.0,
+          "company_data": {
+            "crustdata_company_id": 809879,
+            "basic_info": {
+              "name": "LiteLLM AI Gateway",
+              "crustdata_company_id": 809879,
+              "primary_domain": "litellm.ai",
+              "all_domains": [
+                "litellm.ai"
+              ],
+              "website": "https://www.litellm.ai/",
+              "professional_network_url": "https://www.linkedin.com/company/litellm",
+              "professional_network_id": "90867735",
+              "profile_name": "LiteLLM AI Gateway",
+              "logo_permalink": "https://crustdata-media.s3.us-east-2.amazonaws.com/company/f78ebc9cbed20da9ce90115c048b1019f6696e7f2a9d1440fd28c9a82d072b53.jpg",
+              "description": "One governed platform for AI access, cost management, and guardrails across every model, agent, and MCP in your organization. LiteLLM is the foundation teams worldwide rely on to manage and scale their entire AI program. Backed by Y Combinator with 55k+ GitHub stars.",
+              "company_type": "Privately Held",
+              "year_founded": 2023,
+              "employee_count_range": "11-50",
+              "markets": [
+                "PRIVATE"
+              ],
+              "industries": [
+                "Software Development",
+                "Technology, Information and Internet",
+                "Technology, Information and Media"
+              ]
+            },
+            "social_profiles": null
+          }
+        }
+      ]
+    },
+    {
+      "matched_on": "amazon.com",
+      "match_type": "domain",
+      "matches": [
+        {
+          "confidence_score": 1.0,
+          "company_data": {
+            "crustdata_company_id": 6034577,
+            "basic_info": {
+              "name": "Amazon",
+              "crustdata_company_id": 6034577,
+              "primary_domain": "amazon.com",
+              "all_domains": [
+                "aboutamazon.com",
+                "amazon.com",
+                "amazon.co.uk",
+                "amazon.jobs",
+                "aboutamazon.pl",
+                "amazon.science"
+              ],
+              "website": null,
+              "professional_network_url": "https://www.linkedin.com/company/amazon",
+              "professional_network_id": "1586",
+              "profile_name": "Amazon",
+              "logo_permalink": "https://crustdata-media.s3.us-east-2.amazonaws.com/company/50c0868b767f02f1f5ed3285bbd5b6db93df0ef3c6f00194dba9ed7e337b8f33.jpg",
+              "description": null,
+              "company_type": "Public Company",
+              "year_founded": 2019,
+              "employee_count_range": "10001+",
+              "markets": [
+                "PRIVATE",
+                "NASDAQ"
+              ],
+              "industries": [
+                "Software Development",
+                "Technology, Information and Internet",
+                "Technology, Information and Media"
+              ]
+            },
+            "social_profiles": null
+          }
+        },
+        {
+          "confidence_score": 1.0,
+          "company_data": {
+            "crustdata_company_id": 1033829,
+            "basic_info": {
+              "name": "Amazon Web Services (AWS)",
+              "crustdata_company_id": 1033829,
+              "primary_domain": "aws.com",
+              "all_domains": [
+                "aboutamazon.com",
+                "amazon.com",
+                "amazon.co.uk",
+                "amazon.jobs",
+                "amazon.science",
+                "aws.com"
+              ],
+              "website": "http://aws.amazon.com",
+              "professional_network_url": "https://www.linkedin.com/company/amazon-web-services",
+              "professional_network_id": "2382910",
+              "profile_name": "Amazon Web Services (AWS)",
+              "logo_permalink": "https://crustdata-media.s3.us-east-2.amazonaws.com/company/5ce46e90454eb6200f0fd30a6fdbba8112c41701c303d63cdc3a10059f33ada5.jpg",
+              "description": "Launched in 2006, Amazon Web Services (AWS) began exposing key infrastructure services to businesses in the form of web services -- now widely known as cloud computing. The ultimate benefit of cloud computing, and AWS, is the ability to leverage a new business model and turn capital infrastructure expenses into variable costs. Businesses no longer need to plan and procure servers and other IT resources weeks or months in advance. Using AWS, businesses can take advantage of Amazon's expertise and economies of scale to access resources when their business needs them, delivering results faster and at a lower cost.Today, Amazon Web Services provides a highly reliable, scalable, low-cost infrastructure platform in the cloud that powers hundreds of thousands of businesses in 190 countries around the world. With data center locations in the U.S., Europe, Singapore, and Japan, customers across all industries are taking advantage of our low cost, elastic, open and flexible, secure platform.",
+              "company_type": "Public Company",
+              "year_founded": 2006,
+              "employee_count_range": "10001+",
+              "markets": [
+                "PRIVATE",
+                "NASDAQ"
+              ],
+              "industries": [
+                "IT Services and IT Consulting",
+                "Professional Services"
+              ]
+            },
+            "social_profiles": null
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -37,7 +37,15 @@ Planned: Python 3.11, Crustdata (identify, enrich), GitHub REST API, SQLite, nea
 - Crustdata credits: balance 5200 before, 5182 after, so 18 credits for 9 enrichments (2 each), each company enriched once.
 - Same key check: the first local attempt for `github.com` (blocked at branch creation) and the Railway run produced the same branch name `vendor/632750-be14eff4`.
 - Done: configurable branch prefix (`branch_prefix`, overridable with `IDENTA_BRANCH_PREFIX`) so each crash test and the control use their own branch namespace in the same register, because the nine companies already have branches under `vendor/`. Nothing in the register is deleted.
-- Not done yet: crash tests, control, Railway crash test, neatlogs trace links, Entire, cfo.ai.
+- Crash tests (Railway, 11 Oct 2026, 9 companies each, fresh store, crash exits the process with code 137 once, Railway restarts it, the restart reconciles first):
+  - A, crash after the branch is created: 1 recovered, 8 onboarded; 9 branches, 9 pull requests, 0 duplicates.
+  - B, crash after the file is committed: 1 recovered, 8 onboarded; 9 branches, 9 pull requests, 0 duplicates.
+  - C, crash after the pull request is opened: 1 recovered, 8 onboarded; 9 branches, 9 pull requests, 0 duplicates.
+- Control (same executor, no reconciler, no memory, blind retry, a fresh branch name per attempt, up to 3 attempts per company; the retry limit was not reached because each run crashes once): A: 10 branches, 9 pull requests; B: 10 branches, 9 pull requests; C: 10 branches, 10 pull requests. Duplicates: 1 pull request and 3 branches across the three points.
+- Crustdata balance after all crash tests and control runs: 5182, unchanged, because saved enrich responses were reused.
+- Time from the saved crash-step record to the reconciler's last check finishing, from evidence timestamps (includes the container restart): A 2.17 s, B 2.42 s, C 2.59 s.
+- Limits of these tests: the crash fires at the first company only, so each test is one crash among nine companies. The control gives each attempt a new branch name, because it has no stable key; with a stable name GitHub would reject the second branch. The `Unknown` verdict has not occurred in a real run.
+- Not done yet: neatlogs trace links, Entire, cfo.ai, Vercel deploy, demo video.
 - Tests run: `pytest` on `tests/`, 36 passed (pure functions only: keys, verdicts, store, parsers, identity decision). No real API call has been made. Nothing else has run.
 
 ## Demo
