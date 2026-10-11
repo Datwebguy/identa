@@ -1,0 +1,144 @@
+"""The workflow layer: decide, intend, act, and recover through the reconciler."""
+
+from __future__ import annotations
+
+import json
+import os
+import sys
+from dataclasses import dataclass
+from typing import Any
+
+import httpx
+
+from identa import tracing
+from identa.config import Config
+from identa.crustdata import Crustdata, Identified
+from identa.executor import CrashHook, StepError, execute
+from identa.github import GitHub
+from identa.keys import ACTION_ONBOARD, branch_name, idempotency_key
+from identa.reconciler import reconcile
+from identa.store import NEEDS_HUMAN, Intent, Store
+from identa.verdict import Step, Verdict
+
+CRASH_ENV = "IDENTA_CRASH_AFTER"  # one of: create_branch, commit_file, open_pr
+
+
+def crash_hook_from_env() -> CrashHook | None:
+    point = os.environ.get(CRASH_ENV)
+    if not point:
+        return None
+
+    def hook(step: str) -> None:
+        if step == point:
+            tracing.flush()  # required before every injected crash
+            os._exit(137)
+
+    return hook
+
+
+@dataclass
+class Report:
+    onboarded: int = 0
+    queued_for_human: int = 0
+    skipped_existing: int = 0
+    recovered: int = 0
+
+
+def decide_identity(found: Identified, threshold: float) -> str | None:
+    """None means accept. Otherwise the reason it goes to the human queue (Unknown)."""
+    if found.company_id is None:
+        return "no match"
+    if found.confidence is None or found.confidence < threshold:
+        return "confidence below threshold"
+    return None
+
+
+def recover(store: Store, gh: GitHub, cfg: Config, intent: Intent, hook: CrashHook | None) -> bool:
+    """Reconcile one intent. Returns True if it ended up completed."""
+    decision, url = reconcile(gh, intent, cfg.base_branch)
+    start: Step | None = None
+    if decision.verdict is Verdict.APPLIED and url:
+        store.commit_outcome(intent.key, url, intent.memory_json)
+        return True
+    if decision.verdict is Verdict.NOT_APPLIED:
+        start = Step.CREATE_BRANCH  # safe to act again: the branch does not exist
+    elif decision.verdict is Verdict.RESUME:
+        start = decision.resume_from
+    if start is None:
+        store.set_state(intent.key, NEEDS_HUMAN)
+        store.enqueue_human(
+            intent.key, None, decision.reason, json.dumps({"branch": intent.branch})
+        )
+        return False
+    try:
+        execute(store, gh, intent, cfg.base_branch, start, hook)
+    except (StepError, httpx.HTTPError):
+        return False  # stays pending; the next start reconciles it again
+    return True
+
+
+@tracing.span("WORKFLOW", "identa.run")
+def run(
+    domains: list[str],
+    cfg: Config,
+    store: Store,
+    crust: Crustdata,
+    gh: GitHub,
+) -> Report:
+    report = Report()
+    hook = crash_hook_from_env()
+
+    for pending in store.unfinished():  # reconcile anything left over before new work
+        if recover(store, gh, cfg, pending, hook):
+            report.recovered += 1
+
+    for found in crust.identify(domains):
+        reason = decide_identity(found, cfg.confidence_threshold)
+        if reason is not None or found.company_id is None:
+            store.enqueue_human(None, found.domain, reason or "no match", _detail(found))
+            report.queued_for_human += 1
+            continue
+        if store.find_by_company(str(found.company_id), ACTION_ONBOARD):
+            report.skipped_existing += 1  # already intended or done: nothing to do
+            continue
+        data = crust.enrich(found.company_id)
+        info = data.get("basic_info") or {}
+        name, domain = info.get("name"), info.get("primary_domain")
+        if not name or not domain:
+            store.enqueue_human(None, found.domain, "enrich lacks name or domain", _detail(found))
+            report.queued_for_human += 1
+            continue
+        args = {"name": name, "domain": domain}
+        key = idempotency_key(found.company_id, ACTION_ONBOARD, args)
+        memory = {"headcount": data.get("headcount"), "name": name, "domain": domain}
+        store.write_intent(  # the intent is on disk before the first GitHub call
+            key,
+            str(found.company_id),
+            ACTION_ONBOARD,
+            json.dumps(args, sort_keys=True),
+            json.dumps(memory, sort_keys=True),
+            branch_name(found.company_id, key),
+        )
+        intent = store.get_intent(key)
+        assert intent is not None
+        try:
+            execute(store, gh, intent, cfg.base_branch, Step.CREATE_BRANCH, hook)
+            report.onboarded += 1
+        except (StepError, httpx.HTTPError):
+            if recover(store, gh, cfg, intent, hook):
+                report.recovered += 1
+    return report
+
+
+def _detail(found: Identified) -> str:
+    d: dict[str, Any] = {
+        "confidence": found.confidence,
+        "company_id": found.company_id,
+        "name": found.name,
+    }
+    return json.dumps(d)
+
+
+def main_exit() -> None:
+    tracing.shutdown()
+    sys.stdout.flush()
