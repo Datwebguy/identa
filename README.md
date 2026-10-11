@@ -56,11 +56,11 @@ Other commands:
 
 ```
 python -m identa run --control --max-attempts N --config identa.toml --domains domains.csv
-python -m identa measure [--control] --config identa.toml
+python -m identa measure [--prefix PREFIX] --config identa.toml
 python -m identa queue list|accept|reject [id] --config identa.toml
 ```
 
-The control has no memory and no stable key, so each attempt names its branch freshly under `control/`. `measure` counts branches and pull requests per company on GitHub and saves the count under `evidence/`.
+The control has no memory and no stable key, so each attempt names its branch freshly, under the configured branch prefix. `measure` counts branches and pull requests per company on GitHub and saves the count under `evidence/`.
 
 To inject a crash, set `IDENTA_CRASH_AFTER` to `create_branch`, `commit_file` or `open_pr`. The next run reconciles before doing new work.
 

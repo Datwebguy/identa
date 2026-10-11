@@ -1,8 +1,8 @@
 """The control: the same executor with the reconciler removed and a retry on any error.
 
 It has no memory of earlier runs (an in-memory store, no intent lookup, no skip), and no
-stable key, so each attempt names its branch freshly. Branches live under `control/` so
-protocol and control results can be counted separately.
+stable key, so each attempt names its branch freshly, under the configured branch prefix
+(a separate prefix per test, so results are counted separately).
 """
 
 from __future__ import annotations
@@ -21,8 +21,6 @@ from identa.keys import ACTION_ONBOARD
 from identa.store import Store
 from identa.verdict import Step
 from identa.workflow import decide_identity
-
-CONTROL_PREFIX = "control"
 
 
 @tracing.span("WORKFLOW", "identa.control_run")
@@ -43,7 +41,7 @@ def run_control(
         args = {"name": info.get("name"), "domain": info.get("primary_domain")}
         for _ in range(max_attempts):  # retry on any error, blind
             attempt_key = uuid.uuid4().hex
-            branch = f"{CONTROL_PREFIX}/{found.company_id}-{attempt_key[:8]}"
+            branch = f"{cfg.branch_prefix}/{found.company_id}-{attempt_key[:8]}"
             memory_store.write_intent(
                 attempt_key,
                 str(found.company_id),

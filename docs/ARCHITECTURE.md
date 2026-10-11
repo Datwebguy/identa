@@ -68,7 +68,7 @@ SQLite behind a small repository interface, so it can be swapped later. Tables: 
 
 ## Control
 
-The control is the same executor with the reconciler removed and a blind retry on any error. It has no memory across runs (an in-memory store) and no stable key, so each attempt names its branch freshly, under `control/<company_id>-<random>`. A stable branch name would make GitHub reject the second creation, which would test GitHub, not the missing protocol. It runs the same crash points so the duplicate count can be compared. `measure` counts branches and pull requests per company from GitHub for either prefix.
+The control is the same executor with the reconciler removed and a blind retry on any error. It has no memory across runs (an in-memory store) and no stable key, so each attempt names its branch freshly, under `<branch_prefix>/<company_id>-<random>`. A stable branch name would make GitHub reject the second creation, which would test GitHub, not the missing protocol. It runs the same crash points so the duplicate count can be compared. `measure` counts branches and pull requests per company from GitHub for any prefix.
 
 ## Hosting
 

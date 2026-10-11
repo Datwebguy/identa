@@ -1,0 +1,51 @@
+{
+  "saved_at": "2026-10-11T20:09:28.597435+00:00",
+  "source": "measure",
+  "status": 200,
+  "body": {
+    "prefix": "vendor",
+    "companies": 9,
+    "branches": 9,
+    "pull_requests": 9,
+    "duplicate_branches": 0,
+    "duplicate_pull_requests": 0,
+    "per_company": {
+      "12467174": {
+        "branches": 1,
+        "pull_requests": 1
+      },
+      "23099808": {
+        "branches": 1,
+        "pull_requests": 1
+      },
+      "4095792": {
+        "branches": 1,
+        "pull_requests": 1
+      },
+      "6034577": {
+        "branches": 1,
+        "pull_requests": 1
+      },
+      "6036032": {
+        "branches": 1,
+        "pull_requests": 1
+      },
+      "631347": {
+        "branches": 1,
+        "pull_requests": 1
+      },
+      "632750": {
+        "branches": 1,
+        "pull_requests": 1
+      },
+      "809879": {
+        "branches": 1,
+        "pull_requests": 1
+      },
+      "96478261": {
+        "branches": 1,
+        "pull_requests": 1
+      }
+    }
+  }
+}
