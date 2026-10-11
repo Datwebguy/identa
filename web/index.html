@@ -31,13 +31,15 @@
   <p class="muted">Onboards vendors into a vendor register without ever adding the same vendor twice. Built for neatHack, 10 to 12 October 2026.</p>
   <p class="muted">Everything below is read from saved runs under <code>evidence/</code>. If a section is empty, that run has not happened yet.</p>
 
-  <h2>Duplicates counted on GitHub</h2>
+  <h2>Duplicates counted on GitHub, by test</h2>
+  <p class="muted">Prefix <code>vendor</code> is the first full run. <code>crash-a</code>, <code>crash-b</code> and <code>crash-c</code> are the protocol with a crash after the branch, after the file and after the pull request. <code>control-a</code>, <code>control-b</code> and <code>control-c</code> are the control at the same three points.</p>
   <div id="measures"></div>
 
-  <h2>Pull requests opened</h2>
+  <h2>Pull requests opened in the first full run</h2>
   <div id="prs"></div>
 
-  <h2>Saved evidence</h2>
+  <h2>Saved evidence: calls recorded</h2>
+  <p class="muted" id="evtotal"></p>
   <div id="evidence"></div>
 
   <p class="muted" style="margin-top:40px">Source: <a href="https://github.com/Datwebguy/identa">github.com/Datwebguy/identa</a>. Idea credit: the intent-log and reconciler protocol is adapted from Anchor by Viraj Chogle. No code from it is used.</p>
@@ -72,22 +74,18 @@
   fetch("data.json").then(function (r) { return r.json(); }).then(function (d) {
     var m = document.getElementById("measures");
     if (!d.measures.length) empty(m, "No measured runs saved yet.");
-    d.measures.forEach(function (s) {
-      var card = el("div", undefined, "card");
-      card.appendChild(el("strong", (s.prefix === "control" ? "Control" : "Protocol") + " (measured " + s.saved_at + ")"));
-      card.appendChild(table(
-        ["Companies", "Branches", "Pull requests", "Duplicate branches", "Duplicate pull requests"],
-        [[s.companies, s.branches, s.pull_requests, s.duplicate_branches, s.duplicate_pull_requests]]));
-      m.appendChild(card);
-    });
+    else m.appendChild(table(
+      ["Prefix", "Companies", "Branches", "Pull requests", "Duplicate branches", "Duplicate pull requests"],
+      d.measures.map(function (s) { return [s.prefix, s.companies, s.branches, s.pull_requests, s.duplicate_branches, s.duplicate_pull_requests]; })));
     var p = document.getElementById("prs");
     if (!d.pull_requests.length) empty(p, "No pull requests recorded yet.");
     else p.appendChild(table(["Branch", "Saved at", "Pull request"],
       d.pull_requests.map(function (x) { return [x.branch, x.saved_at, {text: x.url, href: x.url}]; })));
+    document.getElementById("evtotal").textContent = d.evidence_total + " evidence files saved in the repository's evidence folder.";
     var e = document.getElementById("evidence");
-    if (!d.evidence.length) empty(e, "No evidence saved yet.");
-    else e.appendChild(table(["Saved at", "Source", "Call", "HTTP status"],
-      d.evidence.map(function (x) { return [x.saved_at, x.source, x.label, x.status]; })));
+    if (!d.evidence_by_call.length) empty(e, "No evidence saved yet.");
+    else e.appendChild(table(["Source", "Call", "HTTP status", "Count"],
+      d.evidence_by_call.map(function (x) { return [x.source, x.call, x.status, x.count]; })));
   }).catch(function () {
     document.getElementById("measures").appendChild(el("p", "Could not load data.json.", "muted"));
   });
