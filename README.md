@@ -22,7 +22,7 @@ Identa writes its intent to a local SQLite store before it touches GitHub. After
 - NotApplied: the branch does not exist. Identa can safely act again.
 - Unknown: the check failed or the state is ambiguous. The intent goes to a human queue. Identa never guesses.
 
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full flow.
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full flow, [docs/BUILD.md](docs/BUILD.md) for the build spec, [docs/RESOURCES.md](docs/RESOURCES.md) for every link, and [hackathon.md](hackathon.md) for the build log.
 
 ## Status
 

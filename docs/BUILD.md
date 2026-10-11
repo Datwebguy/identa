@@ -1,6 +1,6 @@
 # Identa: build spec for neatHack
 
-Hackathon: neatHack (neatlogs x TheVibeFounder), online, 10–12 Oct 2026.
+Hackathon: neatHack (neatlogs x TheVibeFounder), online, 10–12 Oct 2026. 48 hours. The hackathon page gives the start as Sat 10 Oct, 12:30 PM IST; the Luma event lists 12:30 AM IST. All code must be written between the start and the deadline.
 Submission window: Mon 12 Oct 2026, 7:00 PM IST to about 11:55 PM IST (about 18:25 UTC). The final cutoff is announced on Discord.
 Winners: Fri 16 Oct 2026.
 
@@ -72,19 +72,24 @@ neatlogs notes: "Ending a process does not guarantee that its final batch was se
 
 neatlogs (tracing)
 - Install: `pip install -U neatlogs`. Python 3.10 to 3.13 (from the PyPI metadata, version 1.4.26).
-- Start: `neatlogs.init(api_key=..., workflow_name=..., instrumentations=[...])`. Read the key from the environment variable `NEATLOGS_API_KEY`.
+- Account: sign up at https://app.neatlogs.com in a browser (a coding agent cannot do this step), create the project, then copy the **Project API key** from Settings, then API keys. Do not use the HTTP ingest key that starts with `nlw_`: the SDK returns 401 with it.
+- Start: `neatlogs.init(api_key=os.environ["NEATLOGS_API_KEY"], workflow_name="identa")`. If a model is called through LiteLLM (OpenAI-compatible), wrap the client with `neatlogs.wrap(OpenAI(...))` so model calls, tokens and cost are traced.
 - Span kinds used: WORKFLOW for each run, AGENT for the planner, TOOL for each Crustdata and GitHub call. Span kinds are documented as WORKFLOW, AGENT, CHAIN, MCP_TOOL, LLM and TOOL.
 - Shutdown: `neatlogs.flush()` then `neatlogs.shutdown()` at script exit, as documented.
-- Local check before any backend use: `python -m neatlogs doctor --local --json`. It makes no backend request.
+- Local check before any backend use: `python -m neatlogs doctor --local --json`. It makes no backend request. Then `python -m neatlogs doctor --probe`: it sends a test trace and reads it back; `TRACE_VISIBLE` and `TRACE_FINALIZED` must both show PASS.
+- Reading traces back for the before-and-after numbers: the CLI is a separate package, `npm install --global neatlogs-cli@0.2.0` (Node.js 22 or 24). `neatlogs profile set work --host 'https://app.neatlogs.com'`, `neatlogs profile use work`, `neatlogs auth login --device` (the owner approves the link in a browser), then `neatlogs traces list --limit 5` and `neatlogs traces get '<trace-id>' --json`. Service-account tokens need an org admin; use the device login.
+- Integration guidance: the setup guide's coding-agent prompt at https://neatlogs.com/hackathon/neatlogs-setup-guide.html, the docs index https://docs.neatlogs.com/llms.txt and the skills at https://github.com/neatlogs/skills.
 - Free paid-plan access during the event (from the organisers' setup email).
 
 Entire (checkpoints and code history)
 - Follow the organisers' guide: https://hack.entire.io/neathacks-2026/
-- Enable in the repo with `entire enable --agent <name>`. The guide's example uses `codex`; use the integration name for the agent that writes the code. Check the guide for the current name.
-- Make a commit linked to the agent session, then `entire checkpoint list` and `entire checkpoint explain HEAD`.
-- Submission needs an accessible checkpoint link and its ID. The link format from the guide is `https://entire.io/gh/OWNER/REPO/commit/FULL_COMMIT_SHA`.
+- Connect the repo: sign in to Entire with GitHub and install the Entire GitHub App on the account that owns `Datwebguy/identa`. The repo only appears after that, and sync can take up to an hour.
+- Install the CLI (macOS: `brew install --cask entireio/tap/entire`; other platforms in the Entire quickstart), then in the repo run `entire enable --agent <name>`. The guide's example uses `codex`; use the integration name of the coding agent that writes the code.
+- Make a commit linked to the agent session (answer yes when asked to link the commit to session context), then `entire checkpoint list`, `entire checkpoint explain HEAD`, and `entire status` to confirm the checkpoint synced.
+- Submission needs an accessible checkpoint link and its ID. The link format from the guide is `https://entire.io/gh/OWNER/REPO/commit/FULL_COMMIT_SHA`. In Entire, open repository, branch, commit, checkpoint, and show Sessions (the request and decisions) and Changes (the implementation).
 - Checkpoints in a public repo are public. Do not put secrets in a session.
-- Optional for this build: entire-graph, which the guide installs with `entire plugin install graph`. Use it only if it helps.
+- Separate prize: "Best Use of Entire", for the most creative use of Checkpoints, Graph or Brain.
+- Optional: entire-graph (`entire plugin install graph`, then `entire graph init-agents --repo .`, which adds a block to `AGENTS.md` and `CLAUDE.md`; review it before committing) and entire-brain. Trails is behind a feature flag and needs an access request. Use these only if they help the build.
 
 cfo.ai (business plan)
 - Sign up through https://cfo.ai/neathacks. A card is required. Cancel the subscription in Settings, then Billing, straight away. The organisers provide the credits.
@@ -102,9 +107,9 @@ GitHub:
 - Personal rate limit: 5,000 requests per hour for an authenticated token (GitHub docs). The secondary limits are not verified here; keep requests spaced.
 - Use a fine-grained token with access only to the vendor-register repository. Store it in the environment, never in the repository.
 
-LiteLLM ($20 per team, Nova and Claude): optional. The core decisions are deterministic. Use a model only to write the summary for a human reviewing an Unknown case.
+LiteLLM ($20 per team, shared; seven Nova and Claude models through one OpenAI-compatible API; the team leader claims the key at https://neatlogs.com/hackathon/models; requests stop at the limit): optional. The core decisions are deterministic. Use a model only to write the summary for a human reviewing an Unknown case.
 
-AWS ($25): not needed for this build.
+AWS ($25 per team; EC2, Lambda, IAM roles and load balancers in us-east-1; Bedrock is not included): not needed for this build. The access link is in the owner's email and stays private.
 
 ## 7. Stack
 
@@ -117,9 +122,12 @@ Tests: pytest. Lint and typecheck before every commit.
 - A new public repository, created by the owner during the window. Commits dated 10–12 Oct 2026. No code from before the window.
 - The owner is the only author and contributor. Local git identity is set in the repo, and the hooks from the previous repository are copied in, so no AI or tool name, and no co-author trailer, can be committed.
 - Every project must use neatlogs, Entire and cfo.ai. Keep evidence of all three.
-- Submission: quote the official neatlogs post on X with team name, project name, public repository link and demo video link.
-- Building in public: post progress on X tagged #neatHack during the window.
-- Demo video: 2 to 3 minutes. Show the crash, the reconciliation, the verdict, and the control's duplicate pull requests, with the neatlogs trace on screen.
+- Submission: a public quote post of the official neatlogs submission post on X, using the "Submit on X" button when it appears, with team, name, project, public repository and demo link. Opening the draft alone does not submit. Entries after the confirmed cutoff are not judged. neatlogs and cfo.ai engage with the first 50 quote posts, so submit early.
+- Supporting evidence goes in the repository. Judges must be able to verify that commits were made during the hackathon.
+- Building in public: post progress on X tagged #neatHack during the window (15% of the score).
+- Build log: keep `hackathon.md` at the repo root, as the official neatHack build-log skill asks (https://neatlogs.com/hackathon/skill). Dated entries, planned work kept apart from completed work, only tests that actually ran.
+- Demo video: three minutes or less. It must explicitly cover neatlogs, Entire and cfo.ai: the architecture, implementation, runtime, reasoning and result for each tool. Show the crash, the reconciliation, the verdict, and the control's duplicate pull requests, with the neatlogs trace on screen.
+- Conduct: plagiarism means removal. The idea credit to Anchor stays in the README and the submission, and no code from it is used.
 
 ## 9. Data
 
@@ -158,7 +166,11 @@ Cut in this order: the human approve page (use a command-line prompt instead), t
 | Crustdata: required headers, credits endpoint, empty `matches` for no match | https://docs.crustdata.com/general/introduction.md, /general/credits.md, identify introduction (re-fetched 11 Oct 2026) |
 | neatlogs: install, Python version range, init arguments, flush and shutdown guidance | PyPI metadata (version 1.4.26) and https://docs.neatlogs.com/sdk/lifecycle (fetched) |
 | neatlogs: a process ending does not guarantee the final batch was sent | https://docs.neatlogs.com/sdk/lifecycle (fetched) |
-| Entire: enable, first checkpoint, checkpoint link format, prize criteria | https://hack.entire.io/neathacks-2026/ (fetched) |
+| Entire: connect, install, enable, first checkpoint, `entire status`, link format, Best Use of Entire prize | https://hack.entire.io/neathacks-2026/ (re-fetched 11 Oct 2026) |
+| neatlogs: Project API key vs `nlw_` key, `doctor --probe`, CLI readback, coding-agent prompt | https://neatlogs.com/hackathon/neatlogs-setup-guide.html (fetched 11 Oct 2026) |
+| neatHack: video three minutes or less covering all three tools, Submit on X, evidence list, LiteLLM and AWS terms | https://neatlogs.com/hackathon FAQ (re-fetched 11 Oct 2026) |
+| neatHack: `hackathon.md` build log | https://neatlogs.com/hackathon/skill (fetched 11 Oct 2026) |
+| Team, credits and setup links | organisers' email "Your neatHack team is ready — setup guide & credits", 10 Oct 2026 |
 
 Not verified, and to be checked during the build:
 - The exact Crustdata company ID stability across calls (the identify response supplies it; test it).

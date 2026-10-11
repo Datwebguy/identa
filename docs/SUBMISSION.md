@@ -11,12 +11,14 @@ Fill every `[ ]` from real results only. Anything not built stays marked "not bu
 | Public repo, all commits dated 10 to 12 Oct 2026, owner the only author | [ ] |
 | neatlogs: before-and-after comparison with numbers (protocol vs control) | [ ] |
 | neatlogs: trace links or screenshots for the crash and recovery runs | [ ] |
-| Entire: accessible checkpoint link and its ID | [ ] |
+| Entire: accessible checkpoint link and its ID; `entire status` shows it synced | [ ] |
 | A recorded run where the agent recovers from a failed action | [ ] |
 | cfo.ai business plan (pricing, costs, revenue, runway) | [ ] |
-| Demo video, 2 to 3 minutes, link works | [ ] |
+| Demo video, three minutes or less, covering neatlogs, Entire and cfo.ai (architecture, implementation, runtime, reasoning, result for each); link works | [ ] |
+| `hackathon.md` build log up to date | [ ] |
+| README has setup and run instructions | [ ] |
 | Progress posts on X tagged #neatHack | [ ] |
-| Quote post of the official neatlogs post with team, project, repo and video | [ ] |
+| Quote post of the official neatlogs submission post (Submit on X button), with team, name, project, public repo and demo link, published (a draft does not count) | [ ] |
 | cfo.ai subscription cancelled after the plan is made | [ ] |
 
 Team name: MajorLabs. Project name: Identa.
@@ -54,14 +56,18 @@ Entire checkpoint link format: `https://entire.io/gh/OWNER/REPO/commit/FULL_COMM
 
 **Idea credit:** the intent-log and reconciler protocol is adapted from Anchor (Viraj Chogle). This is a new implementation written during the neatHack window. No code from that project is used.
 
-## 5. Video script (2:00 to 3:00)
+## 5. Video script (three minutes or less)
+
+The rules require the video to cover neatlogs, Entire and cfo.ai explicitly: the architecture, implementation, runtime, reasoning and result for each tool.
 
 | Time | Scene | Show |
 |---|---|---|
-| 0:00 to 0:20 | The problem | A duplicate vendor pull request from the control run |
-| 0:20 to 0:50 | The run | Domains in, Crustdata identify, intent written, PR opened, neatlogs trace on screen |
-| 0:50 to 1:40 | The crash | Process killed mid-run, restart, reconciler verdict, GitHub showing one PR |
-| 1:40 to 2:10 | The numbers | Protocol versus control from the saved runs |
-| 2:10 to 2:40 | The tools | Entire checkpoint, cfo.ai plan |
+| 0:00 to 0:15 | The problem | A duplicate vendor pull request from the control run |
+| 0:15 to 0:45 | The agent | Domains in, Crustdata identify, intent written, PR opened |
+| 0:45 to 1:25 | The crash and recovery | Process killed mid-run, restart, reconciler verdict, GitHub showing one PR |
+| 1:25 to 1:55 | neatlogs | Where spans sit in the code, the crash and recovery traces, the before-and-after numbers read back from the traces |
+| 1:55 to 2:25 | Entire | How Entire is enabled, the checkpoint for the reconciler change, its Sessions (request and decisions) and Changes |
+| 2:25 to 2:50 | cfo.ai | The plan's pricing, costs, revenue and runway, with inputs taken from the measured runs |
+| 2:50 to 3:00 | Close | Repo link and what does not work yet |
 
 Show only what was built. Never show a number that is not on a real screen.
