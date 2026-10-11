@@ -39,8 +39,12 @@ Under construction for neatHack. The table below is updated only from saved runs
 | neatlogs traces | Doctor probe passed; the Railway run sent traces (trace links not yet collected) |
 | Entire checkpoint | not built |
 | cfo.ai plan | not built |
-| Results page (`web/`, for Vercel) | built from saved evidence; not deployed |
+| Results page (`web/`, on Vercel) | deployed: https://identa-iota.vercel.app , built from saved evidence |
 | Demo video | not built |
+
+## Results
+
+Live results page, built only from the saved files in `evidence/`: https://identa-iota.vercel.app
 
 ## Running it
 
