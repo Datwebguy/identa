@@ -52,23 +52,15 @@ Done when: `Datwebguy/identa` appears in Entire.
 
 ---
 
-## Step 3. Rotate the three keys (YOU, 15 minutes)
+## Step 3. Keys (no change)
 
-You pasted the keys into this chat. Entire reads the whole conversation, and checkpoints in a public repo are public. So the keys must change before any Entire recording starts.
-
-1. **GitHub token:** make a new fine-grained token for `Datwebguy/identavendors` only, with Contents and Pull requests set to read and write (the same settings as before). Delete the old one.
-2. **Crustdata:** create a new API key in app.crustdata.com and delete the old one.
-3. **neatlogs:** create a new Project API key in app.neatlogs.com, Settings, API keys. Delete the old one. It must not start with `nlw_`.
-4. Put the three new values in Railway only: project `identa`, service `agent`, Variables. Names: `GITHUB_TOKEN`, `CRUSTDATA_API_KEY`, `NEATLOGS_API_KEY`.
-5. Never paste any of them in the chat again.
-
-Done when: Railway holds the new values and the old keys are deleted. Say "keys rotated".
+The owner decided to keep the current keys. They stay in Railway as variables. The Entire work happens in a fresh session (Step 4), which starts without any keys in its history. No key is pasted into that session.
 
 ---
 
 ## Step 4. Start a fresh session (YOU)
 
-Open a new session for this repo (`Datwebguy/identa`). It starts without any keys in its history.
+Open a new session for this repo (`Datwebguy/identa`). It starts without any keys in its history. Do not paste any key into it.
 
 Done when: the new session is open. In it, I read `docs/PLAN.md` and continue from Step 5.
 
