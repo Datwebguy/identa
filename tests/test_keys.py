@@ -31,5 +31,6 @@ def test_canonical_json_is_compact_and_sorted() -> None:
 
 def test_branch_and_file_names() -> None:
     key = "abcdef0123456789" * 4
-    assert branch_name(42, key) == "vendor/42-abcdef01"
+    assert branch_name("vendor", 42, key) == "vendor/42-abcdef01"
+    assert branch_name("crash-a", 42, key) == "crash-a/42-abcdef01"
     assert vendor_file_path(42) == "vendors/42.yaml"

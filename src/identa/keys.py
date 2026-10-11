@@ -24,8 +24,8 @@ def idempotency_key(company_id: int | str, action: str, args: dict[str, Any]) ->
     return hashlib.sha256(material.encode("utf-8")).hexdigest()
 
 
-def branch_name(company_id: int | str, key: str) -> str:
-    return f"vendor/{company_id}-{key[:8]}"
+def branch_name(prefix: str, company_id: int | str, key: str) -> str:
+    return f"{prefix}/{company_id}-{key[:8]}"
 
 
 def vendor_file_path(company_id: int | str) -> str:

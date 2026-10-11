@@ -22,6 +22,7 @@ class Config:
     evidence_dir: Path
     commit_author_name: str
     commit_author_email: str
+    branch_prefix: str
 
 
 def load_config(path: str | Path) -> Config:
@@ -50,6 +51,8 @@ def load_config(path: str | Path) -> Config:
         evidence_dir=Path(raw["evidence_dir"]),
         commit_author_name=str(raw["commit_author_name"]),
         commit_author_email=str(raw["commit_author_email"]),
+        # IDENTA_BRANCH_PREFIX lets a test run use its own branch namespace in the same repo.
+        branch_prefix=os.environ.get("IDENTA_BRANCH_PREFIX") or str(raw["branch_prefix"]),
     )
 
 

@@ -117,7 +117,7 @@ def onboard(
         ACTION_ONBOARD,
         json.dumps(args, sort_keys=True),
         json.dumps(memory, sort_keys=True),
-        branch_name(found.company_id, key),
+        branch_name(cfg.branch_prefix, found.company_id, key),
     )
     intent = store.get_intent(key)
     assert intent is not None

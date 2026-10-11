@@ -36,6 +36,7 @@ Planned: Python 3.11, Crustdata (identify, enrich), GitHub REST API, SQLite, nea
 - Observation: for `cfo.ai` and `amazon.com` Crustdata returned two matches each, both at confidence 1.0 (the other matches were Runway and Amazon Web Services). The agent took the top-ranked match. The current rule only compares the top match to the threshold, so a tie at the top is not treated as ambiguous. To be decided.
 - Crustdata credits: balance 5200 before, 5182 after, so 18 credits for 9 enrichments (2 each), each company enriched once.
 - Same key check: the first local attempt for `github.com` (blocked at branch creation) and the Railway run produced the same branch name `vendor/632750-be14eff4`.
+- Done: configurable branch prefix (`branch_prefix`, overridable with `IDENTA_BRANCH_PREFIX`) so each crash test and the control use their own branch namespace in the same register, because the nine companies already have branches under `vendor/`. Nothing in the register is deleted.
 - Not done yet: crash tests, control, Railway crash test, neatlogs trace links, Entire, cfo.ai.
 - Tests run: `pytest` on `tests/`, 36 passed (pure functions only: keys, verdicts, store, parsers, identity decision). No real API call has been made. Nothing else has run.
 

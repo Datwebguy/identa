@@ -37,8 +37,9 @@ def _github(cfg: Config) -> GitHub:
     )
 
 
-def _measure(cfg: Config, control: bool) -> None:
-    summary = measure(_github(cfg), cfg, CONTROL_PREFIX if control else "vendor")
+def _measure(cfg: Config, control: bool, prefix: str | None) -> None:
+    chosen = CONTROL_PREFIX if control else (prefix or cfg.branch_prefix)
+    summary = measure(_github(cfg), cfg, chosen)
     print(json.dumps(asdict(summary), indent=2))
 
 
@@ -102,6 +103,7 @@ def main() -> None:
     m = sub.add_parser("measure", help="count branches and pull requests per company on GitHub")
     m.add_argument("--config", required=True, type=Path)
     m.add_argument("--control", action="store_true", help="count the control's branches")
+    m.add_argument("--prefix", help="count this branch prefix instead of the configured one")
     e = sub.add_parser("export-evidence", help="copy evidence files to the evidence branch")
     e.add_argument("--config", required=True, type=Path)
     e.add_argument("--skip-dir", type=Path, help="files already present here are not exported")
@@ -113,7 +115,7 @@ def main() -> None:
 
     cfg = load_config(args.config)
     if args.cmd == "measure":
-        _measure(cfg, args.control)
+        _measure(cfg, args.control, args.prefix)
         return
     if args.cmd == "export-evidence":
         count = export_evidence(_github(cfg), cfg.evidence_dir, args.skip_dir, cfg.base_branch)
