@@ -33,7 +33,7 @@ Under construction for neatHack. The table below is updated only from saved runs
 | Idempotency key and branch naming | built, unit tests pass (`tests/test_keys.py`) |
 | Crustdata identify and enrich | not built |
 | GitHub branch, file and pull request steps | not built |
-| Reconciler and three verdicts | not built |
+| Reconciler and three verdicts | verdict logic built, unit tests pass; GitHub checks not built |
 | Crash test (three crash points) | not built |
 | Naive control and duplicate count | not built |
 | neatlogs traces | not built |
