@@ -28,7 +28,7 @@ def span(kind: str, name: str) -> Callable[[F], F]:
 
 
 def init(api_key: str) -> None:
-    neatlogs.init(api_key=api_key, workflow_name="identa")
+    neatlogs.init(api_key=api_key, endpoint="https://ingest.neatlogs.com", workflow_name="identa")
 
 
 def flush() -> None:
