@@ -1,0 +1,6 @@
+confidence_threshold = 0.9
+repo_owner = "Datwebguy"
+repo_name = "identa-vendors"
+base_branch = "main"
+store_path = "data/identa.sqlite"
+evidence_dir = "evidence"

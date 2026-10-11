@@ -28,7 +28,10 @@ Planned: Python 3.11, Crustdata (identify, enrich), GitHub REST API, SQLite, nea
 - Done (written, not run against real APIs): control, `measure`, human queue commands.
 - Done: static results page `web/` generated from `evidence/` by `scripts/build_site.py`; `vercel.json` serves `web/`.
 - Done: Dockerfile and `railway.json` for the agent; injected crash now happens once (marker file) so a restart recovers instead of looping. Nothing deployed.
-- Tests run: `pytest` on `tests/`, 35 passed (pure functions only: keys, verdicts, store, parsers, identity decision). No real API call has been made. Nothing else has run.
+- Done: `domains.csv` (the nine vendor domains supplied by the owner, unchanged) and `identa.toml` (repo `Datwebguy/identa-vendors`, base `main`).
+- Decision: `confidence_threshold = 0.9`, chosen by the owner. Domains below it go to the human queue.
+- Done: an enrich response saved in `evidence/` is reused, so the same company is never enriched twice.
+- Tests run: `pytest` on `tests/`, 36 passed (pure functions only: keys, verdicts, store, parsers, identity decision). No real API call has been made. Nothing else has run.
 
 ## Demo
 
