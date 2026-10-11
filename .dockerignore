@@ -1,0 +1,9 @@
+.git
+.venv
+.env
+.env.*
+evidence
+web
+tests
+*.sqlite
+__pycache__

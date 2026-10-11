@@ -16,7 +16,7 @@ from identa.crustdata import Crustdata
 from identa.github import GitHub
 from identa.measure import measure
 from identa.store import PENDING, Store
-from identa.workflow import crash_hook_from_env, main_exit, onboard, run
+from identa.workflow import crash_hook_from_env, crash_marker, main_exit, onboard, run
 
 
 def read_domains(path: Path) -> list[str]:
@@ -75,7 +75,9 @@ def _accept(cfg: Config, store: Store, row: sqlite3.Row) -> None:
         found = crust.identify([row["domain"]])[0]
         if found.company_id is None:
             raise SystemExit("Crustdata returned no company for this domain; cannot accept")
-        outcome = onboard(found, cfg, store, crust, _github(cfg), crash_hook_from_env())
+        outcome = onboard(
+            found, cfg, store, crust, _github(cfg), crash_hook_from_env(crash_marker(cfg))
+        )
         store.resolve_queue_item(row["id"], "accepted")
         print(outcome)
     finally:
@@ -115,7 +117,12 @@ def main() -> None:
             if not args.max_attempts:
                 parser.error("--control needs --max-attempts")
             result = run_control(
-                read_domains(args.domains), cfg, crust, gh, args.max_attempts, crash_hook_from_env()
+                read_domains(args.domains),
+                cfg,
+                crust,
+                gh,
+                args.max_attempts,
+                crash_hook_from_env(crash_marker(cfg)),
             )
             print(result)
             return
