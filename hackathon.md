@@ -21,7 +21,8 @@ Planned: Python 3.11, Crustdata (identify, enrich), GitHub REST API, SQLite, nea
 - Planned next: neatlogs first trace, Entire enabled on the repo, Crustdata identify call, intent store.
 - Done: project skeleton (pyproject, ruff, mypy, pytest) and the idempotency key, branch and file naming (`src/identa/keys.py`).
 - Done: verdict logic (`src/identa/verdict.py`) as a pure function of GitHub's answers.
-- Tests run: `pytest` on `tests/test_keys.py` and `tests/test_verdict.py`, 19 passed. Nothing else has run.
+- Done: SQLite intent store (`src/identa/store.py`): intents, steps, outcomes, human queue; outcome commit in one transaction.
+- Tests run: `pytest` on `tests/`, 23 passed (keys, verdicts, store). Nothing else has run.
 
 ## Demo
 
