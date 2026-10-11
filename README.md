@@ -30,7 +30,7 @@ Under construction for neatHack. The table below is updated only from saved runs
 
 | Part | Status |
 |---|---|
-| Idempotency key and branch naming | not built |
+| Idempotency key and branch naming | built, unit tests pass (`tests/test_keys.py`) |
 | Crustdata identify and enrich | not built |
 | GitHub branch, file and pull request steps | not built |
 | Reconciler and three verdicts | not built |
