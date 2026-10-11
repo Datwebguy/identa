@@ -20,6 +20,8 @@ class Config:
     base_branch: str
     store_path: Path
     evidence_dir: Path
+    commit_author_name: str
+    commit_author_email: str
 
 
 def load_config(path: str | Path) -> Config:
@@ -46,6 +48,8 @@ def load_config(path: str | Path) -> Config:
         base_branch=str(raw["base_branch"]),
         store_path=Path(raw["store_path"]),
         evidence_dir=Path(raw["evidence_dir"]),
+        commit_author_name=str(raw["commit_author_name"]),
+        commit_author_email=str(raw["commit_author_email"]),
     )
 
 

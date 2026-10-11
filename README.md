@@ -66,12 +66,11 @@ To inject a crash, set `IDENTA_CRASH_AFTER` to `create_branch`, `commit_file` or
 
 ## Railway
 
-The agent is meant to run on Railway as a long-lived container (`Dockerfile`, `railway.json`). Nothing is deployed yet. Before deploying:
+The agent runs on Railway as a long-lived container (`Dockerfile`, `railway.json`, `scripts/railway_entry.sh`), with a volume at `/data` for the store and evidence. The command it runs comes from the `IDENTA_ARGS` variable. Keys are Railway variables, never in the repo.
 
-- Add `identa.toml` and `domains.csv` to the repo (both are copied into the image). Point `store_path` and `evidence_dir` at a Railway volume, for example under `/data`, so the store survives restarts.
-- Set `CRUSTDATA_API_KEY`, `GITHUB_TOKEN` and `NEATLOGS_API_KEY` as Railway variables. Never put them in the repo.
-- An injected crash exits with code 137 and writes a marker file beside the store, so the crash happens once. Railway's restart policy then restarts the process, which reconciles before doing new work.
-- Evidence written on the volume has to be copied back into the repo's `evidence/` folder before the results page is rebuilt.
+- Why Railway: this development session's network blocks GitHub REST writes, so the GitHub steps cannot run from here.
+- An injected crash exits with code 137 and writes a marker file beside the store, so it happens once. Railway's restart policy restarts the process, which reconciles before doing new work.
+- Evidence is written to `/data/evidence`. After a successful run the agent copies new files, one at a time, to the `evidence` branch of `identavendors`. They are then fetched with git and committed into this repo's `evidence/` folder before the results page is rebuilt.
 
 ## Licence
 

@@ -13,6 +13,7 @@ from identa import tracing
 from identa.config import Config, load_config, require_env
 from identa.control import CONTROL_PREFIX, run_control
 from identa.crustdata import Crustdata
+from identa.export import export_evidence
 from identa.github import GitHub
 from identa.measure import measure
 from identa.store import PENDING, Store
@@ -27,7 +28,13 @@ def read_domains(path: Path) -> list[str]:
 
 
 def _github(cfg: Config) -> GitHub:
-    return GitHub(require_env("GITHUB_TOKEN"), cfg.repo_owner, cfg.repo_name, cfg.evidence_dir)
+    return GitHub(
+        require_env("GITHUB_TOKEN"),
+        cfg.repo_owner,
+        cfg.repo_name,
+        cfg.evidence_dir,
+        (cfg.commit_author_name, cfg.commit_author_email),
+    )
 
 
 def _measure(cfg: Config, control: bool) -> None:
@@ -95,6 +102,9 @@ def main() -> None:
     m = sub.add_parser("measure", help="count branches and pull requests per company on GitHub")
     m.add_argument("--config", required=True, type=Path)
     m.add_argument("--control", action="store_true", help="count the control's branches")
+    e = sub.add_parser("export-evidence", help="copy evidence files to the evidence branch")
+    e.add_argument("--config", required=True, type=Path)
+    e.add_argument("--skip-dir", type=Path, help="files already present here are not exported")
     q = sub.add_parser("queue", help="the human queue")
     q.add_argument("--config", required=True, type=Path)
     q.add_argument("action", choices=["list", "accept", "reject"])
@@ -105,13 +115,17 @@ def main() -> None:
     if args.cmd == "measure":
         _measure(cfg, args.control)
         return
+    if args.cmd == "export-evidence":
+        count = export_evidence(_github(cfg), cfg.evidence_dir, args.skip_dir, cfg.base_branch)
+        print({"exported": count})
+        return
     if args.cmd == "queue":
         _queue(cfg, args.action, args.item)
         return
     tracing.init(require_env("NEATLOGS_API_KEY"))
     store = Store(cfg.store_path)
     crust = Crustdata(require_env("CRUSTDATA_API_KEY"), cfg.evidence_dir)
-    gh = GitHub(require_env("GITHUB_TOKEN"), cfg.repo_owner, cfg.repo_name, cfg.evidence_dir)
+    gh = _github(cfg)
     try:
         if args.control:
             if not args.max_attempts:

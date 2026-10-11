@@ -20,5 +20,5 @@ def test_crash_marker_sits_beside_the_store() -> None:
     from identa.config import Config
     from identa.workflow import crash_marker
 
-    cfg = Config(0.0, "o", "r", "main", Path("/d/s.sqlite"), Path("e"))
+    cfg = Config(0.0, "o", "r", "main", Path("/d/s.sqlite"), Path("e"), "n", "e@x")
     assert crash_marker(cfg) == Path("/d/s.crashed")

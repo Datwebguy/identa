@@ -35,6 +35,7 @@ class GitHub:
         owner: str,
         repo: str,
         evidence_dir: Path,
+        author: tuple[str, str],
         client: httpx.Client | None = None,
     ) -> None:
         self._client = client or httpx.Client(timeout=30)
@@ -43,6 +44,7 @@ class GitHub:
             "Accept": "application/vnd.github+json",
             "X-GitHub-Api-Version": API_VERSION,
         }
+        self._author = {"name": author[0], "email": author[1]}
         self.owner = owner
         self.repo = repo
         self._evidence_dir = evidence_dir
@@ -81,7 +83,13 @@ class GitHub:
             "put_file",
             "PUT",
             f"/contents/{quote(path, safe='/')}",
-            json={"message": message, "content": encoded, "branch": branch},
+            json={
+                "message": message,
+                "content": encoded,
+                "branch": branch,
+                "author": self._author,
+                "committer": self._author,
+            },
         )
 
     @tool("github.get_file")

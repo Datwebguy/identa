@@ -2,8 +2,8 @@
 .venv
 .env
 .env.*
-evidence
 web
 tests
+data
 *.sqlite
 __pycache__
