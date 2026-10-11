@@ -46,6 +46,8 @@ Planned: Python 3.11, Crustdata (identify, enrich), GitHub REST API, SQLite, nea
 - Time from the saved crash-step record to the reconciler's last check finishing, from evidence timestamps (includes the container restart): A 2.17 s, B 2.42 s, C 2.59 s.
 - Limits of these tests: the crash fires at the first company only, so each test is one crash among nine companies. The control gives each attempt a new branch name, because it has no stable key; with a stable name GitHub would reject the second branch. The `Unknown` verdict has not occurred in a real run.
 - Done: results page deployed to Vercel (project `identa`, linked to this repo, production branch `main`): https://identa-iota.vercel.app . The agent runs on Railway (project `identa`, service `agent`, volume at `/data`).
+- Done: results page redesigned (light and dark themes with a toggle, glass panels, protocol versus control chart, per crash point cards, reconciliations, vendor register). Every number on it is computed from `evidence/` by `scripts/build_site.py`, including the reconciliation times (crash or re-run is detected from the saved records).
+- Found in the evidence: a push to `main` at about 20:02 UTC made Railway redeploy with the `vendor` prefix and a fresh store before the crash tests. GitHub refused all 9 branch creations (422, already exists), the reconciler found branch, file and pull request for each and recorded Applied, with no new vendor writes. The `vendor` count stayed at 9 branches and 9 pull requests.
 - Not done yet: neatlogs trace links, Entire, cfo.ai, demo video.
 - Tests run: `pytest` on `tests/`, 36 passed (pure functions only: keys, verdicts, store, parsers, identity decision). No real API call has been made. Nothing else has run.
 

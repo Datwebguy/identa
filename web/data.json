@@ -1,5 +1,6 @@
 {
   "evidence_total": 2004,
+  "last_saved_at": "2026-10-11T20:25:27.195994+00:00",
   "evidence_by_call": [
     {
       "source": "crustdata",
@@ -205,51 +206,167 @@
       "duplicate_pull_requests": 0
     }
   ],
+  "reconciliations": [
+    {
+      "prefix": "vendor",
+      "branch": "vendor/632750-be14eff4",
+      "kind": "re-run",
+      "after": "create_ref",
+      "after_status": 422,
+      "seconds": 0.56
+    },
+    {
+      "prefix": "vendor",
+      "branch": "vendor/631347-b7282539",
+      "kind": "re-run",
+      "after": "create_ref",
+      "after_status": 422,
+      "seconds": 0.56
+    },
+    {
+      "prefix": "vendor",
+      "branch": "vendor/4095792-abff3c6f",
+      "kind": "re-run",
+      "after": "create_ref",
+      "after_status": 422,
+      "seconds": 0.58
+    },
+    {
+      "prefix": "vendor",
+      "branch": "vendor/6036032-144bfe75",
+      "kind": "re-run",
+      "after": "create_ref",
+      "after_status": 422,
+      "seconds": 0.58
+    },
+    {
+      "prefix": "vendor",
+      "branch": "vendor/12467174-9b5e99d3",
+      "kind": "re-run",
+      "after": "create_ref",
+      "after_status": 422,
+      "seconds": 0.52
+    },
+    {
+      "prefix": "vendor",
+      "branch": "vendor/23099808-b7320383",
+      "kind": "re-run",
+      "after": "create_ref",
+      "after_status": 422,
+      "seconds": 0.62
+    },
+    {
+      "prefix": "vendor",
+      "branch": "vendor/96478261-e06c340b",
+      "kind": "re-run",
+      "after": "create_ref",
+      "after_status": 422,
+      "seconds": 0.56
+    },
+    {
+      "prefix": "vendor",
+      "branch": "vendor/809879-d5a25806",
+      "kind": "re-run",
+      "after": "create_ref",
+      "after_status": 422,
+      "seconds": 0.63
+    },
+    {
+      "prefix": "vendor",
+      "branch": "vendor/6034577-43bb60fa",
+      "kind": "re-run",
+      "after": "create_ref",
+      "after_status": 422,
+      "seconds": 0.58
+    },
+    {
+      "prefix": "crash-a",
+      "branch": "crash-a/632750-be14eff4",
+      "kind": "crash",
+      "after": "create_ref",
+      "after_status": 201,
+      "seconds": 2.17
+    },
+    {
+      "prefix": "crash-b",
+      "branch": "crash-b/632750-be14eff4",
+      "kind": "crash",
+      "after": "put_file",
+      "after_status": 201,
+      "seconds": 2.42
+    },
+    {
+      "prefix": "crash-c",
+      "branch": "crash-c/632750-be14eff4",
+      "kind": "crash",
+      "after": "open_pr",
+      "after_status": 201,
+      "seconds": 2.59
+    }
+  ],
   "pull_requests": [
     {
       "saved_at": "2026-10-11T20:00:44.261086+00:00",
       "url": "https://github.com/Datwebguy/identavendors/pull/1",
-      "branch": "vendor/632750-be14eff4"
+      "branch": "vendor/632750-be14eff4",
+      "number": 1,
+      "title": "Add vendor GitHub (github.com)"
     },
     {
       "saved_at": "2026-10-11T20:00:47.654289+00:00",
       "url": "https://github.com/Datwebguy/identavendors/pull/2",
-      "branch": "vendor/631347-b7282539"
+      "branch": "vendor/631347-b7282539",
+      "number": 2,
+      "title": "Add vendor Vercel (vercel.com)"
     },
     {
       "saved_at": "2026-10-11T20:00:51.380427+00:00",
       "url": "https://github.com/Datwebguy/identavendors/pull/3",
-      "branch": "vendor/4095792-abff3c6f"
+      "branch": "vendor/4095792-abff3c6f",
+      "number": 3,
+      "title": "Add vendor Railway (railway.com)"
     },
     {
       "saved_at": "2026-10-11T20:00:55.183127+00:00",
       "url": "https://github.com/Datwebguy/identavendors/pull/4",
-      "branch": "vendor/6036032-144bfe75"
+      "branch": "vendor/6036032-144bfe75",
+      "number": 4,
+      "title": "Add vendor Crustdata (YC F24) (crustdata.com)"
     },
     {
       "saved_at": "2026-10-11T20:00:59.511588+00:00",
       "url": "https://github.com/Datwebguy/identavendors/pull/5",
-      "branch": "vendor/12467174-9b5e99d3"
+      "branch": "vendor/12467174-9b5e99d3",
+      "number": 5,
+      "title": "Add vendor neatlogs (neatlogs.com)"
     },
     {
       "saved_at": "2026-10-11T20:01:03.739125+00:00",
       "url": "https://github.com/Datwebguy/identavendors/pull/6",
-      "branch": "vendor/23099808-b7320383"
+      "branch": "vendor/23099808-b7320383",
+      "number": 6,
+      "title": "Add vendor Entire (entire.io)"
     },
     {
       "saved_at": "2026-10-11T20:01:07.690814+00:00",
       "url": "https://github.com/Datwebguy/identavendors/pull/7",
-      "branch": "vendor/96478261-e06c340b"
+      "branch": "vendor/96478261-e06c340b",
+      "number": 7,
+      "title": "Add vendor cfo.ai (cfo.ai)"
     },
     {
       "saved_at": "2026-10-11T20:01:11.699037+00:00",
       "url": "https://github.com/Datwebguy/identavendors/pull/8",
-      "branch": "vendor/809879-d5a25806"
+      "branch": "vendor/809879-d5a25806",
+      "number": 8,
+      "title": "Add vendor LiteLLM AI Gateway (litellm.ai)"
     },
     {
       "saved_at": "2026-10-11T20:01:15.792771+00:00",
       "url": "https://github.com/Datwebguy/identavendors/pull/9",
-      "branch": "vendor/6034577-43bb60fa"
+      "branch": "vendor/6034577-43bb60fa",
+      "number": 9,
+      "title": "Add vendor Amazon (amazon.com)"
     }
   ]
 }
