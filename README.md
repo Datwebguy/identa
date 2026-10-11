@@ -36,7 +36,7 @@ Under construction for neatHack. The table below is updated only from saved runs
 | Reconciler and three verdicts | verdict logic and GitHub checks written; verdict logic unit-tested, GitHub checks not run |
 | Crash test (three crash points) | crash hook written (`IDENTA_CRASH_AFTER`), not run |
 | Naive control and duplicate count | not built |
-| neatlogs traces | span wrappers written, no trace sent yet |
+| neatlogs traces | SDK Doctor probe passed (synthetic trace, not an Identa run); no Identa trace sent yet |
 | Entire checkpoint | not built |
 | cfo.ai plan | not built |
 | Demo video | not built |
