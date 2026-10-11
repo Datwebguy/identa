@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS intents (
     company_id TEXT NOT NULL,
     action TEXT NOT NULL,
     args_json TEXT NOT NULL,
+    memory_json TEXT NOT NULL,
     branch TEXT NOT NULL,
     state TEXT NOT NULL,
     created_at TEXT NOT NULL
@@ -43,7 +44,8 @@ CREATE TABLE IF NOT EXISTS human_queue (
 
 PENDING = "pending"
 COMPLETED = "completed"
-FINAL_STATES = (COMPLETED, "rejected")
+NEEDS_HUMAN = "needs_human"
+FINAL_STATES = (COMPLETED, "rejected", NEEDS_HUMAN)
 
 
 def now() -> str:
@@ -56,6 +58,7 @@ class Intent:
     company_id: str
     action: str
     args_json: str
+    memory_json: str
     branch: str
     state: str
 
@@ -70,18 +73,34 @@ class Store:
         self._db.close()
 
     def write_intent(
-        self, key: str, company_id: str, action: str, args_json: str, branch: str
+        self,
+        key: str,
+        company_id: str,
+        action: str,
+        args_json: str,
+        memory_json: str,
+        branch: str,
     ) -> bool:
         """Insert the intent as pending. Returns False if the key already exists."""
         cur = self._db.execute(
-            "INSERT OR IGNORE INTO intents VALUES (?,?,?,?,?,?,?)",
-            (key, company_id, action, args_json, branch, PENDING, now()),
+            "INSERT OR IGNORE INTO intents VALUES (?,?,?,?,?,?,?,?)",
+            (key, company_id, action, args_json, memory_json, branch, PENDING, now()),
         )
         return cur.rowcount == 1
 
     def get_intent(self, key: str) -> Intent | None:
         row = self._db.execute("SELECT * FROM intents WHERE key=?", (key,)).fetchone()
         return self._intent(row) if row else None
+
+    def find_by_company(self, company_id: str, action: str) -> Intent | None:
+        row = self._db.execute(
+            "SELECT * FROM intents WHERE company_id=? AND action=? ORDER BY created_at LIMIT 1",
+            (company_id, action),
+        ).fetchone()
+        return self._intent(row) if row else None
+
+    def set_state(self, key: str, state: str) -> None:
+        self._db.execute("UPDATE intents SET state=? WHERE key=?", (state, key))
 
     def unfinished(self) -> list[Intent]:
         marks = ",".join("?" for _ in FINAL_STATES)
@@ -136,6 +155,7 @@ class Store:
             row["company_id"],
             row["action"],
             row["args_json"],
+            row["memory_json"],
             row["branch"],
             row["state"],
         )

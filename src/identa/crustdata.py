@@ -10,6 +10,7 @@ from typing import Any
 import httpx
 
 from identa import evidence
+from identa.tracing import tool
 
 BASE_URL = "https://api.crustdata.com"
 API_VERSION = "2025-11-01"
@@ -55,6 +56,7 @@ class Crustdata:
         evidence.save(self._evidence_dir, "crustdata", kind, resp.status_code, payload)
         return resp
 
+    @tool("crustdata.identify")
     def identify(self, domains: list[str]) -> list[Identified]:
         """One result per input domain, in order. Empty matches give company_id None."""
         out: list[Identified] = []
@@ -94,6 +96,7 @@ class Crustdata:
             info.get("primary_domain"),
         )
 
+    @tool("crustdata.enrich")
     def enrich(self, company_id: int) -> dict[str, Any]:
         """Returns matches[0].company_data for basic_info and headcount."""
         resp = self._post(
