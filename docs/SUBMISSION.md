@@ -52,7 +52,7 @@ Entire checkpoint link format: `https://entire.io/gh/OWNER/REPO/commit/FULL_COMM
 
 **What it does:** identifies each company with Crustdata, writes the intent first, opens one pull request per vendor, and reconciles by exact branch name after any interruption. Ambiguous cases go to a human.
 
-**Result:** 0 duplicate pull requests for the protocol versus 1 for the control, across 3 crash runs of 9 companies each (the control also left 3 extra branches). Source: saved `identa measure` records in `evidence/`. Traces: not collected yet.
+**Result:** 0 duplicate pull requests for the protocol versus 1 for the control, across 3 crash runs of 9 companies each (the control also left 3 extra branches). Source: saved `identa measure` records in `evidence/`. Control C was also run four more times by accident (redeploys triggered by pushes); each run that reached its crash opened one more duplicate, recorded separately in `evidence/*-audit-register-pull-requests.json`. Traces: not collected yet.
 
 **Idea credit:** the intent-log and reconciler protocol is adapted from Anchor (Viraj Chogle). This is a new implementation written during the neatHack window. No code from that project is used.
 

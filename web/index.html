@@ -274,6 +274,12 @@
     <div class="tests" id="tests"></div>
   </section>
 
+  <section id="repeats-section" hidden>
+    <h2>Control C, run again by accident</h2>
+    <p class="sub">After the planned runs, four more pushes to the repository redeployed the agent on Railway while it was still configured for control C, so the control ran again. Two of those runs were stopped part-way by the next deploy. They are shown here, separately, from an audit of the register's pull requests. Every run that reached its first crash opened a duplicate pull request.</p>
+    <div class="card glass tablewrap" id="repeats"></div>
+  </section>
+
   <section>
     <h2>How it works</h2>
     <p class="sub">Every action gets a stable identity, <code>sha256(company_id, action, args)</code>, and the branch name is built from it. The same company and intent always produce the same branch, so the reconciler can look it up exactly.</p>
@@ -495,6 +501,16 @@
       vendors.appendChild(a);
     });
     if (!d.pull_requests.length) vendors.appendChild(el("p", "skeleton", "No pull requests recorded yet."));
+
+    // control C repeats
+    if (d.control_c_runs && d.control_c_runs.some(function (r) { return !r.planned; })) {
+      document.getElementById("repeats-section").hidden = false;
+      document.getElementById("repeats").appendChild(table(
+        ["Run", "Started", "Pull requests", "Companies reached", "Duplicate pull requests"],
+        d.control_c_runs.map(function (r) {
+          return [r.planned ? "Planned" : "Unplanned", when(r.started), "#" + r.first_pr + "–#" + r.last_pr + " (" + r.pull_requests + ")", r.companies, r.duplicate_pull_requests];
+        }), [0, 0, 0, 1, 1]));
+    }
 
     // evidence
     document.getElementById("evcount").textContent = "· " + d.evidence_total.toLocaleString() + " files";

@@ -65,6 +65,54 @@ def reconciliations(recs: list[tuple[str, str, int, Any, str]]) -> list[dict[str
     return out
 
 
+def _company(pr: dict[str, Any]) -> str:
+    return str(pr["branch"]).split("/", 1)[1].split("-", 1)[0]
+
+
+def control_runs(
+    recs: list[tuple[str, str, int, Any, str]], planned_measured_at: str | None, prefix: str
+) -> list[dict[str, object]]:
+    """Group a prefix's pull requests from the latest register audit into runs. Every run walks
+    the companies in input order, so a new run starts when the first company appears again
+    after others, or after a gap of more than a minute. A run is planned if it finished before
+    the planned measurement of that prefix was saved."""
+    audits = [r for r in recs if r[1] == "audit" and r[4] == "register-pull-requests"]
+    if not audits:
+        return []
+    prs = sorted(
+        (p for p in audits[-1][3]["pull_requests"] if str(p["branch"]).startswith(prefix + "/")),
+        key=lambda p: str(p["created_at"]),
+    )
+    runs: list[list[dict[str, Any]]] = []
+    for pr in prs:
+        at = datetime.fromisoformat(str(pr["created_at"]).replace("Z", "+00:00"))
+        if runs:
+            cur = runs[-1]
+            last = datetime.fromisoformat(str(cur[-1]["created_at"]).replace("Z", "+00:00"))
+            seen = {_company(c) for c in cur}
+            restarted = _company(pr) == _company(cur[0]) and len(seen) > 1
+            if (at - last).total_seconds() <= 60 and not restarted:
+                cur.append(pr)
+                continue
+        runs.append([pr])
+    out: list[dict[str, object]] = []
+    for run in runs:
+        companies = {_company(p) for p in run}
+        end = str(run[-1]["created_at"]).replace("Z", "+00:00")
+        out.append(
+            {
+                "started": str(run[0]["created_at"]),
+                "first_pr": run[0]["number"],
+                "last_pr": run[-1]["number"],
+                "pull_requests": len(run),
+                "companies": len(companies),
+                "duplicate_pull_requests": len(run) - len(companies),
+                "planned": bool(planned_measured_at and end < planned_measured_at),
+            }
+        )
+    return out
+
+
 def build(evidence_dir: Path) -> dict[str, object]:
     recs = _load(evidence_dir)
     by_call: dict[tuple[str, str, int], int] = {}
@@ -72,7 +120,8 @@ def build(evidence_dir: Path) -> dict[str, object]:
     pull_requests: list[dict[str, object]] = []
     for at, source, status, body, label in recs:
         by_call[(source, label, status)] = by_call.get((source, label, status), 0) + 1
-        if source == "measure":
+        if source == "measure" and body["prefix"] not in latest_measure:
+            # The first measurement after each planned run is the one that describes it.
             m = {k: v for k, v in body.items() if k != "per_company"}
             latest_measure[body["prefix"]] = {"saved_at": at, **m}
         if source == "github" and label == "open_pr" and status == 201:
@@ -97,6 +146,9 @@ def build(evidence_dir: Path) -> dict[str, object]:
         "measures": sorted(latest_measure.values(), key=lambda m: str(m["prefix"])),
         "reconciliations": reconciliations(recs),
         "pull_requests": sorted(pull_requests, key=lambda p: int(str(p["number"]))),
+        "control_c_runs": control_runs(
+            recs, str(latest_measure.get("control-c", {}).get("saved_at") or ""), "control-c"
+        ),
     }
 
 
