@@ -275,7 +275,7 @@
   </section>
 
   <section id="repeats-section" hidden>
-    <h2>Control C, run again by accident</h2>
+    <h2>Control C, run again by accident (not in the headline numbers)</h2>
     <p class="sub">After the planned runs, four more pushes to the repository redeployed the agent on Railway while it was still configured for control C, so the control ran again. Two of those runs were stopped part-way by the next deploy. They are shown here, separately, from an audit of the register's pull requests. Every run that reached its first crash opened a duplicate pull request.</p>
     <div class="card glass tablewrap" id="repeats"></div>
   </section>
@@ -510,6 +510,9 @@
         d.control_c_runs.map(function (r) {
           return [r.planned ? "Planned" : "Unplanned", when(r.started), "#" + r.first_pr + "–#" + r.last_pr + " (" + r.pull_requests + ")", r.companies, r.duplicate_pull_requests];
         }), [0, 0, 0, 1, 1]));
+      var unplanned = d.control_c_runs.filter(function (r) { return !r.planned; });
+      var total = unplanned.reduce(function (a, r) { return a + r.pull_requests; }, 0);
+      document.getElementById("repeats").appendChild(el("p", "note", "The unplanned runs opened " + total + " pull requests in the register. None was closed, deleted or changed, and none is counted in the numbers above."));
     }
 
     // evidence
