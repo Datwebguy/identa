@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Identa results</title>
+<style>
+  :root { --bg:#fafaf9; --fg:#1c1917; --muted:#78716c; --line:#e7e5e4; --card:#fff; --accent:#0f766e; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#0c0a09; --fg:#f5f5f4; --muted:#a8a29e; --line:#292524; --card:#1c1917; --accent:#5eead4; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg);
+         font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif; }
+  main { max-width:880px; margin:0 auto; padding:40px 16px 80px; }
+  h1 { font-size:1.9rem; margin:0 0 4px; }
+  h2 { font-size:1.1rem; margin:40px 0 12px; }
+  p { margin:8px 0; }
+  .muted { color:var(--muted); }
+  a { color:var(--accent); }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; margin:12px 0; }
+  table { width:100%; border-collapse:collapse; font-size:.92rem; }
+  th, td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top; word-break:break-word; }
+  th { color:var(--muted); font-weight:600; }
+  .scroll { overflow-x:auto; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Identa</h1>
+  <p class="muted">Onboards vendors into a vendor register without ever adding the same vendor twice. Built for neatHack, 10 to 12 October 2026.</p>
+  <p class="muted">Everything below is read from saved runs under <code>evidence/</code>. If a section is empty, that run has not happened yet.</p>
+
+  <h2>Duplicates counted on GitHub</h2>
+  <div id="measures"></div>
+
+  <h2>Pull requests opened</h2>
+  <div id="prs"></div>
+
+  <h2>Saved evidence</h2>
+  <div id="evidence"></div>
+
+  <p class="muted" style="margin-top:40px">Source: <a href="https://github.com/Datwebguy/identa">github.com/Datwebguy/identa</a>. Idea credit: the intent-log and reconciler protocol is adapted from Anchor by Viraj Chogle. No code from it is used.</p>
+</main>
+<script>
+(function () {
+  function el(tag, text, cls) {
+    var n = document.createElement(tag);
+    if (text !== undefined) n.textContent = text;
+    if (cls) n.className = cls;
+    return n;
+  }
+  function empty(target, msg) { target.appendChild(el("p", msg, "muted")); }
+  function table(headers, rows) {
+    var wrap = el("div", undefined, "scroll");
+    var t = el("table"), thead = el("thead"), tr = el("tr");
+    headers.forEach(function (h) { tr.appendChild(el("th", h)); });
+    thead.appendChild(tr); t.appendChild(thead);
+    var tb = el("tbody");
+    rows.forEach(function (r) {
+      var row = el("tr");
+      r.forEach(function (c) {
+        var td = el("td");
+        if (c && c.href) { var a = el("a", c.text); a.href = c.href; a.rel = "noopener"; td.appendChild(a); }
+        else td.textContent = String(c);
+        row.appendChild(td);
+      });
+      tb.appendChild(row);
+    });
+    t.appendChild(tb); wrap.appendChild(t); return wrap;
+  }
+  fetch("data.json").then(function (r) { return r.json(); }).then(function (d) {
+    var m = document.getElementById("measures");
+    if (!d.measures.length) empty(m, "No measured runs saved yet.");
+    d.measures.forEach(function (s) {
+      var card = el("div", undefined, "card");
+      card.appendChild(el("strong", (s.prefix === "control" ? "Control" : "Protocol") + " (measured " + s.saved_at + ")"));
+      card.appendChild(table(
+        ["Companies", "Branches", "Pull requests", "Duplicate branches", "Duplicate pull requests"],
+        [[s.companies, s.branches, s.pull_requests, s.duplicate_branches, s.duplicate_pull_requests]]));
+      m.appendChild(card);
+    });
+    var p = document.getElementById("prs");
+    if (!d.pull_requests.length) empty(p, "No pull requests recorded yet.");
+    else p.appendChild(table(["Branch", "Saved at", "Pull request"],
+      d.pull_requests.map(function (x) { return [x.branch, x.saved_at, {text: x.url, href: x.url}]; })));
+    var e = document.getElementById("evidence");
+    if (!d.evidence.length) empty(e, "No evidence saved yet.");
+    else e.appendChild(table(["Saved at", "Source", "Call", "HTTP status"],
+      d.evidence.map(function (x) { return [x.saved_at, x.source, x.label, x.status]; })));
+  }).catch(function () {
+    document.getElementById("measures").appendChild(el("p", "Could not load data.json.", "muted"));
+  });
+})();
+</script>
+</body>
+</html>
