@@ -14,4 +14,7 @@ fi
 
 # shellcheck disable=SC2086
 python -m identa $IDENTA_ARGS
-python -m identa export-evidence --config identa.railway.toml --skip-dir /app/evidence
+# IDENTA_EXPORT=0 skips copying evidence off the volume (set it for read-only commands).
+if [ "$IDENTA_EXPORT" != "0" ]; then
+  python -m identa export-evidence --config identa.railway.toml --skip-dir /app/evidence
+fi

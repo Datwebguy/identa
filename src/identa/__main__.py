@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import os
 import sqlite3
 from dataclasses import asdict
 from pathlib import Path
@@ -113,6 +114,10 @@ def main() -> None:
     args = parser.parse_args()
 
     cfg = load_config(args.config)
+    if args.cmd in ("measure", "export-evidence", "queue"):
+        # Only agent runs are traced. Without a key the SDK sends nothing, so bookkeeping
+        # commands (thousands of small calls when copying evidence) cannot flood the project.
+        os.environ.pop("NEATLOGS_API_KEY", None)
     if args.cmd == "measure":
         _measure(cfg, args.prefix)
         return
