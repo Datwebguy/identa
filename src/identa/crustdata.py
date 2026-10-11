@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -31,6 +32,21 @@ class Identified:
     confidence: float | None
     name: str | None
     primary_domain: str | None
+
+
+def find_saved_enrich(evidence_dir: Path, company_id: int) -> dict[str, Any] | None:
+    """Look through saved evidence for a successful enrich response for this company."""
+    for path in sorted(evidence_dir.glob("*-crustdata-enrich.json")):
+        rec = json.loads(path.read_text(encoding="utf-8"))
+        body = rec.get("body")
+        if rec.get("status") != 200 or not isinstance(body, list) or not body:
+            continue
+        entry = body[0]
+        if str(entry.get("matched_on")) != str(company_id) or not entry.get("matches"):
+            continue
+        data: dict[str, Any] = entry["matches"][0]["company_data"]
+        return data
+    return None
 
 
 class Crustdata:
@@ -98,7 +114,14 @@ class Crustdata:
 
     @tool("crustdata.enrich")
     def enrich(self, company_id: int) -> dict[str, Any]:
-        """Returns matches[0].company_data for basic_info and headcount."""
+        """Returns matches[0].company_data for basic_info and headcount.
+
+        A saved successful enrich response for this company is reused, so the same company
+        never costs credits twice.
+        """
+        saved = find_saved_enrich(self._evidence_dir, company_id)
+        if saved is not None:
+            return saved
         resp = self._post(
             "enrich",
             "/company/enrich",
