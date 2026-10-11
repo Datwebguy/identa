@@ -140,6 +140,14 @@ class Store:
     def enqueue_human(
         self, key: str | None, domain: str | None, reason: str, detail_json: str
     ) -> None:
+        """Queue once: an identical pending entry is not added again on a re-run."""
+        dup = self._db.execute(
+            "SELECT 1 FROM human_queue WHERE status='pending' AND key IS ? AND domain IS ? "
+            "AND reason=?",
+            (key, domain, reason),
+        ).fetchone()
+        if dup:
+            return
         self._db.execute(
             "INSERT INTO human_queue (key, domain, reason, detail_json, at) VALUES (?,?,?,?,?)",
             (key, domain, reason, detail_json, now()),
@@ -147,6 +155,15 @@ class Store:
 
     def human_queue(self) -> list[sqlite3.Row]:
         return self._db.execute("SELECT * FROM human_queue WHERE status='pending'").fetchall()
+
+    def get_queue_item(self, item_id: int) -> sqlite3.Row | None:
+        row: sqlite3.Row | None = self._db.execute(
+            "SELECT * FROM human_queue WHERE id=?", (item_id,)
+        ).fetchone()
+        return row
+
+    def resolve_queue_item(self, item_id: int, status: str) -> None:
+        self._db.execute("UPDATE human_queue SET status=? WHERE id=?", (status, item_id))
 
     @staticmethod
     def _intent(row: sqlite3.Row) -> Intent:
