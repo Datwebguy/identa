@@ -31,19 +31,27 @@ Under construction for neatHack. The table below is updated only from saved runs
 | Part | Status |
 |---|---|
 | Idempotency key and branch naming | built, unit tests pass (`tests/test_keys.py`) |
-| Crustdata identify and enrich | not built |
-| GitHub branch, file and pull request steps | not built |
-| Reconciler and three verdicts | verdict logic built, unit tests pass; GitHub checks not built |
-| Crash test (three crash points) | not built |
+| Crustdata identify and enrich | code written, not run against the real API |
+| GitHub branch, file and pull request steps | code written, not run against the real API |
+| Reconciler and three verdicts | verdict logic and GitHub checks written; verdict logic unit-tested, GitHub checks not run |
+| Crash test (three crash points) | crash hook written (`IDENTA_CRASH_AFTER`), not run |
 | Naive control and duplicate count | not built |
-| neatlogs traces | not built |
+| neatlogs traces | span wrappers written, no trace sent yet |
 | Entire checkpoint | not built |
 | cfo.ai plan | not built |
 | Demo video | not built |
 
 ## Running it
 
-Not runnable yet. This section will be filled in when the first run works.
+Not run end to end yet. The command is:
+
+```
+python -m identa run --config identa.toml --domains domains.csv
+```
+
+It needs `CRUSTDATA_API_KEY`, `GITHUB_TOKEN` and `NEATLOGS_API_KEY` in the environment, a `domains.csv` with one real company domain per row, and a TOML config with all of these keys (there are no defaults): `confidence_threshold`, `repo_owner`, `repo_name`, `base_branch`, `store_path`, `evidence_dir`.
+
+To inject a crash, set `IDENTA_CRASH_AFTER` to `create_branch`, `commit_file` or `open_pr`. The next run reconciles before doing new work.
 
 ## Licence
 
