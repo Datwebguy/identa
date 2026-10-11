@@ -54,6 +54,7 @@ class Report:
     queued_for_human: int = 0
     skipped_existing: int = 0
     recovered: int = 0
+    failed: int = 0
 
 
 def decide_identity(found: Identified, threshold: float) -> str | None:
@@ -156,6 +157,7 @@ def run(
         else:
             report.onboarded += outcome == "onboarded"
             report.recovered += outcome == "recovered"
+            report.failed += outcome == "failed"
     return report
 
 

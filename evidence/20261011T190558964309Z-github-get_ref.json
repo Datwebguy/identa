@@ -1,0 +1,10 @@
+{
+  "saved_at": "2026-10-11T19:05:58.964309+00:00",
+  "source": "github",
+  "status": 404,
+  "body": {
+    "message": "Not Found",
+    "documentation_url": "https://docs.github.com/rest/git/refs#get-a-reference",
+    "status": "404"
+  }
+}
