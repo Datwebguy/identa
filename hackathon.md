@@ -26,6 +26,7 @@ Planned: Python 3.11, Crustdata (identify, enrich), GitHub REST API, SQLite, nea
 - Done (written, not run against real APIs): executor, workflow with recovery, command line, crash hook.
 - Done: neatlogs `doctor --local` and `doctor --probe` run with the project key: all checks passed (synthetic trace). Crustdata credits endpoint called once: 200 OK, saved in `evidence/`.
 - Done (written, not run against real APIs): control, `measure`, human queue commands.
+- Done: static results page `web/` generated from `evidence/` by `scripts/build_site.py`; `vercel.json` serves `web/`.
 - Tests run: `pytest` on `tests/`, 34 passed (pure functions only: keys, verdicts, store, parsers, identity decision). No real API call has been made. Nothing else has run.
 
 ## Demo

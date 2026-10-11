@@ -39,6 +39,7 @@ Under construction for neatHack. The table below is updated only from saved runs
 | neatlogs traces | SDK Doctor probe passed (synthetic trace, not an Identa run); no Identa trace sent yet |
 | Entire checkpoint | not built |
 | cfo.ai plan | not built |
+| Results page (`web/`, for Vercel) | page and build script written, built from saved evidence; not deployed |
 | Demo video | not built |
 
 ## Running it
