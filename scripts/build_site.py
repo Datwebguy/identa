@@ -113,6 +113,52 @@ def control_runs(
     return out
 
 
+TRACE_URL = "https://app.neatlogs.com/traces/"
+
+
+def trace_rows(
+    recs: list[tuple[str, str, int, Any, str]], planned_until: str
+) -> list[dict[str, object]]:
+    """Traces from the latest neatlogs listing. The root span is named after the workflow
+    only when the process was killed before the run's own span closed, so those are the
+    killed processes; each is followed by its restart."""
+    lists = [r for r in recs if r[1] == "neatlogs" and r[4] == "traces-list-identa"]
+    if not lists:
+        return []
+    items = sorted(lists[-1][3]["traces"], key=lambda t: str(t["startedAt"]))
+    rows: list[dict[str, object]] = []
+    for i, t in enumerate(items):
+        name = str(t["traceName"])
+        nxt = str(items[i + 1]["traceName"]) if i + 1 < len(items) else ""
+        if name == "identa":
+            kind = (
+                "Killed process, control"
+                if nxt == "identa.control_run"
+                else "Killed process, protocol"
+            )
+        elif name == "identa.control_run":
+            kind = "Control run"
+        else:
+            kind = "Protocol run"
+        planned = bool(planned_until) and str(t["startedAt"]) < planned_until
+        if not planned:
+            kind = "Unplanned control C run"  # see the audit of the register's pull requests
+        rows.append(
+            {
+                "started": t["startedAt"],
+                "kind": kind,
+                "seconds": round(t["durationMs"] / 1000, 1),
+                "spans": t["spansCount"],
+                "tokens": t["totalTokens"],
+                "cost_usd": t["totalCostUsd"],
+                "trace_id": t["traceId"],
+                "url": TRACE_URL + str(t["traceId"]),
+                "planned": planned,
+            }
+        )
+    return rows
+
+
 def build(evidence_dir: Path) -> dict[str, object]:
     recs = _load(evidence_dir)
     by_call: dict[tuple[str, str, int], int] = {}
@@ -146,6 +192,7 @@ def build(evidence_dir: Path) -> dict[str, object]:
         "measures": sorted(latest_measure.values(), key=lambda m: str(m["prefix"])),
         "reconciliations": reconciliations(recs),
         "pull_requests": sorted(pull_requests, key=lambda p: int(str(p["number"]))),
+        "traces": trace_rows(recs, str(latest_measure.get("control-c", {}).get("saved_at") or "")),
         "control_c_runs": control_runs(
             recs, str(latest_measure.get("control-c", {}).get("saved_at") or ""), "control-c"
         ),

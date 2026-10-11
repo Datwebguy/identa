@@ -1,0 +1,99 @@
+{
+  "saved_at": "2026-10-11T22:21:50.086100+00:00",
+  "source": "neatlogs",
+  "status": 200,
+  "body": {
+    "page": {
+      "hasMore": false,
+      "limit": 50,
+      "nextCursor": null
+    },
+    "spans": [
+      {
+        "completionTokens": 0,
+        "costUsd": 0,
+        "durationMs": 1752,
+        "endedAt": "2026-10-11T20:04:51.053Z",
+        "model": null,
+        "parentSpanId": null,
+        "promptTokens": 0,
+        "provider": null,
+        "spanId": "8bb3edc507c1f4c4",
+        "spanName": "identa",
+        "spanType": "WORKFLOW",
+        "startedAt": "2026-10-11T20:04:49.301Z",
+        "status": "OK",
+        "totalTokens": 0,
+        "traceId": "6102da4c4ecaca50730b67067321f123"
+      },
+      {
+        "completionTokens": 0,
+        "costUsd": 0,
+        "durationMs": 881,
+        "endedAt": "2026-10-11T20:04:50.182Z",
+        "model": null,
+        "parentSpanId": "8bb3edc507c1f4c4",
+        "promptTokens": 0,
+        "provider": null,
+        "spanId": "ac92f69359c62c9d",
+        "spanName": "crustdata.identify",
+        "spanType": "TOOL",
+        "startedAt": "2026-10-11T20:04:49.301Z",
+        "status": "OK",
+        "totalTokens": 0,
+        "traceId": "6102da4c4ecaca50730b67067321f123"
+      },
+      {
+        "completionTokens": 0,
+        "costUsd": 0,
+        "durationMs": 5,
+        "endedAt": "2026-10-11T20:04:50.189Z",
+        "model": null,
+        "parentSpanId": "8bb3edc507c1f4c4",
+        "promptTokens": 0,
+        "provider": null,
+        "spanId": "8791639f28e02115",
+        "spanName": "crustdata.enrich",
+        "spanType": "TOOL",
+        "startedAt": "2026-10-11T20:04:50.184Z",
+        "status": "OK",
+        "totalTokens": 0,
+        "traceId": "6102da4c4ecaca50730b67067321f123"
+      },
+      {
+        "completionTokens": 0,
+        "costUsd": 0,
+        "durationMs": 272,
+        "endedAt": "2026-10-11T20:04:50.484Z",
+        "model": null,
+        "parentSpanId": "8bb3edc507c1f4c4",
+        "promptTokens": 0,
+        "provider": null,
+        "spanId": "b80c29c912f654ac",
+        "spanName": "github.get_ref",
+        "spanType": "TOOL",
+        "startedAt": "2026-10-11T20:04:50.212Z",
+        "status": "OK",
+        "totalTokens": 0,
+        "traceId": "6102da4c4ecaca50730b67067321f123"
+      },
+      {
+        "completionTokens": 0,
+        "costUsd": 0,
+        "durationMs": 569,
+        "endedAt": "2026-10-11T20:04:51.053Z",
+        "model": null,
+        "parentSpanId": "8bb3edc507c1f4c4",
+        "promptTokens": 0,
+        "provider": null,
+        "spanId": "111d670fe916dbc1",
+        "spanName": "github.create_ref",
+        "spanType": "TOOL",
+        "startedAt": "2026-10-11T20:04:50.484Z",
+        "status": "OK",
+        "totalTokens": 0,
+        "traceId": "6102da4c4ecaca50730b67067321f123"
+      }
+    ]
+  }
+}

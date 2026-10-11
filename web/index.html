@@ -302,6 +302,13 @@
     <div class="card glass tablewrap" id="recon"></div>
   </section>
 
+  <section id="traces-section" hidden>
+    <h2>Traces in neatlogs</h2>
+    <p class="sub">Every run sent a trace. A killed process leaves a short trace whose last span is the write it finished, followed by the restart's trace, which starts by reading the branch on GitHub. No model is called, so tokens and model cost are 0.</p>
+    <div class="card glass tablewrap" id="traces"></div>
+    <p class="note" id="traces-note"></p>
+  </section>
+
   <section>
     <h2>The vendor register</h2>
     <p class="sub">Pull requests opened in the first full run, in <a href="https://github.com/Datwebguy/identavendors" rel="noopener">Datwebguy/identavendors</a>.</p>
@@ -501,6 +508,19 @@
       vendors.appendChild(a);
     });
     if (!d.pull_requests.length) vendors.appendChild(el("p", "skeleton", "No pull requests recorded yet."));
+
+    // traces
+    if (d.traces && d.traces.length) {
+      document.getElementById("traces-section").hidden = false;
+      var planned = d.traces.filter(function (t) { return t.planned; });
+      document.getElementById("traces").appendChild(table(
+        ["Started", "What", "Duration", "Spans", "Trace"],
+        planned.map(function (t) {
+          return [when(t.started), t.kind, t.seconds.toFixed(1) + " s", t.spans, { text: t.trace_id.slice(0, 8) + "…", href: t.url }];
+        }), [0, 0, 1, 1, 0]));
+      var other = d.traces.length - planned.length;
+      if (other) document.getElementById("traces-note").textContent = other + " more traces come from the unplanned control C runs described below. All " + d.traces.length + " traces report 0 tokens and 0 cost.";
+    }
 
     // control C repeats
     if (d.control_c_runs && d.control_c_runs.some(function (r) { return !r.planned; })) {

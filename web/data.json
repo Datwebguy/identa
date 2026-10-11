@@ -1,6 +1,6 @@
 {
-  "evidence_total": 2005,
-  "last_saved_at": "2026-10-11T20:56:09.731739+00:00",
+  "evidence_total": 2012,
+  "last_saved_at": "2026-10-11T22:21:50.086100+00:00",
   "evidence_by_call": [
     {
       "source": "audit",
@@ -145,6 +145,48 @@
       "call": "vendor",
       "status": 200,
       "count": 5
+    },
+    {
+      "source": "neatlogs",
+      "call": "spans-control-a-first",
+      "status": 200,
+      "count": 1
+    },
+    {
+      "source": "neatlogs",
+      "call": "spans-control-a-second",
+      "status": 200,
+      "count": 1
+    },
+    {
+      "source": "neatlogs",
+      "call": "spans-crash-a-killed",
+      "status": 200,
+      "count": 1
+    },
+    {
+      "source": "neatlogs",
+      "call": "spans-crash-a-restart",
+      "status": 200,
+      "count": 1
+    },
+    {
+      "source": "neatlogs",
+      "call": "spans-crash-c-killed",
+      "status": 200,
+      "count": 1
+    },
+    {
+      "source": "neatlogs",
+      "call": "spans-crash-c-restart",
+      "status": 200,
+      "count": 1
+    },
+    {
+      "source": "neatlogs",
+      "call": "traces-list-identa",
+      "status": 200,
+      "count": 1
     }
   ],
   "measures": [
@@ -373,6 +415,261 @@
       "branch": "vendor/6034577-43bb60fa",
       "number": 9,
       "title": "Add vendor Amazon (amazon.com)"
+    }
+  ],
+  "traces": [
+    {
+      "started": "2026-10-11T19:05:56.713Z",
+      "kind": "Protocol run",
+      "seconds": 2.7,
+      "spans": 8,
+      "tokens": 0,
+      "cost_usd": 0,
+      "trace_id": "d2498e0a4eb745e7cb31827358f81e88",
+      "url": "https://app.neatlogs.com/traces/d2498e0a4eb745e7cb31827358f81e88",
+      "planned": true
+    },
+    {
+      "started": "2026-10-11T20:00:37.818Z",
+      "kind": "Protocol run",
+      "seconds": 38.0,
+      "spans": 47,
+      "tokens": 0,
+      "cost_usd": 0,
+      "trace_id": "11b6f1d52ad7bf3a53d9e4909fe439e2",
+      "url": "https://app.neatlogs.com/traces/11b6f1d52ad7bf3a53d9e4909fe439e2",
+      "planned": true
+    },
+    {
+      "started": "2026-10-11T20:03:36.010Z",
+      "kind": "Protocol run",
+      "seconds": 12.8,
+      "spans": 56,
+      "tokens": 0,
+      "cost_usd": 0,
+      "trace_id": "986064631bf42d5169150915593a7006",
+      "url": "https://app.neatlogs.com/traces/986064631bf42d5169150915593a7006",
+      "planned": true
+    },
+    {
+      "started": "2026-10-11T20:04:49.301Z",
+      "kind": "Killed process, protocol",
+      "seconds": 1.8,
+      "spans": 5,
+      "tokens": 0,
+      "cost_usd": 0,
+      "trace_id": "6102da4c4ecaca50730b67067321f123",
+      "url": "https://app.neatlogs.com/traces/6102da4c4ecaca50730b67067321f123",
+      "planned": true
+    },
+    {
+      "started": "2026-10-11T20:04:52.654Z",
+      "kind": "Protocol run",
+      "seconds": 26.7,
+      "spans": 47,
+      "tokens": 0,
+      "cost_usd": 0,
+      "trace_id": "c826fcf2d513f2b260ad52b4e91fbb1c",
+      "url": "https://app.neatlogs.com/traces/c826fcf2d513f2b260ad52b4e91fbb1c",
+      "planned": true
+    },
+    {
+      "started": "2026-10-11T20:06:25.721Z",
+      "kind": "Killed process, protocol",
+      "seconds": 3.1,
+      "spans": 6,
+      "tokens": 0,
+      "cost_usd": 0,
+      "trace_id": "0c783fd14551662a4d33e74a204f4f55",
+      "url": "https://app.neatlogs.com/traces/0c783fd14551662a4d33e74a204f4f55",
+      "planned": true
+    },
+    {
+      "started": "2026-10-11T20:06:30.673Z",
+      "kind": "Protocol run",
+      "seconds": 25.7,
+      "spans": 46,
+      "tokens": 0,
+      "cost_usd": 0,
+      "trace_id": "f877205cdaf8f229059fe6ca7d79bbd8",
+      "url": "https://app.neatlogs.com/traces/f877205cdaf8f229059fe6ca7d79bbd8",
+      "planned": true
+    },
+    {
+      "started": "2026-10-11T20:08:06.425Z",
+      "kind": "Killed process, protocol",
+      "seconds": 3.9,
+      "spans": 7,
+      "tokens": 0,
+      "cost_usd": 0,
+      "trace_id": "de0ed8d916549c09aac676d9ddb12968",
+      "url": "https://app.neatlogs.com/traces/de0ed8d916549c09aac676d9ddb12968",
+      "planned": true
+    },
+    {
+      "started": "2026-10-11T20:08:12.033Z",
+      "kind": "Protocol run",
+      "seconds": 24.8,
+      "spans": 45,
+      "tokens": 0,
+      "cost_usd": 0,
+      "trace_id": "5913c3580f0269d35155a989dfda6c25",
+      "url": "https://app.neatlogs.com/traces/5913c3580f0269d35155a989dfda6c25",
+      "planned": true
+    },
+    {
+      "started": "2026-10-11T20:10:55.891Z",
+      "kind": "Killed process, control",
+      "seconds": 2.0,
+      "spans": 5,
+      "tokens": 0,
+      "cost_usd": 0,
+      "trace_id": "7d53f9fd951666d9242e47a66f26a6fb",
+      "url": "https://app.neatlogs.com/traces/7d53f9fd951666d9242e47a66f26a6fb",
+      "planned": true
+    },
+    {
+      "started": "2026-10-11T20:10:59.926Z",
+      "kind": "Control run",
+      "seconds": 26.1,
+      "spans": 47,
+      "tokens": 0,
+      "cost_usd": 0,
+      "trace_id": "79ad1399b4689610ddaf174f2a02cdb3",
+      "url": "https://app.neatlogs.com/traces/79ad1399b4689610ddaf174f2a02cdb3",
+      "planned": true
+    },
+    {
+      "started": "2026-10-11T20:12:25.004Z",
+      "kind": "Killed process, control",
+      "seconds": 2.5,
+      "spans": 6,
+      "tokens": 0,
+      "cost_usd": 0,
+      "trace_id": "b8bbf49172344635a3a1b908479c3b91",
+      "url": "https://app.neatlogs.com/traces/b8bbf49172344635a3a1b908479c3b91",
+      "planned": true
+    },
+    {
+      "started": "2026-10-11T20:12:29.247Z",
+      "kind": "Control run",
+      "seconds": 31.4,
+      "spans": 47,
+      "tokens": 0,
+      "cost_usd": 0,
+      "trace_id": "79517cfa956569fa88992a83d79a19e6",
+      "url": "https://app.neatlogs.com/traces/79517cfa956569fa88992a83d79a19e6",
+      "planned": true
+    },
+    {
+      "started": "2026-10-11T20:14:17.203Z",
+      "kind": "Killed process, control",
+      "seconds": 3.6,
+      "spans": 7,
+      "tokens": 0,
+      "cost_usd": 0,
+      "trace_id": "4b0db813b9d2ea82b7e003d91f8fefd9",
+      "url": "https://app.neatlogs.com/traces/4b0db813b9d2ea82b7e003d91f8fefd9",
+      "planned": true
+    },
+    {
+      "started": "2026-10-11T20:14:22.591Z",
+      "kind": "Control run",
+      "seconds": 26.6,
+      "spans": 47,
+      "tokens": 0,
+      "cost_usd": 0,
+      "trace_id": "0ee56ee354d6a8a2c647cc3963db59ac",
+      "url": "https://app.neatlogs.com/traces/0ee56ee354d6a8a2c647cc3963db59ac",
+      "planned": true
+    },
+    {
+      "started": "2026-10-11T20:45:14.616Z",
+      "kind": "Unplanned control C run",
+      "seconds": 4.0,
+      "spans": 7,
+      "tokens": 0,
+      "cost_usd": 0,
+      "trace_id": "4027e0a56b9190716cf20add066415c9",
+      "url": "https://app.neatlogs.com/traces/4027e0a56b9190716cf20add066415c9",
+      "planned": false
+    },
+    {
+      "started": "2026-10-11T20:45:20.217Z",
+      "kind": "Unplanned control C run",
+      "seconds": 20.4,
+      "spans": 37,
+      "tokens": 0,
+      "cost_usd": 0,
+      "trace_id": "f96f82d58ab0d27370b1eb1a23082213",
+      "url": "https://app.neatlogs.com/traces/f96f82d58ab0d27370b1eb1a23082213",
+      "planned": false
+    },
+    {
+      "started": "2026-10-11T20:45:46.054Z",
+      "kind": "Unplanned control C run",
+      "seconds": 4.1,
+      "spans": 7,
+      "tokens": 0,
+      "cost_usd": 0,
+      "trace_id": "5090e24a2d7fd772b90e0b08ba5059d9",
+      "url": "https://app.neatlogs.com/traces/5090e24a2d7fd772b90e0b08ba5059d9",
+      "planned": false
+    },
+    {
+      "started": "2026-10-11T20:45:51.803Z",
+      "kind": "Unplanned control C run",
+      "seconds": 26.2,
+      "spans": 47,
+      "tokens": 0,
+      "cost_usd": 0,
+      "trace_id": "8d57048d41c9746c5697f85ca19e58f3",
+      "url": "https://app.neatlogs.com/traces/8d57048d41c9746c5697f85ca19e58f3",
+      "planned": false
+    },
+    {
+      "started": "2026-10-11T20:47:02.409Z",
+      "kind": "Unplanned control C run",
+      "seconds": 3.6,
+      "spans": 7,
+      "tokens": 0,
+      "cost_usd": 0,
+      "trace_id": "0c6ae5f1dd1a2876d29c831a47b7be0c",
+      "url": "https://app.neatlogs.com/traces/0c6ae5f1dd1a2876d29c831a47b7be0c",
+      "planned": false
+    },
+    {
+      "started": "2026-10-11T20:47:08.061Z",
+      "kind": "Unplanned control C run",
+      "seconds": 26.5,
+      "spans": 47,
+      "tokens": 0,
+      "cost_usd": 0,
+      "trace_id": "3ea69eb3643ee0f0afd783324a00a0b5",
+      "url": "https://app.neatlogs.com/traces/3ea69eb3643ee0f0afd783324a00a0b5",
+      "planned": false
+    },
+    {
+      "started": "2026-10-11T20:53:17.888Z",
+      "kind": "Unplanned control C run",
+      "seconds": 3.6,
+      "spans": 7,
+      "tokens": 0,
+      "cost_usd": 0,
+      "trace_id": "3be95e5e429ed2da519951f1c81a91ad",
+      "url": "https://app.neatlogs.com/traces/3be95e5e429ed2da519951f1c81a91ad",
+      "planned": false
+    },
+    {
+      "started": "2026-10-11T20:53:23.824Z",
+      "kind": "Unplanned control C run",
+      "seconds": 10.0,
+      "spans": 20,
+      "tokens": 0,
+      "cost_usd": 0,
+      "trace_id": "ea3cf420463d250dc10e8a2bbba3a1b7",
+      "url": "https://app.neatlogs.com/traces/ea3cf420463d250dc10e8a2bbba3a1b7",
+      "planned": false
     }
   ],
   "control_c_runs": [
