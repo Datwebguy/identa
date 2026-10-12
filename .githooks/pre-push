@@ -1,10 +1,15 @@
 #!/bin/sh
-# Entire CLI hooks
-# Pre-push hook: push session logs alongside user's push
+# Entire CLI hooks, chained with the Identa attribution check.
+# Git sends the ref list on stdin once. Keep a copy and give the same input to both,
+# so neither hook can leave the other with empty input.
 # $1 is the remote name (e.g., "origin")
-if command -v entire >/dev/null 2>&1; then entire hooks git pre-push "$1"; else :; fi
-# Chain: run pre-existing hook
 _entire_hook_dir="$(dirname "$0")"
+_input="$(mktemp)"
+trap 'rm -f "$_input"' EXIT
+cat > "$_input"
+_status=0
 if [ -x "$_entire_hook_dir/pre-push.pre-entire" ]; then
-    "$_entire_hook_dir/pre-push.pre-entire" "$@"
+    "$_entire_hook_dir/pre-push.pre-entire" "$@" < "$_input" || _status=$?
 fi
+if command -v entire >/dev/null 2>&1; then entire hooks git pre-push "$1" < "$_input" || :; fi
+exit "$_status"
