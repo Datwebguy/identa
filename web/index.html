@@ -166,7 +166,8 @@
   .row:hover .track { outline: 1px solid var(--hairline); }
 
   /* test grid */
-  .tests { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .tests { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+  .test { min-width: 0; }
   .test { padding: 18px; }
   .test h3 { margin: 0 0 2px; font-size: 15px; letter-spacing: -.01em; }
   .test .when { color: var(--muted); font-size: 12.5px; margin-bottom: 14px; }
@@ -221,14 +222,16 @@
   .skeleton { color: var(--muted); }
 
   @media (max-width: 860px) {
-    .stats { grid-template-columns: repeat(2, 1fr); }
-    .tests, .steps { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tests, .steps { grid-template-columns: minmax(0, 1fr); }
     .vendors { grid-template-columns: repeat(2, 1fr); }
   }
   @media (max-width: 520px) {
     header { padding-top: 40px; }
     .vendors { grid-template-columns: 1fr; }
     .stat .v { font-size: 32px; }
+    .stat { min-width: 0; }
+    .pill { white-space: normal; }
     .nav-right .btn span { display: none; }
   }
   @media (prefers-reduced-motion: reduce) { .vendor { transition: none; } }
@@ -353,7 +356,7 @@
 
   <footer>
     <div class="glass">
-      <span>Identa · MIT licence · <a href="https://github.com/Datwebguy/identa" rel="noopener">github.com/Datwebguy/identa</a></span>
+      <span>Identa · MIT licence · <a href="https://github.com/Datwebguy/identa" rel="noopener">github.com/Datwebguy/identa</a> · <a href="privacy.html">Privacy</a> · <a href="https://github.com/Datwebguy/identa/issues" rel="noopener">Contact: open an issue</a></span>
       <span>Idea credit: the approach of writing down what you are about to do, and checking before you retry, is adapted from Anchor by Viraj Chogle. No code from it is used.</span>
     </div>
   </footer>

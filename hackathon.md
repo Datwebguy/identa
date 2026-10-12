@@ -68,6 +68,8 @@ Planned: Python 3.11, Crustdata (identify, enrich), GitHub REST API, SQLite, nea
 
 - 12 Oct: Entire is switched off in the repo (`.entire/settings.json`, `enabled: false`) by the owner's decision, so later work is not recorded as Entire sessions. The checkpoint `d0ace3cc5007` for the tie-rule commit is unchanged. The attribution checks in `.githooks/` stay on.
 
+- 12 Oct, pre-launch checks: scanned the working tree and every git ref for keys (none found; the local `.env` is git-ignored and was never committed). Found and fixed a sideways scroll on narrow phones (the three crash-test cards and the header pill pushed the page to 353 px at 320 px wide); now exactly as wide as the screen at 320, 360, 412, 768 and 1280 px. Under a throttled phone profile (4x slower CPU, slow network) the page loaded in 4.0 s and showed its data in 4.3 s; the page is 36 KB and its data 23 KB, so most of that is network delay (not retested after this change). Added a 404 page, a short privacy page, security headers (`nosniff`, no framing, referrer policy), a contact link (GitHub issues) and `docs/ROLLBACK.md`. Not applicable because the project has none of them: sign-up, payment, password reset, email, user database, visitor-triggered routes. No spending cap is possible on the Crustdata key; the balance is 5,182 credits and a run costs 2 credits per new company.
+
 ## Demo
 
 Not available yet.

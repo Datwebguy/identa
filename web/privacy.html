@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy - Identa</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<style>
+:root{--bg:#f6f7fb;--text:#14161f;--muted:#5b6070;--card:#fff;--line:#e3e5ee;--accent:#2a62d6}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1015;--text:#f2f3f7;--muted:#a3a8b8;--card:#161920;--line:#272b34;--accent:#6aa0ff}}
+:root[data-theme="dark"]{--bg:#0e1015;--text:#f2f3f7;--muted:#a3a8b8;--card:#161920;--line:#272b34;--accent:#6aa0ff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:640px;margin:0 auto;padding:48px 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px}
+h1{font-size:1.5rem;margin:0 0 8px}p,li{color:var(--muted)}a{color:var(--accent)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--text);text-decoration:none;margin-bottom:20px}
+.brand img{width:28px;height:28px;border-radius:8px}
+</style>
+</head>
+<body>
+<main>
+<a class="brand" href="/"><img src="/logo.svg" alt="" width="28" height="28">Identa</a>
+<div class="card">
+<h1>Privacy</h1>
+<p>This is a static results page for a hackathon project. It has no accounts, no forms, no cookies and no analytics of our own.</p>
+<ul>
+<li><b>What the page stores:</b> your light or dark theme choice, in your own browser (local storage). It never leaves your device.</li>
+<li><b>What the host sees:</b> the page is served by Vercel, which keeps standard server logs, such as your IP address and the pages requested. See <a href="https://vercel.com/legal/privacy-policy" rel="noopener">Vercel's privacy policy</a>.</li>
+<li><b>What the results contain:</b> counts and links taken from the project's own saved runs. They name public companies and public pull requests in a repository owned by the project's owner. They contain no personal data about visitors.</li>
+</ul>
+<p>Terms: the page is provided as is, to show measured results. It is not a service and makes no promise of availability.</p>
+<p>Questions: <a href="https://github.com/Datwebguy/identa/issues" rel="noopener">open an issue on GitHub</a>.</p>
+</div>
+</main>
+</body>
+</html>
