@@ -50,17 +50,12 @@ All runs: 11 October 2026, the nine vendor domains in `domains.csv`, agent on Ra
 
 Worked from the measured cost of $0.60 per vendor: each customer pays $114 per month ($99 plus 10 extra vendors at $1.50) and costs $36 in Crustdata, so $78 is left per customer. At 25 customers: revenue $2,850 per month, Crustdata $900, hosting $5, $1,945 left per month before any team cost.
 
-## 4b. Still open
+## 4b. Still to supply
 
 | Input | Value |
 |---|---|
-| Price per onboarded vendor, or pricing model | **Decide** |
-| Monthly subscription price, if any | **Decide** |
-| Number of customers, and growth | **Decide** |
-| Vendors onboarded per customer per month | **Decide** |
-| Crustdata plan after the event (credits and price) | **Decide**, from Crustdata's price list |
-| Team cost and salaries | **Decide** |
-| Starting cash, for runway | **Decide** |
+| Railway usage beyond the plan fee | **Owner to supply**, from the Railway usage page |
+| Crustdata volume discount | Optional: the $500 and $2,000 packages give 17% and 33% off; the plan uses the plain $0.30 per credit |
 
 ## 5. What does not work yet
 
