@@ -13,7 +13,7 @@ Fill every `[ ]` from real results only. Anything not built stays marked "not bu
 | neatlogs: trace links or screenshots for the crash and recovery runs | [x] (ids in section 3, shown on the results page) |
 | Entire: accessible checkpoint link and its ID; `entire status` shows it synced | [ ] |
 | A recorded run where the agent recovers from a failed action | [ ] |
-| cfo.ai business plan (pricing, costs, revenue, runway) | [x] https://cfo.ai/s/yH49V0HAB1YFq5fX (owner to confirm it opens logged out) |
+| cfo.ai business plan (pricing, costs, revenue, runway) | [x] https://cfo.ai/s/yH49V0HAB1YFq5fX (the owner confirmed it opens in a private browser tab without signing in) |
 | Demo video, three minutes or less, covering neatlogs, Entire and cfo.ai (architecture, implementation, runtime, reasoning, result for each); link works | [ ] |
 | `hackathon.md` build log up to date | [ ] |
 | README has setup and run instructions | [ ] |
