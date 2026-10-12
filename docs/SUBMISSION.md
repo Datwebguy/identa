@@ -85,16 +85,18 @@ Eight further traces, from 20:45 to 20:53 UTC, belong to the unplanned control C
 
 ## 5. Video script (three minutes or less)
 
-The rules require the video to cover neatlogs, Entire and cfo.ai explicitly: the architecture, implementation, runtime, reasoning and result for each tool.
+The rules require the video to cover neatlogs, Entire and cfo.ai explicitly: the architecture, implementation, runtime, reasoning and result for each tool. Every number below comes from a saved run. Items in [brackets] are filled after those steps are done; if one is not done, that scene says so plainly instead.
 
-| Time | Scene | Show |
-|---|---|---|
-| 0:00 to 0:15 | The problem | A duplicate vendor pull request from the control run |
-| 0:15 to 0:45 | The agent | Domains in, Crustdata identify, intent written, PR opened |
-| 0:45 to 1:25 | The crash and recovery | Process killed mid-run, restart, reconciler verdict, GitHub showing one PR |
-| 1:25 to 1:55 | neatlogs | Where spans sit in the code, the crash and recovery traces, the before-and-after numbers read back from the traces |
-| 1:55 to 2:25 | Entire | How Entire is enabled, the checkpoint for the reconciler change, its Sessions (request and decisions) and Changes |
-| 2:25 to 2:50 | cfo.ai | The plan's pricing, costs, revenue and runway, with inputs taken from the measured runs |
-| 2:50 to 3:00 | Close | Repo link and what does not work yet |
+Record in this order. Keep the results page (https://identa-iota.vercel.app) and the register's pull request list open in two browser tabs.
 
-Show only what was built. Never show a number that is not on a real screen.
+| Time | Scene | What is on screen | What to say |
+|---|---|---|---|
+| 0:00 to 0:15 | The problem | The control run's duplicate: two pull requests for the same company in `identavendors` (control C, pull requests #55 and #56) | An agent that crashes after acting does not know whether the action happened. A blind retry made a second pull request for the same vendor. |
+| 0:15 to 0:40 | The agent | `domains.csv` with the nine domains, then the first full run's trace: identify, enrich, branch, file, pull request. Pull requests #1 to #9 | Nine real vendors in, nine pull requests out. 2 Crustdata credits per company, 3.9 seconds per company, no model called. |
+| 0:40 to 1:15 | Crash and recovery | The results page chart and the three crash cards. Then the register: 9 branches and 9 pull requests for each crash prefix | Killed after the branch, after the file, and after the pull request. Each restart read the branch on GitHub first. 0 duplicates in all three. Control: 1 duplicate pull request and 3 extra branches. Recovery took 2.2 to 2.6 seconds, restart included. |
+| 1:15 to 1:50 | neatlogs | The crash A killed trace (5 spans, ends at `create_ref`) next to its restart trace (47 spans, starts with `get_ref`, `get_file`, `list_prs`). Then the control's second run, which starts with `identify` | Architecture: one workflow span per run, a tool span per Crustdata and GitHub call, inputs never recorded. Runtime: the trace proves the order. Result: the restart reads before it writes; the control never reads. 0 tokens, 0 cost. |
+| 1:50 to 2:20 | Entire | [The checkpoint link, its Sessions tab (request and decisions) and Changes tab for the tie-rule commit] | Architecture: Entire hooks capture the session and link it to the commit. Implementation: one short session for the tie rule, a tie at the top confidence now goes to a human. Reasoning: the Sessions tab shows the decisions. Result: [what the re-run did with `cfo.ai` and `amazon.com`]. |
+| 2:20 to 2:45 | cfo.ai | [The saved plan: pricing, costs, revenue, runway] | Inputs from the runs: 2 credits per vendor, no model cost, no GitHub cost, 3.9 s per vendor. Price, customers and monthly price are the owner's decisions. [What the plan shows.] |
+| 2:45 to 3:00 | Close | The results page and the repo link | Built with a coding agent, directed and reviewed by the owner. What does not work yet: the Unknown verdict [had not occurred before the tie-rule run], the control uses a fresh branch name per attempt, and copying evidence off the server is slow. |
+
+Show only what was built. Never show a number that is not on a real screen. Four accidental control C runs happened at 9:45 to 9:53 PM (UTC+1); they are labelled on the results page and are not in the headline numbers.
