@@ -32,7 +32,12 @@ class Identified:
     confidence: float | None
     name: str | None
     primary_domain: str | None
-    tied: bool = False  # another match has the same confidence_score as the top match
+    # Every match that shares the top confidence_score: (company id, name, confidence).
+    candidates: tuple[tuple[int, str | None, float], ...] = ()
+
+    @property
+    def tied(self) -> bool:
+        return len(self.candidates) > 1
 
 
 def find_saved_enrich(evidence_dir: Path, company_id: int) -> dict[str, Any] | None:
@@ -105,14 +110,22 @@ class Crustdata:
         top = matches[0]
         data = top["company_data"]
         info = data.get("basic_info") or {}
-        tied = len(matches) > 1 and matches[1]["confidence_score"] == top["confidence_score"]
+        candidates = tuple(
+            (
+                int(m["company_data"]["crustdata_company_id"]),
+                (m["company_data"].get("basic_info") or {}).get("name"),
+                float(m["confidence_score"]),
+            )
+            for m in matches
+            if m["confidence_score"] == top["confidence_score"]
+        )
         return Identified(
             domain,
             int(data["crustdata_company_id"]),
             float(top["confidence_score"]),
             info.get("name"),
             info.get("primary_domain"),
-            tied,
+            candidates,
         )
 
     @tool("crustdata.enrich")

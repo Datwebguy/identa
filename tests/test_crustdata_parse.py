@@ -30,6 +30,11 @@ def test_second_match_with_same_confidence_is_a_tie() -> None:
     assert r.company_id == 1 and r.tied
 
 
+def test_candidates_list_every_match_at_top_confidence() -> None:
+    entry = {"matches": [_match(1, 0.9), _match(2, 0.9), _match(3, 0.8)]}
+    assert Crustdata._parse("d", entry).candidates == ((1, None, 0.9), (2, None, 0.9))
+
+
 def test_second_match_with_lower_confidence_is_not_a_tie() -> None:
     assert not Crustdata._parse("d", {"matches": [_match(1, 0.9), _match(2, 0.8)]}).tied
 

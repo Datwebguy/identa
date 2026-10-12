@@ -18,7 +18,14 @@ from identa.export import export_evidence
 from identa.github import GitHub
 from identa.measure import measure
 from identa.store import PENDING, Store
-from identa.workflow import crash_hook_from_env, crash_marker, main_exit, onboard, run
+from identa.workflow import (
+    choose_candidate,
+    crash_hook_from_env,
+    crash_marker,
+    main_exit,
+    onboard,
+    run,
+)
 
 
 def read_domains(path: Path) -> list[str]:
@@ -44,7 +51,7 @@ def _measure(cfg: Config, prefix: str | None) -> None:
     print(json.dumps(asdict(summary), indent=2))
 
 
-def _queue(cfg: Config, action: str, item: int | None) -> None:
+def _queue(cfg: Config, action: str, item: int | None, company_id: int | None = None) -> None:
     store = Store(cfg.store_path)
     try:
         if action == "list":
@@ -66,15 +73,18 @@ def _queue(cfg: Config, action: str, item: int | None) -> None:
             if row["key"]:
                 store.set_state(row["key"], "rejected")
             return
-        _accept(cfg, store, row)
+        _accept(cfg, store, row, company_id)
     finally:
         store.close()
 
 
-def _accept(cfg: Config, store: Store, row: sqlite3.Row) -> None:
+def _accept(cfg: Config, store: Store, row: sqlite3.Row, company_id: int | None = None) -> None:
     """A human accepts. A held intent goes back to pending so the next run reconciles it
-    again. A held domain is onboarded with the company id Crustdata returned."""
+    again. A held domain is onboarded with the company id Crustdata returned, or with the
+    tied candidate chosen by company_id."""
     if row["key"]:
+        if company_id is not None:
+            raise SystemExit("--company-id applies only to a held domain, not a held intent")
         store.set_state(row["key"], PENDING)
         store.resolve_queue_item(row["id"], "accepted")
         return
@@ -84,6 +94,11 @@ def _accept(cfg: Config, store: Store, row: sqlite3.Row) -> None:
         found = crust.identify([row["domain"]])[0]
         if found.company_id is None:
             raise SystemExit("Crustdata returned no company for this domain; cannot accept")
+        if company_id is not None:
+            try:
+                found = choose_candidate(found, company_id)
+            except ValueError as exc:
+                raise SystemExit(str(exc)) from exc
         outcome = onboard(
             found, cfg, store, crust, _github(cfg), crash_hook_from_env(crash_marker(cfg))
         )
@@ -111,6 +126,7 @@ def main() -> None:
     q.add_argument("--config", required=True, type=Path)
     q.add_argument("action", choices=["list", "accept", "reject"])
     q.add_argument("item", nargs="?", type=int)
+    q.add_argument("--company-id", type=int, help="accept: onboard this tied candidate")
     args = parser.parse_args()
 
     cfg = load_config(args.config)
@@ -126,7 +142,7 @@ def main() -> None:
         print({"exported": count})
         return
     if args.cmd == "queue":
-        _queue(cfg, args.action, args.item)
+        _queue(cfg, args.action, args.item, args.company_id)
         return
     tracing.init(require_env("NEATLOGS_API_KEY"))
     store = Store(cfg.store_path)

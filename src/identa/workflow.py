@@ -169,7 +169,20 @@ def _detail(found: Identified) -> str:
         "company_id": found.company_id,
         "name": found.name,
     }
+    if found.tied:
+        d["candidates"] = [
+            {"company_id": cid, "name": name, "confidence": score}
+            for cid, name, score in found.candidates
+        ]
     return json.dumps(d)
+
+
+def choose_candidate(found: Identified, company_id: int) -> Identified:
+    """The tied candidate a human picked. Raises ValueError if it is not one of them."""
+    for cid, name, score in found.candidates:
+        if cid == company_id:
+            return Identified(found.domain, cid, score, name, None, found.candidates)
+    raise ValueError(f"company {company_id} is not a candidate for {found.domain}")
 
 
 def main_exit() -> None:
