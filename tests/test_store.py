@@ -50,3 +50,20 @@ def test_find_by_company_and_set_state(tmp_path: Path) -> None:
     assert found is not None and found.key == "k"
     s.set_state("k", "needs_human")
     assert s.unfinished() == []
+
+
+def test_last_decision_is_the_latest(tmp_path: Path) -> None:
+    s = make(tmp_path)
+    assert s.last_decision("a.com") is None
+    s.record_decision("a.com", None, "rejected", "first")
+    s.record_decision("a.com", 7, "accepted", "second")
+    row = s.last_decision("a.com")
+    assert row is not None and row["decision"] == "accepted" and row["company_id"] == 7
+
+
+def test_pending_queue_entries_for_a_domain_can_be_closed(tmp_path: Path) -> None:
+    s = make(tmp_path)
+    s.enqueue_human(None, "a.com", "tie", "{}")
+    s.enqueue_human(None, "b.com", "tie", "{}")
+    s.resolve_pending_for_domain("a.com", "settled")
+    assert [r["domain"] for r in s.human_queue()] == ["b.com"]

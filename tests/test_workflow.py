@@ -1,8 +1,10 @@
 import json
+from pathlib import Path
 
 import pytest
 
 from identa.crustdata import Identified
+from identa.store import Store
 from identa.workflow import _detail, choose_candidate, decide_identity
 
 
@@ -91,3 +93,43 @@ def test_no_tie_is_left_alone() -> None:
     from identa.workflow import break_tie
 
     assert break_tie(Identified("a.com", 1, 1.0, "c", "a.com", ((1, "c", 1.0),))) is None
+
+
+def _store(tmp_path: Path) -> Store:
+    return Store(tmp_path / "s.sqlite")
+
+
+def test_recall_finds_nothing_without_a_past_decision(tmp_path: Path) -> None:
+    from identa.workflow import recall
+
+    found = Identified("a.com", None, None, None, None)
+    assert recall(_store(tmp_path), found, "no match")[0] == "none"
+
+
+def test_recall_returns_an_earlier_rejection(tmp_path: Path) -> None:
+    from identa.workflow import recall
+
+    s = _store(tmp_path)
+    s.record_decision("a.com", None, "rejected", "not a vendor")
+    verdict, chosen, why = recall(s, Identified("a.com", None, None, None, None), "no match")
+    assert verdict == "rejected" and chosen is None and "not a vendor" in why
+
+
+def test_recall_applies_an_earlier_choice_among_tied_matches(tmp_path: Path) -> None:
+    from identa.workflow import recall
+
+    s = _store(tmp_path)
+    s.record_decision("a.com", 2, "accepted", "the real one")
+    found = Identified("a.com", 1, 1.0, "x", None, ((1, "x", 1.0), (2, "y", 1.0)))
+    verdict, chosen, _ = recall(s, found, "tie at top confidence")
+    assert verdict == "accepted" and chosen is not None and chosen.company_id == 2
+    assert not chosen.tied
+
+
+def test_recall_ignores_an_earlier_choice_that_is_no_longer_a_match(tmp_path: Path) -> None:
+    from identa.workflow import recall
+
+    s = _store(tmp_path)
+    s.record_decision("a.com", 9, "accepted", "old")
+    found = Identified("a.com", 1, 1.0, "x", None, ((1, "x", 1.0), (2, "y", 1.0)))
+    assert recall(s, found, "tie at top confidence")[0] == "none"

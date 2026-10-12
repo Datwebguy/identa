@@ -40,6 +40,14 @@ CREATE TABLE IF NOT EXISTS human_queue (
     status TEXT NOT NULL DEFAULT 'pending',
     at TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS decisions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    domain TEXT NOT NULL,
+    company_id INTEGER,
+    decision TEXT NOT NULL,
+    reason TEXT NOT NULL,
+    at TEXT NOT NULL
+);
 """
 
 PENDING = "pending"
@@ -164,6 +172,28 @@ class Store:
 
     def resolve_queue_item(self, item_id: int, status: str) -> None:
         self._db.execute("UPDATE human_queue SET status=? WHERE id=?", (status, item_id))
+
+    def resolve_pending_for_domain(self, domain: str, status: str) -> None:
+        """Close the open queue entries for a domain that has since been settled."""
+        self._db.execute(
+            "UPDATE human_queue SET status=? WHERE domain=? AND status='pending'",
+            (status, domain),
+        )
+
+    def record_decision(
+        self, domain: str, company_id: int | None, decision: str, reason: str
+    ) -> None:
+        """A person's decision on a company, kept so the agent can recall it later."""
+        self._db.execute(
+            "INSERT INTO decisions (domain, company_id, decision, reason, at) VALUES (?,?,?,?,?)",
+            (domain, company_id, decision, reason, now()),
+        )
+
+    def last_decision(self, domain: str) -> sqlite3.Row | None:
+        row: sqlite3.Row | None = self._db.execute(
+            "SELECT * FROM decisions WHERE domain=? ORDER BY id DESC LIMIT 1", (domain,)
+        ).fetchone()
+        return row
 
     @staticmethod
     def _intent(row: sqlite3.Row) -> Intent:

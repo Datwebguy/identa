@@ -30,7 +30,7 @@ domains.csv -> Crustdata identify (free) -> Crustdata enrich (2 credits)
    - NotApplied: the branch does not exist. It is safe to act again.
    - Resume: the branch exists but the file or pull request is missing. Continue from the missing step.
    - Unknown: the check failed or the state is ambiguous. The company goes to a human queue. Identa never guesses.
-3. **Identity rule.** A company is accepted only when its top Crustdata match is at or above the configured confidence threshold (0.9). When two matches share the top score, Identa settles the tie from the matches themselves: it picks the only match whose primary domain is the requested domain, or else the only one whose website is exactly that domain, and records why. A tie that nothing separates, a low score or no match is held for a person.
+3. **Identity rule.** A company is accepted only when its top Crustdata match is at or above the configured confidence threshold (0.9). When two matches share the top score, Identa settles the tie from the matches themselves: it picks the only match whose primary domain is the requested domain, or else the only one whose website is exactly that domain, and records why. A tie that nothing separates, a low score or no match is held for a person. What a person decides is remembered: a company rejected in review is not held again on a later run, and an earlier choice among tied matches is applied without a new review.
 4. **The control.** The same executor with the reconciler removed and a blind retry on any error. Each of its attempts names its own branch, because it has no stable key. It is run at the same crash points so duplicates can be counted.
 
 All Crustdata and GitHub calls are traced with neatlogs. No language model is called, so every run reports 0 tokens and 0 model cost.
@@ -64,7 +64,7 @@ Other measured facts:
 | Crash tests | works: three crash points, 0 duplicates each |
 | Control | works: same crash points, 1 duplicate pull request and 3 duplicate branches in total |
 | Race test | works: 1 pull request with Identa, 8 without |
-| Human queue | works as a command line queue (no web page) |
+| Human queue and memory | works as a command line queue (no web page); a person's accept or reject is remembered and recalled on later runs |
 | Results page | live at https://identa-iota.vercel.app, with a read-only company check |
 | Not built | hourly schedule, AI summaries of held cases, a web page for the human queue |
 

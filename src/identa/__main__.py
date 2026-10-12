@@ -54,7 +54,13 @@ def _measure(cfg: Config, prefix: str | None) -> None:
     print(json.dumps(asdict(summary), indent=2))
 
 
-def _queue(cfg: Config, action: str, item: int | None, company_id: int | None = None) -> None:
+def _queue(
+    cfg: Config,
+    action: str,
+    item: int | None,
+    company_id: int | None = None,
+    why: str | None = None,
+) -> None:
     store = Store(cfg.store_path)
     try:
         if action == "list":
@@ -75,13 +81,21 @@ def _queue(cfg: Config, action: str, item: int | None, company_id: int | None = 
             store.resolve_queue_item(item, "rejected")
             if row["key"]:
                 store.set_state(row["key"], "rejected")
+            if row["domain"]:
+                store.record_decision(row["domain"], None, "rejected", why or "rejected in review")
             return
-        _accept(cfg, store, row, company_id)
+        _accept(cfg, store, row, company_id, why)
     finally:
         store.close()
 
 
-def _accept(cfg: Config, store: Store, row: sqlite3.Row, company_id: int | None = None) -> None:
+def _accept(
+    cfg: Config,
+    store: Store,
+    row: sqlite3.Row,
+    company_id: int | None = None,
+    why: str | None = None,
+) -> None:
     """A human accepts. A held intent goes back to pending so the next run reconciles it
     again. A held domain is onboarded with the company id Crustdata returned, or with the
     tied candidate chosen by company_id."""
@@ -106,6 +120,9 @@ def _accept(cfg: Config, store: Store, row: sqlite3.Row, company_id: int | None 
             found, cfg, store, crust, _github(cfg), crash_hook_from_env(crash_marker(cfg))
         )
         store.resolve_queue_item(row["id"], "accepted")
+        store.record_decision(
+            row["domain"], found.company_id, "accepted", why or "accepted in review"
+        )
         print(outcome)
     finally:
         main_exit()
@@ -154,6 +171,7 @@ def main() -> None:
     q.add_argument("action", choices=["list", "accept", "reject"])
     q.add_argument("item", nargs="?", type=int)
     q.add_argument("--company-id", type=int, help="accept: onboard this tied candidate")
+    q.add_argument("--reason", help="accept or reject: why, kept so the agent can recall it")
     args = parser.parse_args()
 
     cfg = load_config(args.config)
@@ -171,7 +189,7 @@ def main() -> None:
         print({"exported": count})
         return
     if args.cmd == "queue":
-        _queue(cfg, args.action, args.item, args.company_id)
+        _queue(cfg, args.action, args.item, args.company_id, args.reason)
         return
     if args.cmd == "race":
         _race(cfg, args.domain, args.agents, args.control)

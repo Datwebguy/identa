@@ -56,6 +56,7 @@ class Report:
     skipped_existing: int = 0
     recovered: int = 0
     failed: int = 0
+    recalled: int = 0
 
 
 def decide_identity(found: Identified, threshold: float) -> str | None:
@@ -99,6 +100,26 @@ def break_tie(found: Identified) -> tuple[Identified, str] | None:
             chosen = Identified(found.domain, cid, score, name, primary, ((cid, name, score),))
             return chosen, why.format(d=want)
     return None
+
+
+def recall(store: Store, found: Identified, reason: str) -> tuple[str, Identified | None, str]:
+    """Look up what a person decided about this domain before.
+
+    Returns ("rejected", None, why) when it was rejected, ("accepted", chosen, why) when a person
+    earlier chose one of the tied matches and it is still among them, else ("none", None, "").
+    """
+    prior = store.last_decision(found.domain)
+    if prior is None:
+        return "none", None, ""
+    when = str(prior["at"])[:10]
+    if prior["decision"] == "rejected":
+        return "rejected", None, f"rejected on {when}: {prior['reason']}"
+    if prior["decision"] == "accepted" and prior["company_id"] is not None:
+        for cid, name, score in found.candidates:
+            if cid == prior["company_id"]:
+                chosen = Identified(found.domain, cid, score, name, None, ((cid, name, score),))
+                return "accepted", chosen, f"accepted on {when}: {prior['reason']}"
+    return "none", None, ""
 
 
 def recover(store: Store, gh: GitHub, cfg: Config, intent: Intent, hook: CrashHook | None) -> bool:
@@ -209,7 +230,26 @@ def run(
                 },
             )
             found = chosen
+            store.resolve_pending_for_domain(found.domain, "settled")
         reason = decide_identity(found, cfg.confidence_threshold)
+        if reason is not None:
+            verdict, remembered, why = recall(store, found, reason)
+            if verdict != "none":
+                print(f"recalled for {found.domain}: {why}")
+                evidence.save(
+                    cfg.evidence_dir,
+                    "identa",
+                    "memory-recall",
+                    0,
+                    {"domain": found.domain, "held_because": reason, "recalled": why},
+                )
+            if verdict == "rejected":
+                report.recalled += 1
+                continue
+            if remembered is not None:
+                found = remembered
+                store.resolve_pending_for_domain(found.domain, "settled")
+                reason = decide_identity(found, cfg.confidence_threshold)
         if reason is not None or found.company_id is None:
             store.enqueue_human(None, found.domain, reason or "no match", _detail(found))
             report.queued_for_human += 1
