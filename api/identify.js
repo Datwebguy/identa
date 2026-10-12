@@ -25,8 +25,19 @@ function allowed(ip, now) {
   return true;
 }
 
-// The same rule as decide_identity in src/identa/workflow.py.
-function decide(matches) {
+function host(value) {
+  if (!value) return null;
+  try {
+    let h = new URL(value.includes("://") ? value : "https://" + value).hostname.toLowerCase();
+    if (h.endsWith(".")) h = h.slice(0, -1);
+    return h.startsWith("www.") ? h.slice(4) : h;
+  } catch (e) {
+    return null;
+  }
+}
+
+// The same rules as break_tie and decide_identity in src/identa/workflow.py.
+function decide(matches, domain) {
   if (!matches.length) return { decision: "hold", reason: "no match" };
   const top = matches[0];
   const score = Number(top.confidence_score);
@@ -39,6 +50,23 @@ function decide(matches) {
   };
   if (score < THRESHOLD) return { ...base, decision: "hold", reason: "confidence below threshold" };
   if (tied.length > 1) {
+    const want = host(domain);
+    const info = (m) => m.company_data.basic_info || {};
+    for (const [field, why] of [["primary_domain", "its main domain is " + want], ["website", "its own website is " + want]]) {
+      const hits = tied.filter((m) => host(info(m)[field]) === want);
+      if (hits.length === 1) {
+        const m = hits[0];
+        return {
+          name: info(m).name || null,
+          company_id: m.company_data.crustdata_company_id,
+          confidence: Number(m.confidence_score),
+          decision: "accept",
+          reason: "tie settled",
+          why,
+          candidates: tied.map((c) => ({ company_id: c.company_data.crustdata_company_id, name: info(c).name || null, confidence: Number(c.confidence_score) })),
+        };
+      }
+    }
     return {
       ...base,
       decision: "hold",
@@ -75,10 +103,10 @@ async function handler(req, res) {
       body: JSON.stringify({ domains: [domain], exact_match: true }),
       signal: AbortSignal.timeout(15000),
     });
-    if (resp.status === 404) return send(200, { domain, ...decide([]) });
+    if (resp.status === 404) return send(200, { domain, ...decide([], domain) });
     if (resp.status !== 200) return send(502, { error: "The lookup service did not answer." });
     const entries = await resp.json();
-    return send(200, { domain, ...decide((entries[0] || {}).matches || []) });
+    return send(200, { domain, ...decide((entries[0] || {}).matches || [], domain) });
   } catch (err) {
     return send(502, { error: "The lookup service did not answer." });
   }
