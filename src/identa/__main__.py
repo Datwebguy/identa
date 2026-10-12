@@ -17,11 +17,13 @@ from identa.crustdata import Crustdata
 from identa.export import export_evidence
 from identa.github import GitHub
 from identa.measure import measure
+from identa.race import race
 from identa.store import PENDING, Store
 from identa.workflow import (
     choose_candidate,
     crash_hook_from_env,
     crash_marker,
+    decide_identity,
     main_exit,
     onboard,
     run,
@@ -109,6 +111,22 @@ def _accept(cfg: Config, store: Store, row: sqlite3.Row, company_id: int | None 
         main_exit()
 
 
+def _race(cfg: Config, domain: str, agents: int, control: bool) -> None:
+    if agents < 2:
+        raise SystemExit("--agents must be at least 2")
+    tracing.init(require_env("NEATLOGS_API_KEY"))
+    try:
+        crust = Crustdata(require_env("CRUSTDATA_API_KEY"), cfg.evidence_dir)
+        found = crust.identify([domain])[0]
+        reason = decide_identity(found, cfg.confidence_threshold)
+        if reason is not None or found.company_id is None:
+            raise SystemExit(f"{domain} is held for a human ({reason}); choose another")
+        data = crust.enrich(found.company_id)  # one call, reused from the saved response
+        print(race(found, data, cfg, lambda: _github(cfg), agents, control))
+    finally:
+        main_exit()
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(prog="identa")
     sub = parser.add_subparsers(dest="cmd", required=True)
@@ -126,6 +144,11 @@ def main() -> None:
     e.add_argument(
         "--since", required=True, help="only export files named at or after this timestamp"
     )
+    rc = sub.add_parser("race", help="several agents onboard one company at the same moment")
+    rc.add_argument("--config", required=True, type=Path)
+    rc.add_argument("--domain", required=True)
+    rc.add_argument("--agents", required=True, type=int)
+    rc.add_argument("--control", action="store_true", help="agents without the reconciler")
     q = sub.add_parser("queue", help="the human queue")
     q.add_argument("--config", required=True, type=Path)
     q.add_argument("action", choices=["list", "accept", "reject"])
@@ -149,6 +172,9 @@ def main() -> None:
         return
     if args.cmd == "queue":
         _queue(cfg, args.action, args.item, args.company_id)
+        return
+    if args.cmd == "race":
+        _race(cfg, args.domain, args.agents, args.control)
         return
     tracing.init(require_env("NEATLOGS_API_KEY"))
     store = Store(cfg.store_path)

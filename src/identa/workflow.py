@@ -104,7 +104,19 @@ def onboard(
     assert found.company_id is not None
     if store.find_by_company(str(found.company_id), ACTION_ONBOARD):
         return "skipped"  # already intended or done: nothing to do
-    data = crust.enrich(found.company_id)
+    return onboard_with(found, crust.enrich(found.company_id), cfg, store, gh, hook)
+
+
+def onboard_with(
+    found: Identified,
+    data: dict[str, Any],
+    cfg: Config,
+    store: Store,
+    gh: GitHub,
+    hook: CrashHook | None,
+) -> str:
+    """The same as onboard, with the enrich response already in hand."""
+    assert found.company_id is not None
     info = data.get("basic_info") or {}
     name, domain = info.get("name"), info.get("primary_domain")
     if not name or not domain:
