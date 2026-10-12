@@ -1,3 +1,5 @@
+<img src="web/logo.svg" alt="Identa logo" width="72" height="72">
+
 # Identa
 
 Identa onboards vendors into a company's vendor register without ever adding the same vendor twice.
