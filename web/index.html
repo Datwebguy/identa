@@ -166,6 +166,15 @@
   .row:hover .track { outline: 1px solid var(--hairline); }
 
   /* test grid */
+  .try { padding: 18px; }
+  .try form { display: flex; gap: 8px; flex-wrap: wrap; }
+  .try input { flex: 1 1 200px; min-width: 0; height: 40px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--hairline); background: var(--glass-strong); color: var(--text); font: 15px Inter, sans-serif; }
+  .try button { height: 40px; padding: 0 16px; }
+  .try .out { margin-top: 14px; }
+  .try .out dl { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; margin: 0; }
+  .try .out dt { color: var(--muted); }
+  .try .out dd { margin: 0; overflow-wrap: anywhere; }
+  .cmd { display: block; padding: 12px 14px; border-radius: 10px; background: var(--glass-strong); border: 1px solid var(--hairline); overflow-x: auto; white-space: pre; }
   .tests { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
   .test { min-width: 0; }
   .test { padding: 18px; }
@@ -268,6 +277,18 @@
     </div>
   </header>
 
+  <section id="try">
+    <h2>Check one company yourself</h2>
+    <p class="sub">Type a company domain. Identa asks Crustdata who it is and shows what it would do: add it, or hold it for a person. This only looks things up. It does not add anything to the register, and Identa does not save what you type.</p>
+    <div class="card glass try">
+      <form id="try-form">
+        <input id="try-domain" type="text" inputmode="url" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="example.com" aria-label="Company domain" maxlength="253">
+        <button class="btn" type="submit" id="try-go">Check</button>
+      </form>
+      <div class="out" id="try-out" aria-live="polite"></div>
+    </div>
+  </section>
+
   <section id="compare">
     <h2>Crash test: with and without the check</h2>
     <p class="sub">Each test adds the same nine companies and stops the program once, at one of three moments. When Identa restarts, it first checks GitHub to see what already happened. The comparison is the same code without that check: it just tries again. After every test, the counts are read from GitHub itself.</p>
@@ -297,6 +318,13 @@
     <h2>A mistake of ours, shown openly</h2>
     <p class="sub">After the planned tests, four code updates by accident restarted the third comparison test (the one without the check). Two of those runs were cut short by the next update. They are listed here separately, taken from the register's own pull request list, and they are not counted in any number above. Every one that got as far as its first stop opened a duplicate pull request, which is exactly what the check prevents.</p>
     <div class="card glass tablewrap" id="repeats"></div>
+  </section>
+
+  <section>
+    <h2>Run it yourself</h2>
+    <p class="sub">The agent is a command line program. With the three keys set as environment variables, this adds the companies in a list, checking GitHub first if an earlier run stopped part-way:</p>
+    <code class="cmd">python -m identa run --config identa.toml --domains domains.csv</code>
+    <p class="note">Setup, the crash tests and every saved record are in the <a href="https://github.com/Datwebguy/identa" rel="noopener">repository</a>.</p>
   </section>
 
   <section>
@@ -426,6 +454,41 @@
     { id: "b", name: "After the file", detail: "Killed after the file is committed, before the pull request opens." },
     { id: "c", name: "After the pull request", detail: "Killed after the pull request opens, before the local record." }
   ];
+
+
+  // try it
+  (function () {
+    var form = document.getElementById("try-form"), out = document.getElementById("try-out");
+    var input = document.getElementById("try-domain"), go = document.getElementById("try-go");
+    function show(rows, note) {
+      out.textContent = "";
+      if (rows) {
+        var dl = el("dl");
+        rows.forEach(function (r) { dl.appendChild(el("dt", "", r[0])); dl.appendChild(el("dd", "", r[1])); });
+        out.appendChild(dl);
+      }
+      if (note) out.appendChild(el("p", "note", note));
+    }
+    form.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      var domain = input.value.trim().toLowerCase().replace(/^https?:\/\//, "").replace(/^www\./, "").split("/")[0];
+      if (!domain) return;
+      go.disabled = true; show(null, "Checking…");
+      fetch("/api/identify?domain=" + encodeURIComponent(domain), { cache: "no-store" })
+        .then(function (r) { return r.json().then(function (b) { return { ok: r.ok, body: b }; }); })
+        .then(function (res) {
+          var b = res.body;
+          if (!res.ok) { show(null, b.error || "The check could not run."); return; }
+          var rows = [["Domain", b.domain], ["Decision", b.decision === "accept" ? "Add it to the register" : "Hold for a person"], ["Why", b.reason]];
+          if (b.name) rows.splice(1, 0, ["Company", b.name]);
+          if (typeof b.confidence === "number") rows.push(["Confidence", String(b.confidence)]);
+          if (b.candidates) rows.push(["Tied matches", b.candidates.map(function (c) { return c.name + " (" + c.company_id + ")"; }).join(", ")]);
+          show(rows, "A live lookup. It is not saved and not part of the results above.");
+        })
+        .catch(function () { show(null, "The check could not run."); })
+        .then(function () { go.disabled = false; });
+    });
+  })();
 
   fetch("data.json").then(function (r) { return r.json(); }).then(function (d) {
     var m = {};
@@ -592,6 +655,7 @@
       var pr = d.races.filter(function (r) { return !r.control; })[0];
       if (pr) document.getElementById("race-note").textContent = "With Identa, " + (pr.agents - 1) + " of " + pr.agents + " copies stopped without finishing, because GitHub refused their writes. They opened nothing. "+ "Company: " + pr.domain + ".";
     }
+
 
     // control C repeats
     if (d.control_c_runs && d.control_c_runs.some(function (r) { return !r.planned; })) {
