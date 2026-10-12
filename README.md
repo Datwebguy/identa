@@ -37,7 +37,7 @@ Under construction for neatHack. The table below is updated only from saved runs
 | Crash test (three crash points) | works: run on Railway at all three points; 9 companies, 9 branches, 9 pull requests, 0 duplicates each |
 | Naive control and duplicate count | works: run at the same three points; 1 duplicate pull request and 3 duplicate branches in total |
 | neatlogs traces | Doctor probe passed; the Railway run sent traces (trace links not yet collected) |
-| Entire checkpoint | built: commit `c480cd0`, checkpoint `d0ace3cc5007` on `entire/checkpoints/v1`; shown in entire.io under Sessions (1 checkpoint, 3 file changes); direct commit link still to be confirmed |
+| Entire checkpoint | built: commit `c480cd0`, checkpoint `d0ace3cc5007` on `entire/checkpoints/v1`; public session page: https://entire.io/gh/Datwebguy/identa/session/c3f1c6e4-5def-5acf-9d48-a704769e7e61 |
 | cfo.ai plan | built: https://cfo.ai/s/yH49V0HAB1YFq5fX (measured costs from the runs; pricing is the owner's decisions) |
 | Results page (`web/`, on Vercel) | deployed: https://identa-iota.vercel.app , built from saved evidence |
 | Demo video | not built |
