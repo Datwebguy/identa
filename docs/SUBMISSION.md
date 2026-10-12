@@ -11,7 +11,7 @@ Fill every `[ ]` from real results only. Anything not built stays marked "not bu
 | Public repo, all commits dated 10 to 12 Oct 2026, owner the only author | [ ] |
 | neatlogs: before-and-after comparison with numbers (protocol vs control) | [ ] |
 | neatlogs: trace links or screenshots for the crash and recovery runs | [x] (ids in section 3, shown on the results page) |
-| Entire: accessible checkpoint link and its ID; `entire status` shows it synced | [ ] link https://entire.io/gh/Datwebguy/identa/commit/c480cd0e850fefd116118c5ecd8b0307f8ce86da , checkpoint `d0ace3cc5007` pushed on `entire/checkpoints/v1`; the owner still has to confirm the link opens signed in (an unauthenticated fetch returned 404 right after the push, which may be the sync delay) |
+| Entire: accessible checkpoint link and its ID; `entire status` shows it synced | [x] checkpoint `d0ace3cc5007`, shown in entire.io on the repository's Sessions page as "Record Crustdata Credits per Run" (1 checkpoint, 3 file changes, +32 / −3, 4.8K tokens, commit `c480cd0`), after the repository was mirrored in Entire (EU region). The direct commit link https://entire.io/gh/Datwebguy/identa/commit/c480cd0e850fefd116118c5ecd8b0307f8ce86da is still to be confirmed |
 | A recorded run where the agent recovers from a failed action | [ ] |
 | cfo.ai business plan (pricing, costs, revenue, runway) | [x] https://cfo.ai/s/yH49V0HAB1YFq5fX (the owner confirmed it opens in a private browser tab without signing in) |
 | Demo video, three minutes or less, covering neatlogs, Entire and cfo.ai (architecture, implementation, runtime, reasoning, result for each); link works | [ ] |
