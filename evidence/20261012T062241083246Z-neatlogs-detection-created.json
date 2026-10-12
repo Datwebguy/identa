@@ -1,0 +1,19 @@
+{
+  "saved_at": "2026-10-12T06:22:41.083246+00:00",
+  "source": "neatlogs",
+  "status": 200,
+  "body": {
+    "detection": {
+      "id": "e8457bfb-65ed-4109-80eb-57ed57ddaab1",
+      "displayName": "Killed process",
+      "group": "Negative",
+      "type": "conditional",
+      "threshold": 0.5,
+      "isActive": true,
+      "createdAt": "2026-10-12T06:22:15.802Z",
+      "rule": "status = ERROR, run on spans named 'identa' (the root span left by a stopped process)"
+    },
+    "hits_read_at_creation": 0,
+    "backfill": "not run: the request body shape was not accepted (4 attempts returned INVALID_ARGUMENTS)"
+  }
+}

@@ -76,6 +76,8 @@ Planned: Python 3.11, Crustdata (identify, enrich), GitHub REST API, SQLite, nea
 
 - 12 Oct, 06:12 UTC: tested the live company check after the key was set in Vercel. `github.com` returned accept (company 632750, confidence 1); `amazon.com` returned hold with the same two tied candidates the agent found; a malformed domain returned 400. Records: `evidence/*-vercel-check-*.json`. Correction to the entry above: the per-address limit did not work. Eight quick requests all returned 200 (intended limit 5 per minute), because each request can run on a different server instance. The page now says the limit is not enforced. The check is free (identify costs no credits) but shares the 30-per-minute lookup limit with the agent.
 
+- 12 Oct, 06:22 UTC: signed in to neatlogs with write access (owner approved a device code) and created one custom detection in project `identa`: "Killed process" (status = ERROR on spans named `identa`, the root span a stopped process leaves). It has 0 hits so far: it scores new traces only, and my four attempts to backfill the older traces were rejected (`INVALID_ARGUMENTS`, request body shape unknown). The other two planned detections, "GitHub write refused" and "Recovery run", were not created, because I could not find the field names for matching a refused write or a recovery. Record: `evidence/*-neatlogs-detection-created.json`.
+
 ## Demo
 
 Not available yet.
