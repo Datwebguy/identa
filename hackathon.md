@@ -78,6 +78,8 @@ Planned: Python 3.11, Crustdata (identify, enrich), GitHub REST API, SQLite, nea
 
 - 12 Oct, 06:22 UTC: signed in to neatlogs with write access (owner approved a device code) and created one custom detection in project `identa`: "Killed process" (status = ERROR on spans named `identa`, the root span a stopped process leaves). It has 0 hits so far: it scores new traces only, and my four attempts to backfill the older traces were rejected (`INVALID_ARGUMENTS`, request body shape unknown). The other two planned detections, "GitHub write refused" and "Recovery run", were not created, because I could not find the field names for matching a refused write or a recovery. Record: `evidence/*-neatlogs-detection-created.json`.
 
+- 12 Oct: removed the "What does not work yet" section and the banner from the results page: the owner objected to its developer wording and to listing weaknesses on the front page. The same limits stay in the README, this log and `docs/SUBMISSION.md`.
+
 ## Demo
 
 Not available yet.

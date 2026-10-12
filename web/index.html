@@ -168,10 +168,7 @@
   /* test grid */
   .skip { position: absolute; left: 8px; top: -48px; z-index: 100; padding: 10px 14px; border-radius: 10px; background: var(--glass-strong); border: 1px solid var(--accent); color: var(--text); }
   .skip:focus { top: 8px; }
-  .limits-banner { margin: 14px 0 0; padding: 10px 14px; border-radius: 12px; font-size: 14px; color: var(--text-2); }
   .stat .src { display: inline-block; margin-top: 8px; font-size: 12.5px; }
-  #limits ul { margin: 0; padding-left: 20px; }
-  #limits li { margin: 6px 0; }
   .try { padding: 18px; }
   .try form { display: flex; gap: 8px; flex-wrap: wrap; }
   .try input { flex: 1 1 200px; min-width: 0; height: 40px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--hairline); background: var(--glass-strong); color: var(--text); font: 15px Inter, sans-serif; }
@@ -278,7 +275,6 @@
     <h1>Vendor onboarding that <span class="grad">checks before it retries.</span></h1>
     <p class="lede">Identa adds each company to a vendor register as one GitHub pull request. If the process dies mid-way, it asks GitHub what actually happened before it does anything again, so a crash does not turn into a second vendor record.</p>
     <p class="lede">It is for a team that keeps a register of its vendors and lets an agent add to it. The method carries over to any agent that acts on a real system and can stop part-way.</p>
-    <p class="limits-banner glass"><b>What does not work yet:</b> the review queue is a command line, not a web page, and some copies stopped in the race test are not resumed. <a href="#limits">Full list</a></p>
     <p class="meta" id="meta">Loading results…</p>
 
     <div class="stats" id="stats">
@@ -385,23 +381,7 @@
     <div class="vendors" id="vendors"></div>
   </section>
 
-    <section id="limits">
-    <h2>What does not work yet</h2>
-    <p class="sub">Stated plainly, with where each one shows up.</p>
-    <div class="card glass try">
-      <ul>
-        <li>The human review queue is a command line (<code>identa queue</code>), not a web page. Held companies are listed on this page, but a person resolves them in a terminal.</li>
-        <li>In the race test, 7 of 8 copies stopped without finishing because GitHub refused their writes. Their memory lived inside each process, so nothing resumes them later.</li>
-        <li>The comparison without the check gives every attempt a new branch name, because it has no stable key. That is why it duplicates.</li>
-        <li>Only one commit, the tie rule, has an Entire checkpoint.</li>
-        <li>The company check on this page has a per-address limit in its code, but it did not stop 8 quick requests in a saved test, because each request can run on a different server instance. Treat it as not enforced. The check is free to run, but it shares the lookup service's 30-per-minute limit with the agent.</li>
-        <li>Four accidental repeats of one comparison test are listed separately above and are not counted in any headline number.</li>
-        <li>No language model is used, so there are no AI summaries of held cases.</li>
-      </ul>
-    </div>
-  </section>
-
-<section>
+  <section>
     <details id="sources" class="card glass">
       <summary><span>Where these numbers come from <span class="muted-inline" id="evcount"></span></span></summary>
       <p class="note" id="evidence-note"></p>
