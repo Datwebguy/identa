@@ -63,6 +63,8 @@ def decide_identity(found: Identified, threshold: float) -> str | None:
         return "no match"
     if found.confidence is None or found.confidence < threshold:
         return "confidence below threshold"
+    if found.tied:
+        return "tie at top confidence"
     return None
 
 

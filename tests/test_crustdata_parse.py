@@ -21,6 +21,23 @@ def test_top_match_is_used() -> None:
     assert (r.company_id, r.confidence, r.name) == (9, 0.5, "n")
 
 
+def _match(cid: int, score: float) -> dict[str, object]:
+    return {"confidence_score": score, "company_data": {"crustdata_company_id": cid}}
+
+
+def test_second_match_with_same_confidence_is_a_tie() -> None:
+    r = Crustdata._parse("d", {"matches": [_match(1, 0.9), _match(2, 0.9)]})
+    assert r.company_id == 1 and r.tied
+
+
+def test_second_match_with_lower_confidence_is_not_a_tie() -> None:
+    assert not Crustdata._parse("d", {"matches": [_match(1, 0.9), _match(2, 0.8)]}).tied
+
+
+def test_single_match_is_not_a_tie() -> None:
+    assert not Crustdata._parse("d", {"matches": [_match(1, 0.9)]}).tied
+
+
 def test_saved_enrich_is_reused(tmp_path: "Path") -> None:
     import json
 
