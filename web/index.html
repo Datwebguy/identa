@@ -257,12 +257,12 @@
   </header>
 
   <section id="compare">
-    <h2>Crash test: protocol versus control</h2>
-    <p class="sub">Each run onboards the same nine companies and kills the process once, at one of three points. The protocol reconciles with GitHub on restart. The control is the same code without the reconciler, retrying blindly. Counts are read from GitHub after each run.</p>
+    <h2>Crash test: with and without the check</h2>
+    <p class="sub">Each test adds the same nine companies and stops the program once, at one of three moments. When Identa restarts, it first checks GitHub to see what already happened. The comparison is the same code without that check: it just tries again. After every test, the counts are read from GitHub itself.</p>
     <div class="card glass">
       <div class="legend">
-        <span><span class="swatch" style="background:var(--protocol)"></span>Protocol (Identa)</span>
-        <span><span class="swatch" style="background:var(--control)"></span>Control (no reconciler)</span>
+        <span><span class="swatch" style="background:var(--protocol)"></span>With Identa (checks first)</span>
+        <span><span class="swatch" style="background:var(--control)"></span>Without the check (tries again blindly)</span>
       </div>
       <div class="chart" id="chart"></div>
     </div>
@@ -270,41 +270,41 @@
 
   <section>
     <h2>The three crash points</h2>
-    <p class="sub">Duplicates per run, with the branch and pull request totals behind them.</p>
+    <p class="sub">What happened in each test, with the number of branches and pull requests behind it.</p>
     <div class="tests" id="tests"></div>
   </section>
 
   <section id="repeats-section" hidden>
-    <h2>Control C, run again by accident (not in the headline numbers)</h2>
-    <p class="sub">After the planned runs, four more pushes to the repository redeployed the agent on Railway while it was still configured for control C, so the control ran again. Two of those runs were stopped part-way by the next deploy. They are shown here, separately, from an audit of the register's pull requests. Every run that reached its first crash opened a duplicate pull request.</p>
+    <h2>A mistake of ours, shown openly</h2>
+    <p class="sub">After the planned tests, four code updates by accident restarted the third comparison test (the one without the check). Two of those runs were cut short by the next update. They are listed here separately, taken from the register's own pull request list, and they are not counted in any number above. Every one that got as far as its first stop opened a duplicate pull request, which is exactly what the check prevents.</p>
     <div class="card glass tablewrap" id="repeats"></div>
   </section>
 
   <section>
     <h2>How it works</h2>
-    <p class="sub">Every action gets a stable identity, <code>sha256(company_id, action, args)</code>, and the branch name is built from it. The same company and intent always produce the same branch, so the reconciler can look it up exactly.</p>
+    <p class="sub">Every job gets a fixed name made from the company and what we are doing with it. The same job always has the same name, so after a crash Identa can look it up on GitHub and know exactly what was finished.</p>
     <div class="steps">
-      <div class="step glass"><div class="num">1</div><h3>Intend</h3><p>Write the intent to a local store before touching GitHub: company, key, branch and planned steps.</p></div>
-      <div class="step glass"><div class="num">2</div><h3>Act</h3><p>Create the branch, commit <code>vendors/&lt;id&gt;.yaml</code>, open the pull request. Each step is logged. Writes run one at a time.</p></div>
-      <div class="step glass"><div class="num">3</div><h3>Reconcile</h3><p>After any interruption, read the exact branch, file and pull request on GitHub, then decide.</p>
+      <div class="step glass"><div class="num">1</div><h3>Note it down</h3><p>Before touching GitHub, write down what is about to happen: which company, and the steps planned.</p></div>
+      <div class="step glass"><div class="num">2</div><h3>Do it</h3><p>Create the branch, add the vendor file, open the pull request. Each step is logged, and they run one at a time.</p></div>
+      <div class="step glass"><div class="num">3</div><h3>Check, then decide</h3><p>After any interruption, look at the branch, the file and the pull request on GitHub, then choose what to do.</p>
         <div class="verdicts">
-          <span class="verdict"><b>Applied</b> · record it</span>
-          <span class="verdict"><b>NotApplied</b> · safe to act</span>
-          <span class="verdict"><b>Unknown</b> · human review</span>
+          <span class="verdict"><b>Already done</b> · just record it</span>
+          <span class="verdict"><b>Not done yet</b> · safe to do it</span>
+          <span class="verdict"><b>Unclear</b> · ask a person</span>
         </div>
       </div>
     </div>
   </section>
 
   <section>
-    <h2>Reconciliations</h2>
-    <p class="sub">Time from the saved record of the last write before the interruption to the reconciler's final check, read from evidence timestamps. Crash times include the container restart.</p>
+    <h2>How it recovered</h2>
+    <p class="sub">The time from the last thing the program did before it was stopped, to the moment it had checked GitHub and knew what to do. Restarting the program is included.</p>
     <div class="card glass tablewrap" id="recon"></div>
   </section>
 
   <section id="queue-section" hidden>
     <h2>Held for a human</h2>
-    <p class="sub">A company whose top two matches have the same confidence is not guessed. It goes to the human queue as Unknown, with the candidates listed. This is the first real run with that rule: the other seven companies were recognised as already onboarded, and no pull request was created or changed.</p>
+    <p class="sub">When two companies are an equally good match for a web address, Identa does not pick one. It holds the address for a person and lists the possible matches. This is the first real run with that rule: the other seven vendors were recognised as already added, and no pull request was created or changed.</p>
     <div class="card glass tablewrap" id="queue"></div>
   </section>
 
@@ -316,8 +316,8 @@
   </section>
 
   <section id="traces-section" hidden>
-    <h2>Traces in neatlogs</h2>
-    <p class="sub">Every run sent a trace. A killed process leaves a short trace whose last span is the write it finished, followed by the restart's trace, which starts by reading the branch on GitHub. No model is called, so tokens and model cost are 0.</p>
+    <h2>Recorded in neatlogs</h2>
+    <p class="sub">Every run sent a step-by-step record to neatlogs. A program that was stopped leaves a short record that ends at the last thing it finished. The restart then leaves its own record, which begins by checking GitHub. No AI model is used, so tokens and model cost are both 0.</p>
     <div class="card glass tablewrap" id="traces"></div>
     <p class="note" id="traces-note"></p>
   </section>
@@ -330,16 +330,15 @@
 
   <section>
     <details class="card glass">
-      <summary><span>Evidence behind this page <span class="muted-inline" id="evcount"></span></span></summary>
-      <div class="tablewrap" id="evidence"></div>
-      <p class="note">Every Crustdata and GitHub response is saved with a timestamp in the repository's <code>evidence/</code> folder. This page is built from those files and nothing else.</p>
+      <summary><span>Where these numbers come from <span class="muted-inline" id="evcount"></span></span></summary>
+      <p class="note" id="evidence-note"></p>
     </details>
   </section>
 
   <footer>
     <div class="glass">
       <span>Identa · MIT licence · <a href="https://github.com/Datwebguy/identa" rel="noopener">github.com/Datwebguy/identa</a></span>
-      <span>Idea credit: the intent-log and reconciler protocol is adapted from Anchor by Viraj Chogle. No code from it is used.</span>
+      <span>Idea credit: the approach of writing down what you are about to do, and checking before you retry, is adapted from Anchor by Viraj Chogle. No code from it is used.</span>
     </div>
   </footer>
 </div>
@@ -420,7 +419,7 @@
     var reruns = d.reconciliations.filter(function (r) { return r.kind === "re-run"; });
 
     document.getElementById("meta").textContent =
-      d.evidence_total.toLocaleString() + " saved API responses · last saved " + (d.last_saved_at ? when(d.last_saved_at) : "n/a");
+      d.evidence_total.toLocaleString() + " saved records of real runs · last saved " + (d.last_saved_at ? when(d.last_saved_at) : "n/a");
 
     // stats
     var stats = document.getElementById("stats"); clear(stats);
@@ -432,14 +431,14 @@
       stats.appendChild(c);
     }
     if (have) {
-      stat("Duplicate pull requests, protocol", String(sum(crashP, "duplicate_pull_requests")), "across 3 crash runs of 9 companies", "var(--protocol)");
-      stat("Duplicate pull requests, control", String(sum(ctrlP, "duplicate_pull_requests")), "same 3 crash points, no reconciler", "var(--control)");
+      stat("Duplicates with Identa", String(sum(crashP, "duplicate_pull_requests")), "across 3 crash tests of 9 companies", "var(--protocol)");
+      stat("Duplicates without the check", String(sum(ctrlP, "duplicate_pull_requests")), "same 3 crash tests, no check", "var(--control)");
     }
     if (m.vendor) stat("Vendors onboarded", String(m.vendor.companies), m.vendor.pull_requests + " pull requests, " + m.vendor.duplicate_pull_requests + " duplicates");
     if (crashes.length) {
       var secs = crashes.map(function (r) { return r.seconds; });
       var lo = Math.min.apply(null, secs), hi = Math.max.apply(null, secs);
-      stat("Crash to reconciled", (lo === hi ? lo.toFixed(1) : lo.toFixed(1) + "–" + hi.toFixed(1)) + " s", crashes.length + " crashes, restart included");
+      stat("Time to recover", (lo === hi ? lo.toFixed(1) : lo.toFixed(1) + "–" + hi.toFixed(1)) + " s", "after " + crashes.length + " crashes, restart included");
     }
 
     // chart
@@ -455,9 +454,9 @@
       groups.forEach(function (g) {
         var box = el("div"), title = el("div", "group-title");
         title.appendChild(el("span", "", g.title));
-        title.appendChild(el("span", "", "total across 3 crash points"));
+        title.appendChild(el("span", "", "total across 3 crash tests"));
         box.appendChild(title);
-        [["Protocol", crashP, "var(--protocol)"], ["Control", ctrlP, "var(--control)"]].forEach(function (s) {
+        [["With Identa", crashP, "var(--protocol)"], ["Without", ctrlP, "var(--control)"]].forEach(function (s) {
           var v = sum(s[1], g.key);
           var row = el("div", "row"), track = el("div", "track"), fill = el("div", "fill" + (v === 0 ? " zero" : ""));
           fill.style.width = (v / max * 100) + "%"; fill.style.background = s[2];
@@ -479,15 +478,15 @@
       var card = el("div", "test glass");
       card.appendChild(el("h3", "", p.name));
       card.appendChild(el("div", "when", p.detail));
-      [["Protocol", pm], ["Control", cm]].forEach(function (s) {
+      [["With Identa", pm], ["Without the check", cm]].forEach(function (s) {
         var row = el("div", "side"), left = el("div");
-        var name = el("b"); var sw = el("span", "swatch"); sw.style.background = s[0] === "Protocol" ? "var(--protocol)" : "var(--control)";
+        var name = el("b"); var sw = el("span", "swatch"); sw.style.background = s[0] === "With Identa" ? "var(--protocol)" : "var(--control)";
         name.appendChild(sw); name.appendChild(document.createTextNode(s[0]));
         left.appendChild(name);
         left.appendChild(el("div", "counts", s[1].branches + " branches · " + s[1].pull_requests + " pull requests"));
         var dupes = s[1].duplicate_pull_requests, dupb = s[1].duplicate_branches;
         var pill = el("span", "pill " + (dupes + dupb === 0 ? "good" : "warn"),
-          dupes + dupb === 0 ? "✓ No duplicates" : "⚠ " + dupes + " dup PR · " + dupb + " dup branch");
+          dupes + dupb === 0 ? "✓ No duplicates" : "⚠ " + (dupes ? dupes + " duplicate pull request, " : "") + dupb + " extra branch");
         row.appendChild(left); row.appendChild(pill);
         card.appendChild(row);
       });
@@ -496,18 +495,19 @@
 
     // reconciliations
     var recon = document.getElementById("recon");
+    var letters = { create_ref: "A", put_file: "B", open_pr: "C" };
+    var stopped = { create_ref: "right after creating the branch", put_file: "right after adding the file", open_pr: "right after opening the pull request" };
+    var next = { create_ref: "Finished the file, then the pull request", put_file: "Finished the pull request", open_pr: "Found the pull request already open and recorded it" };
     var rows = crashes.map(function (r) {
-      var outcome = { create_ref: "Resumed: file, then pull request", put_file: "Resumed: pull request", open_pr: "Applied: existing pull request recorded" }[r.after] || "";
-      var step = { create_ref: "after branch", put_file: "after file", open_pr: "after pull request" }[r.after] || r.after;
-      return ["Crash", r.branch, step, outcome, r.seconds.toFixed(2) + " s"];
+      return ["Crash test " + (letters[r.after] || ""), stopped[r.after] || r.after, next[r.after] || "", r.seconds.toFixed(2) + " s"];
     });
     if (reruns.length) {
       var rs = reruns.map(function (r) { return r.seconds; });
-      rows.push(["Re-run", reruns.length + " finished vendors", "branch creation refused by GitHub", "Applied, no new writes",
+      rows.push(["Re-run of " + reruns.length + " finished vendors", "GitHub refused to create the branch again", "Recognised them as done and wrote nothing",
         Math.min.apply(null, rs).toFixed(2) + "–" + Math.max.apply(null, rs).toFixed(2) + " s"]);
     }
-    if (rows.length) recon.appendChild(table(["Kind", "Branch", "Interrupted", "Outcome", "Time"], rows, [0, 0, 0, 0, 1]));
-    else recon.appendChild(el("p", "skeleton", "No reconciliations recorded yet."));
+    if (rows.length) recon.appendChild(table(["Test", "Stopped", "What it did next", "Time"], rows, [0, 0, 0, 1]));
+    else recon.appendChild(el("p", "skeleton", "Nothing recorded yet."));
 
     // vendors
     var vendors = document.getElementById("vendors");
@@ -525,9 +525,9 @@
     // human queue
     if (d.human_queue && d.human_queue.items.length) {
       document.getElementById("queue-section").hidden = false;
-      document.getElementById("queue").appendChild(table(["Domain", "Reason", "Candidates, all at the same confidence"],
+      document.getElementById("queue").appendChild(table(["Web address", "Why it was held", "Possible matches"],
         d.human_queue.items.map(function (it) {
-          return [it.domain, it.reason, it.candidates.map(function (c) { return c.name + " (" + c.company_id + ", " + c.confidence.toFixed(1) + ")"; }).join("  vs  ")];
+          return [it.domain, "Two equally good matches", it.candidates.map(function (c) { return c.name; }).join("  or  ")];
         })));
     }
 
@@ -553,12 +553,13 @@
       document.getElementById("traces-section").hidden = false;
       var planned = d.traces.filter(function (t) { return t.planned; });
       document.getElementById("traces").appendChild(table(
-        ["Started", "What", "Duration", "Spans", "Trace"],
+        ["Started", "What it was", "Duration", "Steps", "Record"],
         planned.map(function (t) {
-          return [when(t.started), t.kind, t.seconds.toFixed(1) + " s", t.spans, { text: t.trace_id.slice(0, 8) + "…", href: t.url }];
+          var kinds = { "Protocol run": "Run with Identa", "Killed process, protocol": "Program stopped (Identa test)", "Control run": "Run without the check", "Killed process, control": "Program stopped (comparison test)" };
+          return [when(t.started), kinds[t.kind] || t.kind, t.seconds.toFixed(1) + " s", t.spans, { text: "Open", href: t.url }];
         }), [0, 0, 1, 1, 0]));
       var other = d.traces.length - planned.length;
-      if (other) document.getElementById("traces-note").textContent = other + " more traces come from the unplanned control C runs described below. All " + d.traces.length + " traces report 0 tokens and 0 cost.";
+      if (other) document.getElementById("traces-note").textContent = other + " more records come from the accidental repeats described above. All " + d.traces.length + " records show 0 tokens and 0 cost.";
     }
 
     // control C repeats
@@ -575,9 +576,10 @@
     }
 
     // evidence
-    document.getElementById("evcount").textContent = "· " + d.evidence_total.toLocaleString() + " files";
-    document.getElementById("evidence").appendChild(table(["Source", "Call", "HTTP status", "Count"],
-      d.evidence_by_call.map(function (x) { return [x.source, x.call.replace(/_/g, " "), x.status, x.count.toLocaleString()]; }), [0, 0, 1, 1]));
+    document.getElementById("evcount").textContent = "· " + d.evidence_total.toLocaleString() + " saved records";
+    var en = document.getElementById("evidence-note");
+    en.appendChild(document.createTextNode("Every answer from Crustdata, GitHub and neatlogs during these runs was saved with its time. This page is built from those saved records and nothing else. They are all in the "));
+    var ea = el("a", "", "evidence folder on GitHub"); ea.href = "https://github.com/Datwebguy/identa/tree/main/evidence"; ea.rel = "noopener"; en.appendChild(ea); en.appendChild(document.createTextNode("."));
   }).catch(function () {
     document.getElementById("meta").textContent = "Could not load results.";
   });
