@@ -80,6 +80,8 @@ Planned: Python 3.11, Crustdata (identify, enrich), GitHub REST API, SQLite, nea
 
 - 12 Oct: removed the "What does not work yet" section and the banner from the results page: the owner objected to its developer wording and to listing weaknesses on the front page. The same limits stay in the README, this log and `docs/SUBMISSION.md`.
 
+- 12 Oct: read every visible word of the live results page, privacy page and 404 page for developer wording. Removed the "Run it yourself" block (it is in the README), changed "open an issue" to "contact us on GitHub", reworded the privacy page in plain terms, and fixed "1 branches" in the records table. Found and fixed a sideways scroll on phones when the records table was opened (764 px wide at a 360 px screen); now exact at 320, 360, 412 and 1280 px, open or closed. The page still has the section "A mistake of ours, shown openly" about the accidental repeats; it is the one remaining place that lists a failure.
+
 ## Demo
 
 Not available yet.

@@ -177,7 +177,6 @@
   .try .out dl { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; margin: 0; }
   .try .out dt { color: var(--muted); }
   .try .out dd { margin: 0; overflow-wrap: anywhere; }
-  .cmd { display: block; padding: 12px 14px; border-radius: 10px; background: var(--glass-strong); border: 1px solid var(--hairline); overflow-x: auto; white-space: pre; }
   .tests { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
   .test { min-width: 0; }
   .test { padding: 18px; }
@@ -327,13 +326,6 @@
   </section>
 
   <section>
-    <h2>Run it yourself</h2>
-    <p class="sub">The agent is a command line program. With the three keys set as environment variables, this adds the companies in a list, checking GitHub first if an earlier run stopped part-way:</p>
-    <code class="cmd">python -m identa run --config identa.toml --domains domains.csv</code>
-    <p class="note">Setup, the crash tests and every saved record are in the <a href="https://github.com/Datwebguy/identa" rel="noopener">repository</a>.</p>
-  </section>
-
-  <section>
     <h2>How it works</h2>
     <p class="sub">Every job gets a fixed name made from the company and what we are doing with it. The same job always has the same name, so after a crash Identa can look it up on GitHub and know exactly what was finished.</p>
     <div class="steps">
@@ -390,7 +382,7 @@
 
   <footer>
     <div class="glass">
-      <span>Identa · MIT licence · <a href="https://github.com/Datwebguy/identa" rel="noopener">github.com/Datwebguy/identa</a> · <a href="privacy.html">Privacy</a> · <a href="https://github.com/Datwebguy/identa/issues" rel="noopener">Contact: open an issue</a></span>
+      <span>Identa · MIT licence · <a href="https://github.com/Datwebguy/identa" rel="noopener">github.com/Datwebguy/identa</a> · <a href="privacy.html">Privacy</a> · <a href="https://github.com/Datwebguy/identa/issues" rel="noopener">Contact us on GitHub</a></span>
       <span>Idea credit: the approach of writing down what you are about to do, and checking before you retry, is adapted from Anchor by Viraj Chogle. No code from it is used.</span>
     </div>
   </footer>
@@ -687,11 +679,11 @@
     var base = "https://github.com/Datwebguy/identa/blob/main/evidence/";
     var names = { "crash-a": "Crash test A, with Identa", "crash-b": "Crash test B, with Identa", "crash-c": "Crash test C, with Identa", "control-a": "Test A, without the check", "control-b": "Test B, without the check", "control-c": "Test C, without the check", "race-a": "Race test, with Identa", "race-b": "Race test, without the check", "vendor": "First run and re-run" };
     var rows = d.measures.filter(function (x) { return names[x.prefix]; }).map(function (x) {
-      return [names[x.prefix], when(x.saved_at), x.branches + " branches, " + x.pull_requests + " pull requests", { text: "Open record", href: base + x.file }];
+      return [names[x.prefix], when(x.saved_at), x.branches + (x.branches === 1 ? " branch, " : " branches, ") + x.pull_requests + (x.pull_requests === 1 ? " pull request" : " pull requests"), { text: "Open record", href: base + x.file }];
     });
     if (rows.length) {
       document.getElementById("sources").appendChild(el("p", "note", "The count behind each result, read from GitHub right after each run:"));
-      document.getElementById("sources").appendChild(table(["Test", "Saved", "Found on GitHub", "Record"], rows, [0, 0, 0, 0]));
+      var wrapT = el("div", "tablewrap"); wrapT.appendChild(table(["Test", "Saved", "Found on GitHub", "Record"], rows, [0, 0, 0, 0])); document.getElementById("sources").appendChild(wrapT);
     }
   }).catch(function () {
     document.getElementById("meta").textContent = "Could not load results.";
