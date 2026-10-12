@@ -8,6 +8,8 @@ All runs: 11 October 2026, the nine vendor domains in `domains.csv`, agent on Ra
 
 | Input | Value | Status | Source |
 |---|---|---|---|
+| Crustdata cost per credit | $0.30 | Measured | Crustdata billing page (screenshot, 12 Oct): balance $1,554.60 for 5,182 credits, which is $0.30 per credit at list price. The page also lists company enrich at $0.60 to $1.20 per record (2 to 4 credits). Volume packages are cheaper: $500 buys $600 of usage, $2,000 buys $3,000 |
+| Crustdata cost per onboarded company | $0.60 | Measured | 18 credits for 9 companies = $5.40, from the balance change ($1,560.00 to $1,554.60) |
 | Crustdata credits per onboarded company | 2 credits | Measured | Balance 5,200 before the first enrichment, 5,182 after all nine companies were enriched once: 18 credits for 9 companies. `evidence/20261011T185751598889Z-crustdata-credits.json` and `evidence/20261011T200229795852Z-crustdata-credits.json` |
 | Crustdata credits for identify | 0 | Measured | Identify is free (Crustdata pricing page); the balance did not change across identify calls |
 | Crustdata credits for re-runs, crash recovery and the control | 0 additional | Measured | Balance still 5,182 after all crash tests and control runs, because saved enrich responses are reused. `evidence/20261011T202527195994Z-crustdata-credits.json` |
@@ -34,7 +36,21 @@ All runs: 11 October 2026, the nine vendor domains in `domains.csv`, agent on Ra
 | Duplicate pull requests, control, same 3 crash points | 1 | Measured | `identa measure` records for `control-a`, `control-b`, `control-c` |
 | Control C repeated by accident | 4 more runs, 1 duplicate each | Measured | `evidence/20261011T205609731739Z-audit-register-pull-requests.json` |
 
-## 4. Owner decisions (not measured, not suggested)
+## 4. Owner's pricing and growth decisions (chosen by the owner, not measured)
+
+| Input | Decision |
+|---|---|
+| Monthly subscription | $99 per customer per month, including 50 vendors |
+| Extra vendors above 50 | $1.50 each |
+| Customers | 3 in month 1, then 2 more every month, 25 in month 12 |
+| Vendors onboarded | 60 per customer per month |
+| Hosting | $5 per month (Railway Hobby plan fee) |
+| Team cost | $0 in year one |
+| Starting cash | $3,000 |
+
+Worked from the measured cost of $0.60 per vendor: each customer pays $114 per month ($99 plus 10 extra vendors at $1.50) and costs $36 in Crustdata, so $78 is left per customer. At 25 customers: revenue $2,850 per month, Crustdata $900, hosting $5, $1,945 left per month before any team cost.
+
+## 4b. Still open
 
 | Input | Value |
 |---|---|
