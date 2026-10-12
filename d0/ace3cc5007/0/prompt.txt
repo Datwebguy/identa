@@ -1,0 +1,11 @@
+Third session for Identa, owner Datwebguy. Do not ask me for any key, and do not paste or print any key.
+
+Before anything else, run command -v entire && entire --version, then entire status. If either fails, stop and tell me. Then do your first tool call and check that .entire/logs/entire.log exists and is not empty. If it is missing or empty, stop and tell me.
+
+If Entire is working: read AGENTS.md and docs/HANDOVER.md. Entire is enabled in this repo with branch storage. Then make one real code commit: make every run record the Crustdata credits it spent. In src/identa/crustdata.py the credits() call already exists; add a credits_spent(before, after) pure function. In workflow.run, read the balance before the first call and after the last, print the difference, and save it with evidence.save. Add unit tests with small literal inputs for the pure function only. Ruff, mypy and pytest must pass.
+
+Commit with a plain message, with Datwebguy as author and committer and no tool or assistant names. Entire’s hooks should add the Entire-Checkpoint trailer on their own; do not use entire session attach unless the trailer is missing. Then run entire checkpoint list, entire checkpoint explain HEAD and entire status.
+
+I authorize pushing the branch entire/checkpoints/v1 and main, as normal fast-forward pushes with no force and no --no-verify, and nothing else. Rebase onto origin/main first if it has moved. Then give me the full commit SHA, the checkpoint ID and the link https://entire.io/gh/Datwebguy/identa/commit/FULL_SHA, and show git ls-remote origin 'refs/heads/entire/*'.
+
+Rules: no Railway changes, no existing pull request touched, no force-push, and if any hook blocks a commit, fix the commit and never bypass the hook. If anything surprises you, stop and tell me.

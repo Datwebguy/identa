@@ -1,0 +1,28 @@
+{
+  "cli_version": "0.9.0",
+  "checkpoint_id": "d0ace3cc5007",
+  "strategy": "manual-commit",
+  "branch": "ccr-2ee52f67-4s9iru",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "src/identa/crustdata.py",
+    "src/identa/workflow.py",
+    "tests/test_crustdata_parse.py"
+  ],
+  "sessions": [
+    {
+      "metadata": "/d0/ace3cc5007/0/metadata.json",
+      "transcript": "/d0/ace3cc5007/0/full.jsonl",
+      "compact_transcript": "/d0/ace3cc5007/0/transcript.jsonl",
+      "content_hash": "/d0/ace3cc5007/0/content_hash.txt",
+      "prompt": "/d0/ace3cc5007/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 36,
+    "cache_creation_tokens": 49037,
+    "cache_read_tokens": 1371812,
+    "output_tokens": 4772,
+    "api_call_count": 17
+  }
+}
