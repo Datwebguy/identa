@@ -8,6 +8,7 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 
 import httpx
 
@@ -65,6 +66,38 @@ def decide_identity(found: Identified, threshold: float) -> str | None:
         return "confidence below threshold"
     if found.tied:
         return "tie at top confidence"
+    return None
+
+
+def _host(value: str | None) -> str | None:
+    """The bare host of a domain or website address, without 'www.'."""
+    if not value:
+        return None
+    host = urlparse(value if "://" in value else "//" + value).hostname or ""
+    host = host.lower().rstrip(".")
+    return host[4:] if host.startswith("www.") else host or None
+
+
+def break_tie(found: Identified) -> tuple[Identified, str] | None:
+    """Settle a tie from the evidence in the matches themselves.
+
+    First: the only tied match whose primary domain is the requested domain. Then: the only
+    one whose website is exactly the requested domain. Anything else stays a tie for a person.
+    """
+    if not found.tied or len(found.candidate_sites) != len(found.candidates):
+        return None
+    want = _host(found.domain)
+    rules = (
+        ([_host(primary) for _, primary, _ in found.candidate_sites], "its primary domain is {d}"),
+        ([_host(site) for _, _, site in found.candidate_sites], "its website is {d} itself"),
+    )
+    for hosts, why in rules:
+        hits = [i for i, host in enumerate(hosts) if host == want]
+        if len(hits) == 1:
+            cid, name, score = found.candidates[hits[0]]
+            primary = found.candidate_sites[hits[0]][1]
+            chosen = Identified(found.domain, cid, score, name, primary, ((cid, name, score),))
+            return chosen, why.format(d=want)
     return None
 
 
@@ -159,6 +192,23 @@ def run(
             report.recovered += 1
 
     for found in crust.identify(domains):
+        settled = break_tie(found)
+        if settled is not None:
+            chosen, why = settled
+            print(f"tie settled for {found.domain}: {chosen.name} ({chosen.company_id}), {why}")
+            evidence.save(
+                cfg.evidence_dir,
+                "identa",
+                "tie-settled",
+                0,
+                {
+                    "domain": found.domain,
+                    "chosen": chosen.company_id,
+                    "why": why,
+                    "candidates": json.loads(_detail(found))["candidates"],
+                },
+            )
+            found = chosen
         reason = decide_identity(found, cfg.confidence_threshold)
         if reason is not None or found.company_id is None:
             store.enqueue_human(None, found.domain, reason or "no match", _detail(found))

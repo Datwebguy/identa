@@ -348,8 +348,8 @@
   </section>
 
   <section id="queue-section" hidden>
-    <h2>Held for a human</h2>
-    <p class="sub">When two companies are an equally good match for a web address, Identa does not pick one. It holds the address for a person and lists the possible matches. This is the first real run with that rule: the other seven vendors were recognised as already added, and no pull request was created or changed.</p>
+    <h2>When two companies look the same</h2>
+    <p class="sub">Sometimes two companies are an equally good match for one web address. Identa does not guess. It checks which one actually owns the address: first the company whose main domain is that address, then the one whose own website is that address. In the run below, before this check existed, both cases were held for a person. Applied to the same saved answers, the check settles both: cfo.ai, because its website is cfo.ai itself, and Amazon, because its main domain is amazon.com. A person is only asked when nothing separates the matches.</p>
     <div class="card glass tablewrap" id="queue"></div>
   </section>
 

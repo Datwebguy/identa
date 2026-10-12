@@ -1,0 +1,52 @@
+{
+  "saved_at": "2026-10-12T07:22:45.279729+00:00",
+  "source": "identa",
+  "status": 0,
+  "body": {
+    "source": "evidence/20261012T050229092559Z-crustdata-identify.json",
+    "results": [
+      {
+        "domain": "cfo.ai",
+        "candidates": [
+          {
+            "company_id": 96478261,
+            "name": "cfo.ai",
+            "primary_domain": "cfo.ai",
+            "website": "https://cfo.ai"
+          },
+          {
+            "company_id": 636422,
+            "name": "Runway",
+            "primary_domain": "cfo.ai",
+            "website": "https://runway.cfo.ai"
+          }
+        ],
+        "chosen": 96478261,
+        "name": "cfo.ai",
+        "why": "its website is cfo.ai itself",
+        "accepted": true
+      },
+      {
+        "domain": "amazon.com",
+        "candidates": [
+          {
+            "company_id": 6034577,
+            "name": "Amazon",
+            "primary_domain": "amazon.com",
+            "website": null
+          },
+          {
+            "company_id": 1033829,
+            "name": "Amazon Web Services (AWS)",
+            "primary_domain": "aws.com",
+            "website": "http://aws.amazon.com"
+          }
+        ],
+        "chosen": 6034577,
+        "name": "Amazon",
+        "why": "its primary domain is amazon.com",
+        "accepted": true
+      }
+    ]
+  }
+}

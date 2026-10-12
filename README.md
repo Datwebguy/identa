@@ -30,7 +30,7 @@ domains.csv -> Crustdata identify (free) -> Crustdata enrich (2 credits)
    - NotApplied: the branch does not exist. It is safe to act again.
    - Resume: the branch exists but the file or pull request is missing. Continue from the missing step.
    - Unknown: the check failed or the state is ambiguous. The company goes to a human queue. Identa never guesses.
-3. **Identity rule.** A company is accepted only when its top Crustdata match is at or above the configured confidence threshold (0.9) and no other match shares that score. A tie, a low score or no match is held for a person.
+3. **Identity rule.** A company is accepted only when its top Crustdata match is at or above the configured confidence threshold (0.9). When two matches share the top score, Identa settles the tie from the matches themselves: it picks the only match whose primary domain is the requested domain, or else the only one whose website is exactly that domain, and records why. A tie that nothing separates, a low score or no match is held for a person.
 4. **The control.** The same executor with the reconciler removed and a blind retry on any error. Each of its attempts names its own branch, because it has no stable key. It is run at the same crash points so duplicates can be counted.
 
 All Crustdata and GitHub calls are traced with neatlogs. No language model is called, so every run reports 0 tokens and 0 model cost.
@@ -50,7 +50,7 @@ Other measured facts:
 
 - First full run: 9 of 9 companies onboarded, pull requests #1 to #9, 34.92 s for the nine (3.88 s per company).
 - Crustdata cost: 2 credits per new company (18 credits for 9), at $0.30 per credit, so $0.60 per company. Identify is free.
-- Tie rule: `cfo.ai` (cfo.ai or Runway) and `amazon.com` (Amazon or Amazon Web Services) each had two matches at confidence 1.0, so both were held for a person. The first `Unknown` verdict came from this run.
+- Ties: in the 12 Oct re-run, `cfo.ai` (cfo.ai or Runway) and `amazon.com` (Amazon or Amazon Web Services) each had two matches at confidence 1.0 and were held for a person; that run produced the first `Unknown` verdict. The tie-breaker added afterwards settles both from the same saved Crustdata answers: cfo.ai, because its website is cfo.ai itself (Runway's is runway.cfo.ai), and Amazon, because its primary domain is amazon.com (AWS's is aws.com). Record: `evidence/*-identa-tie-check-on-saved-identify.json`.
 - Race test, with Identa: one copy finished and seven stopped, because GitHub refused their writes. They opened nothing. Their memory lives inside each process, so nothing resumes them later.
 
 ## Status

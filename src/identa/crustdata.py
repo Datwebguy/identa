@@ -34,6 +34,8 @@ class Identified:
     primary_domain: str | None
     # Every match that shares the top confidence_score: (company id, name, confidence).
     candidates: tuple[tuple[int, str | None, float], ...] = ()
+    # For the same matches, in the same order: (company id, primary domain, website).
+    candidate_sites: tuple[tuple[int, str | None, str | None], ...] = ()
 
     @property
     def tied(self) -> bool:
@@ -124,6 +126,15 @@ class Crustdata:
             for m in matches
             if m["confidence_score"] == top["confidence_score"]
         )
+        sites = tuple(
+            (
+                int(m["company_data"]["crustdata_company_id"]),
+                (m["company_data"].get("basic_info") or {}).get("primary_domain"),
+                (m["company_data"].get("basic_info") or {}).get("website"),
+            )
+            for m in matches
+            if m["confidence_score"] == top["confidence_score"]
+        )
         return Identified(
             domain,
             int(data["crustdata_company_id"]),
@@ -131,6 +142,7 @@ class Crustdata:
             info.get("name"),
             info.get("primary_domain"),
             candidates,
+            sites,
         )
 
     @tool("crustdata.enrich")
