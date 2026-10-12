@@ -477,7 +477,8 @@
         .then(function (res) {
           var b = res.body;
           if (!res.ok) { show(null, b.error || "The check could not run."); return; }
-          var rows = [["Domain", b.domain], ["Decision", b.decision === "accept" ? "Add it to the register" : "Hold for a person"], ["Why", b.reason]];
+          var why = { "no match": "Crustdata has no company on record for this address, so Identa will not guess.", "confidence below threshold": "Crustdata is not sure enough that this is the right company.", "tie at top confidence": "Two or more companies match equally well, so a person has to choose.", "one match at or above the threshold": "One company matches with high confidence." };
+            var rows = [["Domain", b.domain], ["Decision", b.decision === "accept" ? "Add it to the register" : "Hold for a person"], ["Why", why[b.reason] || b.reason]];
           if (b.name) rows.splice(1, 0, ["Company", b.name]);
           if (typeof b.confidence === "number") rows.push(["Confidence", String(b.confidence)]);
           if (b.candidates) rows.push(["Tied matches", b.candidates.map(function (c) { return c.name + " (" + c.company_id + ")"; }).join(", ")]);
