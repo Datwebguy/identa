@@ -90,6 +90,8 @@ Python 3.11, Crustdata (identify, enrich), the GitHub REST API, SQLite, neatlogs
 
 - 12 Oct, 13:15 UTC: added decision memory to the agent. A person's accept or reject (with a reason) is stored in a new `decisions` table, and before holding a company the agent now recalls it: a rejected company is not queued again, and an earlier choice among tied matches is applied without a new review. Open queue entries for a domain that is later settled are closed. Eight unit tests with small literal inputs (58 tests pass in total, with lint and type checks). Real before-and-after test, run locally against Crustdata's real answers on a throwaway store, with nothing sent to GitHub: the domain `joinopenstock.xyz` (typed by the owner into the results page's company check; Crustdata has no company on record for it). Run 1: held for review (queued 1), 0 credits. A rejection with a reason was recorded with the queue command; that rejection was made for this test and is not a vendor review by the owner. Run 2: `recalled 1, queued 0`, 0 credits, the earlier reason shown. Evidence: `evidence/*-identa-memory-recall.json` and the Crustdata identify records. Not built: learned rules from repeated cases. Not yet observed on Railway.
 
+- 12 Oct: demo video published on YouTube (https://youtu.be/7W2PAYR1b1Q). It is an animated explainer of 2 minutes 49 seconds with synthetic voices (Kokoro, an open-source speech model), real screens from neatlogs, Entire and cfo.ai, and numbers taken only from saved runs. The quote-post for the submission carries the video file and tags @neatlogs, @EntireHQ and @arithecfo.
+
 ## Evidence for each tool
 
 **neatlogs** (project `identa`, workflow `identa`). 23 traces were read with the neatlogs command line tool and saved in `evidence/`. Link format: `https://app.neatlogs.com/traces/<trace id>`.
@@ -126,7 +128,9 @@ The approach of writing down what you are about to do, and checking before you r
 
 ## Demo
 
-Results page: https://identa-iota.vercel.app. The demo video link will be added here when it is published.
+Demo video (2:49): https://youtu.be/7W2PAYR1b1Q
+
+Results page: https://identa-iota.vercel.app
 
 ## Known limitations and next steps
 
