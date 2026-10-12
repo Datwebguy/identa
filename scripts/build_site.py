@@ -192,6 +192,7 @@ def build(evidence_dir: Path) -> dict[str, object]:
         "measures": sorted(latest_measure.values(), key=lambda m: str(m["prefix"])),
         "reconciliations": reconciliations(recs),
         "pull_requests": sorted(pull_requests, key=lambda p: int(str(p["number"]))),
+        "human_queue": next((r[3] for r in reversed(recs) if r[1] == "railway-log"), None),
         "cfo_plan": next((r[3] for r in reversed(recs) if r[1] == "cfo.ai"), None),
         "traces": trace_rows(recs, str(latest_measure.get("control-c", {}).get("saved_at") or "")),
         "control_c_runs": control_runs(

@@ -1,0 +1,44 @@
+{
+  "saved_at": "2026-10-12T05:09:14.132699+00:00",
+  "source": "railway-log",
+  "status": 200,
+  "body": {
+    "note": "Printed by `queue list` on Railway on 12 Oct 2026 at 05:06 UTC, copied from the deployment log (not an API response).",
+    "items": [
+      {
+        "id": 1,
+        "domain": "cfo.ai",
+        "reason": "tie at top confidence",
+        "candidates": [
+          {
+            "company_id": 96478261,
+            "name": "cfo.ai",
+            "confidence": 1.0
+          },
+          {
+            "company_id": 636422,
+            "name": "Runway",
+            "confidence": 1.0
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "domain": "amazon.com",
+        "reason": "tie at top confidence",
+        "candidates": [
+          {
+            "company_id": 6034577,
+            "name": "Amazon",
+            "confidence": 1.0
+          },
+          {
+            "company_id": 1033829,
+            "name": "Amazon Web Services (AWS)",
+            "confidence": 1.0
+          }
+        ]
+      }
+    ]
+  }
+}

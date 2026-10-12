@@ -302,6 +302,12 @@
     <div class="card glass tablewrap" id="recon"></div>
   </section>
 
+  <section id="queue-section" hidden>
+    <h2>Held for a human</h2>
+    <p class="sub">A company whose top two matches have the same confidence is not guessed. It goes to the human queue as Unknown, with the candidates listed. This is the first real run with that rule: the other seven companies were recognised as already onboarded, and no pull request was created or changed.</p>
+    <div class="card glass tablewrap" id="queue"></div>
+  </section>
+
   <section id="plan-section" hidden>
     <h2>Business plan</h2>
     <p class="sub">Built in cfo.ai from two kinds of input. Costs come from real runs. Pricing and growth are the founder's decisions, not measurements.</p>
@@ -515,6 +521,15 @@
       vendors.appendChild(a);
     });
     if (!d.pull_requests.length) vendors.appendChild(el("p", "skeleton", "No pull requests recorded yet."));
+
+    // human queue
+    if (d.human_queue && d.human_queue.items.length) {
+      document.getElementById("queue-section").hidden = false;
+      document.getElementById("queue").appendChild(table(["Domain", "Reason", "Candidates, all at the same confidence"],
+        d.human_queue.items.map(function (it) {
+          return [it.domain, it.reason, it.candidates.map(function (c) { return c.name + " (" + c.company_id + ", " + c.confidence.toFixed(1) + ")"; }).join("  vs  ")];
+        })));
+    }
 
     // business plan
     if (d.cfo_plan) {

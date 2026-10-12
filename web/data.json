@@ -1,6 +1,6 @@
 {
-  "evidence_total": 2013,
-  "last_saved_at": "2026-10-12T04:26:39.544669+00:00",
+  "evidence_total": 2053,
+  "last_saved_at": "2026-10-12T05:09:14.132699+00:00",
   "evidence_by_call": [
     {
       "source": "audit",
@@ -18,7 +18,7 @@
       "source": "crustdata",
       "call": "credits",
       "status": 200,
-      "count": 4
+      "count": 6
     },
     {
       "source": "crustdata",
@@ -30,7 +30,7 @@
       "source": "crustdata",
       "call": "identify",
       "status": 200,
-      "count": 15
+      "count": 16
     },
     {
       "source": "github",
@@ -48,13 +48,13 @@
       "source": "github",
       "call": "create_ref",
       "status": 422,
-      "count": 9
+      "count": 16
     },
     {
       "source": "github",
       "call": "get_file",
       "status": 200,
-      "count": 894
+      "count": 901
     },
     {
       "source": "github",
@@ -66,7 +66,7 @@
       "source": "github",
       "call": "get_ref",
       "status": 200,
-      "count": 97
+      "count": 111
     },
     {
       "source": "github",
@@ -84,7 +84,7 @@
       "source": "github",
       "call": "list_prs",
       "status": 200,
-      "count": 12
+      "count": 19
     },
     {
       "source": "github",
@@ -109,6 +109,12 @@
       "call": "put_file",
       "status": 201,
       "count": 425
+    },
+    {
+      "source": "identa",
+      "call": "credits-spent",
+      "status": 0,
+      "count": 1
     },
     {
       "source": "measure",
@@ -191,6 +197,12 @@
     {
       "source": "neatlogs",
       "call": "traces-list-identa",
+      "status": 200,
+      "count": 1
+    },
+    {
+      "source": "railway-log",
+      "call": "human-queue",
       "status": 200,
       "count": 1
     }
@@ -423,6 +435,45 @@
       "title": "Add vendor Amazon (amazon.com)"
     }
   ],
+  "human_queue": {
+    "note": "Printed by `queue list` on Railway on 12 Oct 2026 at 05:06 UTC, copied from the deployment log (not an API response).",
+    "items": [
+      {
+        "id": 1,
+        "domain": "cfo.ai",
+        "reason": "tie at top confidence",
+        "candidates": [
+          {
+            "company_id": 96478261,
+            "name": "cfo.ai",
+            "confidence": 1.0
+          },
+          {
+            "company_id": 636422,
+            "name": "Runway",
+            "confidence": 1.0
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "domain": "amazon.com",
+        "reason": "tie at top confidence",
+        "candidates": [
+          {
+            "company_id": 6034577,
+            "name": "Amazon",
+            "confidence": 1.0
+          },
+          {
+            "company_id": 1033829,
+            "name": "Amazon Web Services (AWS)",
+            "confidence": 1.0
+          }
+        ]
+      }
+    ]
+  },
   "cfo_plan": {
     "note": "Figures read by the owner from the cfo.ai plan on 12 Oct 2026 (screenshot) and re-checked by hand. Not an API response.",
     "share_url": "https://cfo.ai/s/yH49V0HAB1YFq5fX",

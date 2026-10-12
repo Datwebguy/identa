@@ -64,6 +64,6 @@ Read this first. It replaces the older parts of `docs/PLAN.md` (that file still 
 
 ## Known gaps to state openly
 
-- The `Unknown` verdict has not occurred in a real run yet (the tie-rule re-run should produce it).
+- (Done) The `Unknown` verdict occurred in the 12 Oct re-run: `cfo.ai` and `amazon.com` were held for a human.
 - The control gives each attempt a new branch name, because it has no stable key.
 - Copying evidence off the Railway volume runs at about one file per second.
