@@ -59,6 +59,6 @@ Worked from the measured cost of $0.60 per vendor: each customer pays $114 per m
 
 ## 5. What does not work yet
 
-- The `Unknown` verdict has not occurred in a real run.
-- A tie between two top matches at the same confidence is not yet sent to human review (seen for `cfo.ai` and `amazon.com`).
+- The human queue is a command-line queue, not a web page.
 - Copying evidence off the Railway volume runs at about one file per second.
+- Resolved on 12 Oct 2026: a tie between two top matches now goes to the human queue (seen for `cfo.ai` and `amazon.com`), and the `Unknown` outcome has occurred in a real run.
