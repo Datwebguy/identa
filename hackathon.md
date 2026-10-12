@@ -129,7 +129,7 @@ Results page: https://identa-iota.vercel.app. The demo video link will be added 
 - The human review queue is a command line queue, not a web page.
 - In the race test, 7 of 8 copies stopped without finishing because GitHub refused their writes. Their memory lives inside each process, so nothing resumes them later.
 - The comparison without the check gives every attempt a new branch name, because it has no stable key. That is why it duplicates.
-- Only one commit, the tie-rule work, has an Entire checkpoint.
+- Only one commit, the one that records the Crustdata credits each run spends, has an Entire checkpoint.
 - The company check on the results page has a per-address limit in its code, but a saved test showed it does not stop quick repeated requests (each request can run on a different server instance), so it is not enforced. The lookup is free but shares Crustdata's 30-per-minute identify limit with the agent.
 - Four accidental repeats of one comparison test are listed separately on the results page and are not counted in any headline number.
 - No language model is used, so there are no AI summaries of held cases. An hourly schedule is not built.
