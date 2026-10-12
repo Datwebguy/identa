@@ -72,6 +72,8 @@ Planned: Python 3.11, Crustdata (identify, enrich), GitHub REST API, SQLite, nea
 
 - 12 Oct: added a read-only company check to the results page (`api/identify.js`) after looking at another team's public page (FirstRun doc-audit) that lets visitors run its tool. It calls Crustdata identify (free) and applies the same rule as the agent (threshold 0.9, tie goes to a person). It writes nothing to GitHub and saves nothing. Limits are best-effort in memory: 5 checks per minute per address and 20 per minute in total per server instance. Four small node tests cover the rule (`node --test tests/identify.test.js`, 4 passed). It needs `CRUSTDATA_API_KEY` set in Vercel; until then the page says the live check is not switched on. Added a "Run it yourself" command to the page. Not yet verified against live Crustdata data.
 
+- 12 Oct: page changes after studying two more public projects (FirstRun doc-audit and TruthOps). Added a "Skip to the results" link, a short "who it is for" line, a one-line limits banner near the top with a full "What does not work yet" section, a "See the saved records" link on every headline tile, and a table of the exact evidence file behind each measurement (9 files, all checked to exist). Checked at 320, 360 and 1280 px: no sideways scroll, no script errors. TruthOps's page, as far as its text could be read, is driven by recorded fixtures; Identa's numbers come from saved live runs.
+
 ## Demo
 
 Not available yet.

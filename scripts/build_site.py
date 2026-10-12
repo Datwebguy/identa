@@ -159,6 +159,13 @@ def trace_rows(
     return rows
 
 
+def record_file(saved_at: str, source: str, label: str) -> str:
+    """The evidence file name for a record, from its saved time (see evidence.save)."""
+    stamp = datetime.fromisoformat(saved_at).strftime("%Y%m%dT%H%M%S%fZ")
+    safe = "".join(c if c.isalnum() or c in "-_." else "_" for c in label)
+    return f"{stamp}-{source}-{safe}.json"
+
+
 def races(
     recs: list[tuple[str, str, int, Any, str]], measures: dict[str, dict[str, object]]
 ) -> list[dict[str, object]]:
@@ -180,6 +187,7 @@ def races(
         out.append(
             {
                 "saved_at": at,
+                "file": record_file(at, "race", str(body["branch_prefix"])),
                 "prefix": body["branch_prefix"],
                 "domain": body["domain"],
                 "agents": body["agents"],
@@ -205,7 +213,11 @@ def build(evidence_dir: Path) -> dict[str, object]:
         if source == "measure" and body["prefix"] not in latest_measure:
             # The first measurement after each planned run is the one that describes it.
             m = {k: v for k, v in body.items() if k != "per_company"}
-            latest_measure[body["prefix"]] = {"saved_at": at, **m}
+            latest_measure[body["prefix"]] = {
+                "saved_at": at,
+                "file": record_file(at, "measure", str(body["prefix"])),
+                **m,
+            }
         if source == "github" and label == "open_pr" and status == 201:
             branch = body["head"]["ref"]
             if branch.startswith("vendor/"):

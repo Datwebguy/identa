@@ -246,6 +246,7 @@
   "measures": [
     {
       "saved_at": "2026-10-11T20:15:39.274689+00:00",
+      "file": "20261011T201539274689Z-measure-control-a.json",
       "prefix": "control-a",
       "companies": 9,
       "branches": 10,
@@ -255,6 +256,7 @@
     },
     {
       "saved_at": "2026-10-11T20:15:41.286543+00:00",
+      "file": "20261011T201541286543Z-measure-control-b.json",
       "prefix": "control-b",
       "companies": 9,
       "branches": 10,
@@ -264,6 +266,7 @@
     },
     {
       "saved_at": "2026-10-11T20:15:43.352215+00:00",
+      "file": "20261011T201543352215Z-measure-control-c.json",
       "prefix": "control-c",
       "companies": 9,
       "branches": 10,
@@ -273,6 +276,7 @@
     },
     {
       "saved_at": "2026-10-11T20:05:37.056178+00:00",
+      "file": "20261011T200537056178Z-measure-crash-a.json",
       "prefix": "crash-a",
       "companies": 9,
       "branches": 9,
@@ -282,6 +286,7 @@
     },
     {
       "saved_at": "2026-10-11T20:09:23.468262+00:00",
+      "file": "20261011T200923468262Z-measure-crash-b.json",
       "prefix": "crash-b",
       "companies": 9,
       "branches": 9,
@@ -291,6 +296,7 @@
     },
     {
       "saved_at": "2026-10-11T20:09:25.541474+00:00",
+      "file": "20261011T200925541474Z-measure-crash-c.json",
       "prefix": "crash-c",
       "companies": 9,
       "branches": 9,
@@ -300,6 +306,7 @@
     },
     {
       "saved_at": "2026-10-12T05:43:39.749446+00:00",
+      "file": "20261012T054339749446Z-measure-race-a.json",
       "prefix": "race-a",
       "companies": 1,
       "branches": 1,
@@ -309,6 +316,7 @@
     },
     {
       "saved_at": "2026-10-12T05:45:14.073574+00:00",
+      "file": "20261012T054514073574Z-measure-race-b.json",
       "prefix": "race-b",
       "companies": 1,
       "branches": 8,
@@ -318,6 +326,7 @@
     },
     {
       "saved_at": "2026-10-11T20:01:52.114817+00:00",
+      "file": "20261011T200152114817Z-measure-vendor.json",
       "prefix": "vendor",
       "companies": 9,
       "branches": 9,
@@ -435,6 +444,7 @@
   "races": [
     {
       "saved_at": "2026-10-12T05:41:23.331296+00:00",
+      "file": "20261012T054123331296Z-race-race-a.json",
       "prefix": "race-a",
       "domain": "github.com",
       "agents": 8,
@@ -451,6 +461,7 @@
     },
     {
       "saved_at": "2026-10-12T05:42:19.679163+00:00",
+      "file": "20261012T054219679163Z-race-race-b.json",
       "prefix": "race-b",
       "domain": "github.com",
       "agents": 8,
