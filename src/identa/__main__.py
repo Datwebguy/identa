@@ -35,13 +35,14 @@ def read_domains(path: Path) -> list[str]:
     return [d for d in rows if d.lower() != "domain"]
 
 
-def _github(cfg: Config) -> GitHub:
+def _github(cfg: Config, record: bool = True) -> GitHub:
     return GitHub(
         require_env("GITHUB_TOKEN"),
         cfg.repo_owner,
         cfg.repo_name,
         cfg.evidence_dir,
         (cfg.commit_author_name, cfg.commit_author_email),
+        record=record,
     )
 
 
@@ -122,6 +123,9 @@ def main() -> None:
     e = sub.add_parser("export-evidence", help="copy evidence files to the evidence branch")
     e.add_argument("--config", required=True, type=Path)
     e.add_argument("--skip-dir", type=Path, help="files already present here are not exported")
+    e.add_argument(
+        "--since", required=True, help="only export files named at or after this timestamp"
+    )
     q = sub.add_parser("queue", help="the human queue")
     q.add_argument("--config", required=True, type=Path)
     q.add_argument("action", choices=["list", "accept", "reject"])
@@ -138,7 +142,9 @@ def main() -> None:
         _measure(cfg, args.prefix)
         return
     if args.cmd == "export-evidence":
-        count = export_evidence(_github(cfg), cfg.evidence_dir, args.skip_dir, cfg.base_branch)
+        count = export_evidence(
+            _github(cfg, record=False), cfg.evidence_dir, args.skip_dir, cfg.base_branch, args.since
+        )
         print({"exported": count})
         return
     if args.cmd == "queue":

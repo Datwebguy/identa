@@ -14,7 +14,9 @@ fi
 
 # shellcheck disable=SC2086
 python -m identa $IDENTA_ARGS
-# IDENTA_EXPORT=0 skips copying evidence off the volume (set it for read-only commands).
-if [ "$IDENTA_EXPORT" != "0" ]; then
-  python -m identa export-evidence --config identa.railway.toml --skip-dir /app/evidence
+# Evidence is copied off the volume only when IDENTA_EXPORT_SINCE is set to a timestamp prefix
+# such as 20261012T0502. Only files from that time on are copied, and the copy does not
+# record its own calls, so it cannot feed itself.
+if [ -n "$IDENTA_EXPORT_SINCE" ] && [ "$IDENTA_EXPORT" != "0" ]; then
+  python -m identa export-evidence --config identa.railway.toml --skip-dir /app/evidence --since "$IDENTA_EXPORT_SINCE"
 fi

@@ -13,16 +13,29 @@ from identa.github import GitHub
 EVIDENCE_BRANCH = "evidence"
 
 
-def export_evidence(gh: GitHub, evidence_dir: Path, skip_dir: Path | None, base: str) -> int:
-    """Returns the number of files written. Files already in skip_dir are not exported."""
+def select_files(evidence_dir: Path, skip_dir: Path | None, since: str) -> list[Path]:
+    """Files to copy: named at or after `since`, and not already present in skip_dir."""
+    return [
+        p
+        for p in sorted(evidence_dir.glob("*.json"))
+        if p.name >= since and not (skip_dir is not None and (skip_dir / p.name).exists())
+    ]
+
+
+def export_evidence(
+    gh: GitHub, evidence_dir: Path, skip_dir: Path | None, base: str, since: str
+) -> int:
+    """Returns the number of files written.
+
+    Only files whose name sorts at or after `since` (a timestamp prefix such as
+    20261012T0502) are copied, and files already in skip_dir are not.
+    """
     if gh.get_ref(EVIDENCE_BRANCH).status == 404:
         sha = gh.get_ref(base).body["object"]["sha"]
         if gh.create_ref(EVIDENCE_BRANCH, sha).status != 201:
             raise RuntimeError("could not create the evidence branch")
     written = 0
-    for path in sorted(evidence_dir.glob("*.json")):
-        if skip_dir is not None and (skip_dir / path.name).exists():
-            continue
+    for path in select_files(evidence_dir, skip_dir, since):
         target = f"evidence/{path.name}"
         if gh.get_file(target, EVIDENCE_BRANCH).status == 200:
             continue

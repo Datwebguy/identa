@@ -37,6 +37,7 @@ class GitHub:
         evidence_dir: Path,
         author: tuple[str, str],
         client: httpx.Client | None = None,
+        record: bool = True,
     ) -> None:
         self._client = client or httpx.Client(timeout=30)
         self._headers = {
@@ -48,6 +49,7 @@ class GitHub:
         self.owner = owner
         self.repo = repo
         self._evidence_dir = evidence_dir
+        self._record = record
         self._write_lock = threading.Lock()
 
     def _url(self, path: str) -> str:
@@ -59,7 +61,8 @@ class GitHub:
             body: Any = resp.json()
         except ValueError:
             body = resp.text
-        evidence.save(self._evidence_dir, "github", label, resp.status_code, body)
+        if self._record:
+            evidence.save(self._evidence_dir, "github", label, resp.status_code, body)
         return Reply(resp.status_code, body)
 
     def _write(self, label: str, method: str, path: str, **kw: Any) -> Reply:
