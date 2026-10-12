@@ -1,0 +1,8 @@
+{
+  "saved_at": "2026-10-12T06:12:23.721246+00:00",
+  "source": "vercel-check",
+  "status": 400,
+  "body": {
+    "error": "Enter a domain such as example.com."
+  }
+}

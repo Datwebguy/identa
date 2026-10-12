@@ -1,0 +1,25 @@
+{
+  "saved_at": "2026-10-12T06:12:23.567451+00:00",
+  "source": "vercel-check",
+  "status": 200,
+  "body": {
+    "domain": "amazon.com",
+    "name": "Amazon",
+    "company_id": 6034577,
+    "confidence": 1,
+    "decision": "hold",
+    "reason": "tie at top confidence",
+    "candidates": [
+      {
+        "company_id": 6034577,
+        "name": "Amazon",
+        "confidence": 1
+      },
+      {
+        "company_id": 1033829,
+        "name": "Amazon Web Services (AWS)",
+        "confidence": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "saved_at": "2026-10-12T06:12:26.244086+00:00",
+  "source": "vercel-check",
+  "status": 200,
+  "body": {
+    "requests": 8,
+    "statuses": [
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200
+    ],
+    "intended_limit_per_address": 5
+  }
+}

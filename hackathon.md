@@ -74,6 +74,8 @@ Planned: Python 3.11, Crustdata (identify, enrich), GitHub REST API, SQLite, nea
 
 - 12 Oct: page changes after studying two more public projects (FirstRun doc-audit and TruthOps). Added a "Skip to the results" link, a short "who it is for" line, a one-line limits banner near the top with a full "What does not work yet" section, a "See the saved records" link on every headline tile, and a table of the exact evidence file behind each measurement (9 files, all checked to exist). Checked at 320, 360 and 1280 px: no sideways scroll, no script errors. TruthOps's page, as far as its text could be read, is driven by recorded fixtures; Identa's numbers come from saved live runs.
 
+- 12 Oct, 06:12 UTC: tested the live company check after the key was set in Vercel. `github.com` returned accept (company 632750, confidence 1); `amazon.com` returned hold with the same two tied candidates the agent found; a malformed domain returned 400. Records: `evidence/*-vercel-check-*.json`. Correction to the entry above: the per-address limit did not work. Eight quick requests all returned 200 (intended limit 5 per minute), because each request can run on a different server instance. The page now says the limit is not enforced. The check is free (identify costs no credits) but shares the 30-per-minute lookup limit with the agent.
+
 ## Demo
 
 Not available yet.

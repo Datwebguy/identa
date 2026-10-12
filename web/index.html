@@ -394,7 +394,7 @@
         <li>In the race test, 7 of 8 copies stopped without finishing because GitHub refused their writes. Their memory lived inside each process, so nothing resumes them later.</li>
         <li>The comparison without the check gives every attempt a new branch name, because it has no stable key. That is why it duplicates.</li>
         <li>Only one commit, the tie rule, has an Entire checkpoint.</li>
-        <li>The company check on this page limits use per address and in total, but each server instance counts for itself, so the limit is best-effort.</li>
+        <li>The company check on this page has a per-address limit in its code, but it did not stop 8 quick requests in a saved test, because each request can run on a different server instance. Treat it as not enforced. The check is free to run, but it shares the lookup service's 30-per-minute limit with the agent.</li>
         <li>Four accidental repeats of one comparison test are listed separately above and are not counted in any headline number.</li>
         <li>No language model is used, so there are no AI summaries of held cases.</li>
       </ul>

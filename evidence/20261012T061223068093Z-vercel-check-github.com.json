@@ -1,0 +1,13 @@
+{
+  "saved_at": "2026-10-12T06:12:23.068093+00:00",
+  "source": "vercel-check",
+  "status": 200,
+  "body": {
+    "domain": "github.com",
+    "name": "GitHub",
+    "company_id": 632750,
+    "confidence": 1,
+    "decision": "accept",
+    "reason": "one match at or above the threshold"
+  }
+}
