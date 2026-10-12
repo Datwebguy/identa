@@ -11,9 +11,9 @@ from typing import Any
 
 import httpx
 
-from identa import tracing
+from identa import evidence, tracing
 from identa.config import Config
-from identa.crustdata import Crustdata, Identified
+from identa.crustdata import Crustdata, Identified, credits_spent
 from identa.executor import CrashHook, StepError, execute
 from identa.github import GitHub
 from identa.keys import ACTION_ONBOARD, branch_name, idempotency_key
@@ -140,6 +140,7 @@ def run(
 ) -> Report:
     report = Report()
     hook = crash_hook_from_env(crash_marker(cfg))
+    balance_before = crust.balance()
 
     for pending in store.unfinished():  # reconcile anything left over before new work
         if recover(store, gh, cfg, pending, hook):
@@ -160,6 +161,17 @@ def run(
             report.onboarded += outcome == "onboarded"
             report.recovered += outcome == "recovered"
             report.failed += outcome == "failed"
+
+    balance_after = crust.balance()
+    spent = credits_spent(balance_before, balance_after)
+    print(f"crustdata credits spent: {spent:g} ({balance_before:g} -> {balance_after:g})")
+    evidence.save(
+        cfg.evidence_dir,
+        "identa",
+        "credits-spent",
+        0,
+        {"before": balance_before, "after": balance_after, "spent": spent},
+    )
     return report
 
 

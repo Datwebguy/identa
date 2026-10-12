@@ -55,6 +55,11 @@ def find_saved_enrich(evidence_dir: Path, company_id: int) -> dict[str, Any] | N
     return None
 
 
+def credits_spent(before: float, after: float) -> float:
+    """Credits used between two balance readings."""
+    return before - after
+
+
 class Crustdata:
     def __init__(self, api_key: str, evidence_dir: Path, client: httpx.Client | None = None):
         self._client = client or httpx.Client(timeout=30)
@@ -152,6 +157,10 @@ class Crustdata:
             raise CrustdataError(f"enrich returned no match for {company_id}")
         data: dict[str, Any] = matches[0]["company_data"]
         return data
+
+    def balance(self) -> float:
+        """The current credit balance, read from the credits endpoint."""
+        return float(self.credits()["account"]["credits"])
 
     def credits(self) -> Any:
         resp = self._client.get(BASE_URL + "/account/credits", headers=self._headers)

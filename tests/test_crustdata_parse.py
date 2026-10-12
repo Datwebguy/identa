@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from identa.crustdata import Crustdata
+from identa.crustdata import Crustdata, credits_spent
 
 
 def test_empty_matches_gives_no_company() -> None:
@@ -56,3 +56,11 @@ def test_saved_enrich_is_reused(tmp_path: "Path") -> None:
     (tmp_path / "20260101T000000000000Z-crustdata-enrich.json").write_text(json.dumps(rec))
     assert find_saved_enrich(tmp_path, 7) == {"crustdata_company_id": 7}
     assert find_saved_enrich(tmp_path, 8) is None
+
+
+def test_credits_spent_is_the_drop_in_balance() -> None:
+    assert credits_spent(5200.0, 5182.0) == 18.0
+
+
+def test_credits_spent_is_zero_when_balance_is_unchanged() -> None:
+    assert credits_spent(5182.0, 5182.0) == 0.0
