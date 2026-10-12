@@ -302,6 +302,13 @@
     <div class="card glass tablewrap" id="recon"></div>
   </section>
 
+  <section id="plan-section" hidden>
+    <h2>Business plan</h2>
+    <p class="sub">Built in cfo.ai from two kinds of input. Costs come from real runs. Pricing and growth are the founder's decisions, not measurements.</p>
+    <div class="stats" id="plan-stats"></div>
+    <p class="note" id="plan-note"></p>
+  </section>
+
   <section id="traces-section" hidden>
     <h2>Traces in neatlogs</h2>
     <p class="sub">Every run sent a trace. A killed process leaves a short trace whose last span is the write it finished, followed by the restart's trace, which starts by reading the branch on GitHub. No model is called, so tokens and model cost are 0.</p>
@@ -508,6 +515,23 @@
       vendors.appendChild(a);
     });
     if (!d.pull_requests.length) vendors.appendChild(el("p", "skeleton", "No pull requests recorded yet."));
+
+    // business plan
+    if (d.cfo_plan) {
+      var cp = d.cfo_plan, usd = function (n) { return "$" + Number(n).toLocaleString(); };
+      document.getElementById("plan-section").hidden = false;
+      var ps = document.getElementById("plan-stats"); clear(ps);
+      [["Cost per vendor, measured", "$" + cp.measured_inputs.crustdata_cost_per_vendor_usd.toFixed(2), cp.measured_inputs.crustdata_credits_per_vendor + " credits at $" + cp.measured_inputs.crustdata_cost_per_credit_usd.toFixed(2) + "; no AI or GitHub cost"],
+       ["Year-one revenue", usd(cp.calculated.annual_revenue_usd), cp.calculated.annual_vendors.toLocaleString() + " vendors, 25 customers by month 12"],
+       ["Gross margin", cp.calculated.gross_margin_percent.toFixed(2) + "%", usd(cp.founder_decisions.monthly_subscription_usd) + " per customer plus $" + cp.founder_decisions.extra_vendor_usd.toFixed(2) + " per vendor above " + cp.founder_decisions.included_vendors],
+       ["Cash after 12 months", usd(cp.calculated.month_12_closing_cash_usd), "from " + usd(cp.founder_decisions.starting_cash_usd) + "; cash never reaches zero in the plan"]
+      ].forEach(function (x) {
+        var c = el("div", "stat glass"); c.appendChild(el("div", "k", x[0])); c.appendChild(el("div", "v", x[1])); c.appendChild(el("div", "s", x[2])); ps.appendChild(c);
+      });
+      var note = document.getElementById("plan-note");
+      note.appendChild(document.createTextNode("Full plan with pricing, costs, revenue and runway pages: "));
+      var pa = el("a", "", cp.share_url); pa.href = cp.share_url; pa.rel = "noopener"; note.appendChild(pa);
+    }
 
     // traces
     if (d.traces && d.traces.length) {

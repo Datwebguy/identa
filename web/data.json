@@ -1,10 +1,16 @@
 {
-  "evidence_total": 2012,
-  "last_saved_at": "2026-10-11T22:21:50.086100+00:00",
+  "evidence_total": 2013,
+  "last_saved_at": "2026-10-12T04:26:39.544669+00:00",
   "evidence_by_call": [
     {
       "source": "audit",
       "call": "register-pull-requests",
+      "status": 200,
+      "count": 1
+    },
+    {
+      "source": "cfo.ai",
+      "call": "plan-summary",
       "status": 200,
       "count": 1
     },
@@ -417,6 +423,44 @@
       "title": "Add vendor Amazon (amazon.com)"
     }
   ],
+  "cfo_plan": {
+    "note": "Figures read by the owner from the cfo.ai plan on 12 Oct 2026 (screenshot) and re-checked by hand. Not an API response.",
+    "share_url": "https://cfo.ai/s/yH49V0HAB1YFq5fX",
+    "measured_inputs": {
+      "crustdata_credits_per_vendor": 2,
+      "crustdata_cost_per_credit_usd": 0.3,
+      "crustdata_cost_per_vendor_usd": 0.6,
+      "ai_cost_usd": 0,
+      "github_cost_usd": 0,
+      "seconds_per_vendor": 3.9
+    },
+    "founder_decisions": {
+      "monthly_subscription_usd": 99,
+      "included_vendors": 50,
+      "extra_vendor_usd": 1.5,
+      "customers_month_1": 3,
+      "customers_added_per_month": 2,
+      "customers_month_12": 25,
+      "vendors_per_customer_per_month": 60,
+      "hosting_usd_per_month": 5,
+      "team_cost_year_one_usd": 0,
+      "starting_cash_usd": 3000
+    },
+    "calculated": {
+      "bill_per_customer_usd": 114,
+      "crustdata_cost_per_customer_usd": 36,
+      "gross_margin_percent": 68.42,
+      "annual_revenue_usd": 19152,
+      "annual_vendors": 10080,
+      "annual_credits": 20160,
+      "annual_crustdata_cost_usd": 6048,
+      "annual_hosting_usd": 60,
+      "total_listed_costs_usd": 6108,
+      "operating_surplus_usd": 13044,
+      "month_12_closing_cash_usd": 16044,
+      "processing_hours": 10.92
+    }
+  },
   "traces": [
     {
       "started": "2026-10-11T19:05:56.713Z",
