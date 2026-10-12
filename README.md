@@ -38,7 +38,7 @@ Under construction for neatHack. The table below is updated only from saved runs
 | Naive control and duplicate count | works: run at the same three points; 1 duplicate pull request and 3 duplicate branches in total |
 | neatlogs traces | Doctor probe passed; the Railway run sent traces (trace links not yet collected) |
 | Entire checkpoint | not built |
-| cfo.ai plan | not built |
+| cfo.ai plan | built: https://cfo.ai/s/yH49V0HAB1YFq5fX (measured costs from the runs; pricing is the owner's decisions) |
 | Results page (`web/`, on Vercel) | deployed: https://identa-iota.vercel.app , built from saved evidence |
 | Demo video | not built |
 

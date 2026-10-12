@@ -13,13 +13,13 @@ Fill every `[ ]` from real results only. Anything not built stays marked "not bu
 | neatlogs: trace links or screenshots for the crash and recovery runs | [x] (ids in section 3, shown on the results page) |
 | Entire: accessible checkpoint link and its ID; `entire status` shows it synced | [ ] |
 | A recorded run where the agent recovers from a failed action | [ ] |
-| cfo.ai business plan (pricing, costs, revenue, runway) | [ ] |
+| cfo.ai business plan (pricing, costs, revenue, runway) | [x] https://cfo.ai/s/yH49V0HAB1YFq5fX (owner to confirm it opens logged out) |
 | Demo video, three minutes or less, covering neatlogs, Entire and cfo.ai (architecture, implementation, runtime, reasoning, result for each); link works | [ ] |
 | `hackathon.md` build log up to date | [ ] |
 | README has setup and run instructions | [ ] |
 | Progress posts on X tagged #neatHack | [ ] |
 | Quote post of the official neatlogs submission post (Submit on X button), with team, name, project, public repo and demo link, published (a draft does not count) | [ ] |
-| cfo.ai subscription cancelled after the plan is made | [ ] |
+| cfo.ai subscription cancelled after the plan is made (after screenshots of the four pages are saved) | [ ] |
 
 Team name: MajorLabs. Project name: Identa.
 
@@ -44,6 +44,12 @@ Entire checkpoint link format: `https://entire.io/gh/OWNER/REPO/commit/FULL_COMM
 | Crustdata credits per onboarded company | 2 (18 credits for 9 companies, each enriched once) | 0 additional (saved enrich responses reused) |
 | Tokens and cost per run | not applicable: no model was called | not applicable |
 
+
+### cfo.ai plan
+
+Public share link: https://cfo.ai/s/yH49V0HAB1YFq5fX (plan "Identa Business Plan", with Pricing, Costs, Revenue and Runway pages, months 1 to 12). Built in cfo.ai by the owner from the inputs in `docs/CFO_INPUTS.md`, in one message that gave measured costs and the owner's pricing decisions, with no number added by cfo.ai.
+
+Results shown by the plan (calculated by cfo.ai from the inputs, checked by hand): $114 per customer per month, $36 Crustdata cost per customer, 68.42% gross margin before hosting; year one: revenue $19,152, 10,080 vendors, 20,160 credits, Crustdata cost $6,048, hosting $60, surplus after listed costs $13,044; closing cash $16,044 from $3,000 starting cash; about 10.92 hours of vendor processing at the measured 3.9 seconds per vendor. Cash does not reach zero within the 12 months, so the plan claims no exhaustion date. Measured costs (2 credits, $0.30 per credit, no AI or GitHub cost, 3.9 s) come from real runs; the price, customer numbers, hosting, team cost and starting cash are the owner's decisions, not measurements.
 
 ### neatlogs traces (project `identa`, workflow `identa`)
 
