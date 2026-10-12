@@ -1,0 +1,46 @@
+{
+  "saved_at": "2026-10-12T05:41:20.538412+00:00",
+  "source": "crustdata",
+  "status": 200,
+  "body": [
+    {
+      "matched_on": "github.com",
+      "match_type": "domain",
+      "matches": [
+        {
+          "confidence_score": 1.0,
+          "company_data": {
+            "crustdata_company_id": 632750,
+            "basic_info": {
+              "name": "GitHub",
+              "crustdata_company_id": 632750,
+              "primary_domain": "github.com",
+              "all_domains": [
+                "microsoft.com",
+                "github.com"
+              ],
+              "website": "https://github.com",
+              "professional_network_url": "https://www.linkedin.com/company/github",
+              "professional_network_id": "1418841",
+              "profile_name": "GitHub",
+              "logo_permalink": "https://crustdata-media.s3.us-east-2.amazonaws.com/company/d9a48e77a665e45df3912d6d26b8caa7b14622876a3da5378b316a159eea8dc1.jpg",
+              "description": "As the global home for all developers, GitHub is the complete AI-powered developer platform to build, scale, and deliver secure software. Over 100 million people, including developers from 90 of the Fortune 100 companies, use GitHub to build amazing things together across 330+ million repositories. With all the collaborative features of GitHub, it has never been easier for individuals and teams to write faster, better code.",
+              "company_type": "Privately Held",
+              "year_founded": 2008,
+              "employee_count_range": "501-1000",
+              "markets": [
+                "PRIVATE"
+              ],
+              "industries": [
+                "Software Development",
+                "Technology, Information and Internet",
+                "Technology, Information and Media"
+              ]
+            },
+            "social_profiles": null
+          }
+        }
+      ]
+    }
+  ]
+}

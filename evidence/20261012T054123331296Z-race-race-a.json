@@ -1,0 +1,16 @@
+{
+  "saved_at": "2026-10-12T05:41:23.331296+00:00",
+  "source": "race",
+  "status": 200,
+  "body": {
+    "domain": "github.com",
+    "company_id": 632750,
+    "agents": 8,
+    "control": false,
+    "branch_prefix": "race-a",
+    "outcomes": {
+      "failed": 7,
+      "onboarded": 1
+    }
+  }
+}

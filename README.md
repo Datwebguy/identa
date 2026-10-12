@@ -38,6 +38,7 @@ Under construction for neatHack. The table below is updated only from saved runs
 | Reconciler and three verdicts | NotApplied, Resume, Applied and Unknown all observed in real runs (Unknown: the two tied matches in the 12 Oct re-run, held for a human) |
 | Crash test (three crash points) | works: run on Railway at all three points; 9 companies, 9 branches, 9 pull requests, 0 duplicates each |
 | Naive control and duplicate count | works: run at the same three points; 1 duplicate pull request and 3 duplicate branches in total |
+| Race test (8 programs, one company, same moment) | works: with Identa 1 branch, 1 pull request, 0 duplicates (7 of 8 branch requests refused by GitHub); without the check 8 branches, 8 pull requests, 7 duplicates. Prefixes `race-a` and `race-b`, 12 Oct 2026 |
 | neatlogs traces | Doctor probe passed; the Railway run sent traces (trace links not yet collected) |
 | Entire checkpoint | built: commit `c480cd0`, checkpoint `d0ace3cc5007` on `entire/checkpoints/v1`; public session page: https://entire.io/gh/Datwebguy/identa/session/c3f1c6e4-5def-5acf-9d48-a704769e7e61 |
 | cfo.ai plan | built: https://cfo.ai/s/yH49V0HAB1YFq5fX (measured costs from the runs; pricing is the owner's decisions) |

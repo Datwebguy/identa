@@ -64,6 +64,8 @@ Planned: Python 3.11, Crustdata (identify, enrich), GitHub REST API, SQLite, nea
 - Not done yet: Entire link check, demo video, submission post, cancelling the cfo.ai subscription. (neatlogs trace links and the cfo.ai plan are done.), Entire, cfo.ai, demo video.
 - Tests run: `pytest` on `tests/`, 36 passed (pure functions only: keys, verdicts, store, parsers, identity decision). No real API call has been made. Nothing else has run.
 
+- 12 Oct, 05:41 to 05:45 UTC: race test, added after studying another team's public project (Anchor) that measures "many agents, one action". New command `identa race`. Eight copies of the program, each with its own memory and GitHub connection, started together on `github.com`. With Identa (`race-a`): 1 branch, 1 pull request, 0 duplicates; GitHub accepted 1 branch request and refused 7. Without the check (`race-b`): 8 branches, 8 pull requests, 7 duplicates. The seven losing Identa copies ended as `failed` (their file writes were refused with one 409 and six 422); nothing resumes them later because their memory is in-process. Two Railway builds started together (push and variable change); the older one was removed before it ran, so one race ran per prefix. The 8 extra pull requests in `race-b` and the 1 in `race-a` were left open. No unit test covers `identa race`: it needs a live GitHub; the real runs are the evidence.
+
 ## Demo
 
 Not available yet.

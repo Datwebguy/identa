@@ -283,6 +283,13 @@
     <div class="tests" id="tests"></div>
   </section>
 
+  <section id="race-section" hidden>
+    <h2>Several programs at the same moment</h2>
+    <p class="sub">A second kind of failure: more than one copy of the program tries to add the same company at the same time, as can happen after a restart or a double start. Each copy had its own memory and its own connection to GitHub. Both tests started all copies together on the same company. GitHub refuses a second branch with the same name, and Identa uses one fixed name per job. The comparison gives every copy its own name.</p>
+    <div class="card glass tablewrap" id="races"></div>
+    <p class="note" id="race-note"></p>
+  </section>
+
   <section id="repeats-section" hidden>
     <h2>A mistake of ours, shown openly</h2>
     <p class="sub">After the planned tests, four code updates by accident restarted the third comparison test (the one without the check). Two of those runs were cut short by the next update. They are listed here separately, taken from the register's own pull request list, and they are not counted in any number above. Every one that got as far as its first stop opened a duplicate pull request, which is exactly what the check prevents.</p>
@@ -569,6 +576,18 @@
         }), [0, 0, 1, 1, 0]));
       var other = d.traces.length - planned.length;
       if (other) document.getElementById("traces-note").textContent = other + " more records come from the accidental repeats described above. All " + d.traces.length + " records show 0 tokens and 0 cost.";
+    }
+
+    // races
+    if (d.races && d.races.length) {
+      document.getElementById("race-section").hidden = false;
+      document.getElementById("races").appendChild(table(
+        ["Test", "Copies started", "Branch requests accepted", "Refused by GitHub", "Branches", "Pull requests", "Duplicate pull requests"],
+        d.races.map(function (r) {
+          return [r.control ? "Without the check" : "With Identa", r.agents, r.branch_requests_accepted, r.branch_requests_refused, r.branches, r.pull_requests, r.duplicate_pull_requests];
+        }), [0, 1, 1, 1, 1, 1, 1]));
+      var pr = d.races.filter(function (r) { return !r.control; })[0];
+      if (pr) document.getElementById("race-note").textContent = "With Identa, " + (pr.agents - 1) + " of " + pr.agents + " copies stopped without finishing, because GitHub refused their writes. They opened nothing. "+ "Company: " + pr.domain + ".";
     }
 
     // control C repeats

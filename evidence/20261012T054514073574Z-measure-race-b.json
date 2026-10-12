@@ -1,0 +1,19 @@
+{
+  "saved_at": "2026-10-12T05:45:14.073574+00:00",
+  "source": "measure",
+  "status": 200,
+  "body": {
+    "prefix": "race-b",
+    "companies": 1,
+    "branches": 8,
+    "pull_requests": 8,
+    "duplicate_branches": 7,
+    "duplicate_pull_requests": 7,
+    "per_company": {
+      "632750": {
+        "branches": 8,
+        "pull_requests": 8
+      }
+    }
+  }
+}

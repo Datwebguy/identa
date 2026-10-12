@@ -159,6 +159,42 @@ def trace_rows(
     return rows
 
 
+def races(
+    recs: list[tuple[str, str, int, Any, str]], measures: dict[str, dict[str, object]]
+) -> list[dict[str, object]]:
+    """Each race record with what GitHub held afterwards and how its branch requests ended.
+    The requests are those saved in the 15 seconds before the race record was written."""
+    out: list[dict[str, object]] = []
+    for at, source, _status, body, _label in recs:
+        if source != "race":
+            continue
+        end = datetime.fromisoformat(at)
+        window = [
+            r
+            for r in recs
+            if r[1] == "github"
+            and r[4] == "create_ref"
+            and 0 <= (end - datetime.fromisoformat(r[0])).total_seconds() <= 15
+        ]
+        m = measures.get(body["branch_prefix"], {})
+        out.append(
+            {
+                "saved_at": at,
+                "prefix": body["branch_prefix"],
+                "domain": body["domain"],
+                "agents": body["agents"],
+                "control": body["control"],
+                "outcomes": body["outcomes"],
+                "branch_requests_accepted": sum(1 for r in window if r[2] == 201),
+                "branch_requests_refused": sum(1 for r in window if r[2] == 422),
+                "branches": m.get("branches"),
+                "pull_requests": m.get("pull_requests"),
+                "duplicate_pull_requests": m.get("duplicate_pull_requests"),
+            }
+        )
+    return out
+
+
 def build(evidence_dir: Path) -> dict[str, object]:
     recs = _load(evidence_dir)
     by_call: dict[tuple[str, str, int], int] = {}
@@ -191,6 +227,7 @@ def build(evidence_dir: Path) -> dict[str, object]:
         ],
         "measures": sorted(latest_measure.values(), key=lambda m: str(m["prefix"])),
         "reconciliations": reconciliations(recs),
+        "races": races(recs, latest_measure),
         "pull_requests": sorted(pull_requests, key=lambda p: int(str(p["number"]))),
         "human_queue": next((r[3] for r in reversed(recs) if r[1] == "railway-log"), None),
         "cfo_plan": next((r[3] for r in reversed(recs) if r[1] == "cfo.ai"), None),

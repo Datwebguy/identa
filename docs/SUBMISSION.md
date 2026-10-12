@@ -49,6 +49,19 @@ Entire checkpoint link format: `https://entire.io/gh/OWNER/REPO/commit/FULL_COMM
 
 `onboarded 0, queued for human review 2, recovered 7, failed 0`, and `crustdata credits spent: 0 (5182 -> 5182)`, the first measurement from the per-run credit record. The seven unambiguous companies were recognised as already onboarded (GitHub refused the existing branch, the reconciler found branch, file and pull request). `cfo.ai` (cfo.ai or Runway) and `amazon.com` (Amazon or Amazon Web Services) had two matches at confidence 1.0 and went to the human queue as Unknown, with candidates listed (`evidence/*-railway-log-human-queue.json`). Checked on GitHub afterwards: 99 pull requests in total, unchanged; the nine `vendor` pull requests are #1 to #9. Nothing was closed, deleted or changed.
 
+### Race test (12 Oct 2026, 05:41 to 05:45 UTC, Railway)
+
+Eight copies of the program, each with its own memory and its own GitHub connection, started together on `github.com` (company 632750). Results are from the saved `race` records and the `measure` records for each prefix.
+
+| | With Identa (`race-a`) | Without the check (`race-b`) |
+|---|---|---|
+| Branch requests accepted / refused by GitHub | 1 / 7 | 8 / 0 |
+| Branches on GitHub | 1 | 8 |
+| Pull requests on GitHub | 1 | 8 |
+| Duplicate pull requests | 0 | 7 |
+
+With Identa, one copy finished (`onboarded`) and the other seven ended as `failed`: GitHub refused their writes (one file write returned 409, six returned 422), so they opened nothing. The ending of those seven is a stop, not a recovery: their memory was in-process, so nothing carries them to a later run. Crustdata credits for this test: none, because the saved enrich response was reused. Evidence: `evidence/*-race-race-a.json`, `*-race-race-b.json`, `*-measure-race-a.json`, `*-measure-race-b.json`.
+
 ### Entire checkpoint
 
 - Commit: `c480cd0e850fefd116118c5ecd8b0307f8ce86da` ("Record the Crustdata credits each run spends"), on `main`, authored and committed by Datwebguy, with the trailer `Entire-Checkpoint: d0ace3cc5007`.
