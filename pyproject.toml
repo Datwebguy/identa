@@ -3,7 +3,7 @@ name = "identa"
 version = "0.0.0"
 description = "Onboards vendors into a vendor register without ever adding the same vendor twice."
 requires-python = ">=3.11,<3.14"
-dependencies = ["httpx", "pyyaml", "neatlogs"]
+dependencies = ["httpx", "pyyaml", "neatlogs", "certifi>=2026.10.19"]
 
 [project.optional-dependencies]
 dev = ["pytest", "ruff", "mypy", "types-PyYAML"]
